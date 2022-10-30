@@ -1,0 +1,172 @@
+<h1 id="算法竞赛入门经典例题讲解"><a href="#算法竞赛入门经典例题讲解" class="headerlink" title="算法竞赛入门经典例题讲解"></a>算法竞赛入门经典例题讲解</h1><h2 id="回文词（Palindromes-UVa401）"><a href="#回文词（Palindromes-UVa401）" class="headerlink" title="回文词（Palindromes,UVa401）"></a>回文词（Palindromes,UVa401）</h2><p>本文会对该题进行分析和分享自己的见解。</p>
+<hr>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><pre><code>输入一个字符串，判断它是否为回文串以及镜像串。输入字符串保证不包含数字0.所谓回文串，就是反转后和原串相同。如abba,abccba,madam。而镜像串，就是左右镜像后原串相同。把一个字符串的一半字符，镜像翻转后和原来剩下一半的字符相同。如2s（2镜像翻转后变成s）、3AIAE（3镜像翻转为E，A镜像翻转为A）
+</code></pre>
+<h3 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h3><ul>
+<li>回文串的判断：要想一个字符串是回文串，即从正向读和反向读相同，只要第i个字符和倒数第i个字符相同即可。</li>
+<li>镜像串的判断：<br>镜像表（并非所有字符都有镜像，没有镜像的有空格表示）<table>
+<thead>
+<tr>
+<th align="center">字符</th>
+<th align="center">镜像</th>
+<th align="center">字符</th>
+<th align="center">镜像</th>
+<th align="center">字符</th>
+<th align="center">镜像</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">A</td>
+<td align="center">A</td>
+<td align="center">M</td>
+<td align="center">M</td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+</tr>
+<tr>
+<td align="center">B</td>
+<td align="center"></td>
+<td align="center">N</td>
+<td align="center"></td>
+<td align="center">Z</td>
+<td align="center">5</td>
+</tr>
+<tr>
+<td align="center">C</td>
+<td align="center"></td>
+<td align="center">O</td>
+<td align="center">O</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">D</td>
+<td align="center"></td>
+<td align="center">P</td>
+<td align="center"></td>
+<td align="center">2</td>
+<td align="center">S</td>
+</tr>
+<tr>
+<td align="center">E</td>
+<td align="center">3</td>
+<td align="center">Q</td>
+<td align="center"></td>
+<td align="center">3</td>
+<td align="center">E</td>
+</tr>
+<tr>
+<td align="center">F</td>
+<td align="center"></td>
+<td align="center">R</td>
+<td align="center"></td>
+<td align="center">4</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">G</td>
+<td align="center"></td>
+<td align="center">S</td>
+<td align="center">2</td>
+<td align="center">5</td>
+<td align="center">Z</td>
+</tr>
+<tr>
+<td align="center">H</td>
+<td align="center">H</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">6</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">I</td>
+<td align="center">I</td>
+<td align="center">U</td>
+<td align="center">U</td>
+<td align="center">7</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">J</td>
+<td align="center">L</td>
+<td align="center">V</td>
+<td align="center">V</td>
+<td align="center">8</td>
+<td align="center">8</td>
+</tr>
+<tr>
+<td align="center">K</td>
+<td align="center"></td>
+<td align="center">W</td>
+<td align="center">W</td>
+<td align="center">9</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">L</td>
+<td align="center">J</td>
+<td align="center">X</td>
+<td align="center">X</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">我们只要把上面的表格按顺序用数组制成表格，如数组索引0代表字符A的镜像。。。</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">我们根据字符的运算很容易就能算出相应的索引了。但我们制作的表格大写字母和数字是连续的</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">而ASCALL码里却是不连续的，所以我们在计算字母的镜像索引和计算数字的镜像索引要分开计算。</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><pre><code class="C">{
+    #include&lt;stdio.h&gt;
+    #include&lt;string.h&gt;
+    #include&lt;ctype.h&gt;
+    const char* rev =&quot;A   3  HIL JM O   2TUVWXY51SE Z  8 &quot; //制作镜像表
+    const char* msg[] = {&quot;not a palindrome&quot;,&quot;a regular palindrome&quot;,&quot;a mirrored string&quot;,&quot;a mirrored palindrome&quot;}//四种组合，目的是为了减少消耗，简便化，下面会进一步说明。
+    
+    //镜像串的判断函数
+    char r(char ch){
+        if(isalpha(ch)) return rev[ch-&#39;A&#39;];//isalpha函数是用来判断是否为字母，声明包含在ctype.h头文件
+        return rev[ch-&#39;0&#39;+25];
+    }
+    
+    int main(){
+        char s[30];
+        while(scanf(%s,s)==1){
+            int len = strlen(s);
+            int p = 1,m=1;//用于回文串和镜像串状态判断，p有1，0态，代表是否回文串；m有1，0态，代表是否镜像串.
+            for(int i;i&lt;(len+1)/2;i++){
+                if(s[i]!=s[len-1-i]) p=0; //不是回文串
+                if(r(s[i])!=s[len-1-i]) m=0;//不是镜像串
+            }
+            printf(&quot;%s -- is %ss.\n\n&quot;,s,msg[m*2+p]);
+            //msg[]就是用于这里的效率
+            //msg有四种状态，不是回文串非镜像，是回文串非镜像，是镜像串非回文，是镜像回文串。
+            //为什么回文状态p*1，而镜像状态m**2？
+            //分析msg[0],msg[1],区别是否回文，下标差为1；msg[2],msg[3]区别为是			否回文，下标差为1.而msg[0]和msg[2]区别为是否镜像，下标差为2，msg[1]和msg[3]区别是是否镜像,下标差为2。可以简单理解为权重。我们也可以修改msg状态顺序来让实现msg[p*2+m]，只要改成msg[] = {&quot;not a mirrored string&quot;,&quot;a mirrored sring&quot;,&quot; a palindrome&quot;,&quot;a mirrored palindrome&quot;}
+        }
+    }
+
+}
+</code></pre>
