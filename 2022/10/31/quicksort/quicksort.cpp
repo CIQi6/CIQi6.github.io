@@ -24,16 +24,21 @@ int main() {
 
 void quicksort(int left, int right) {
 	int i, j, temp;
+	temp = a[left];
 	i = left;
 	j = right;
 
+	if (left > right) {
+		return;
+	}
+
 	while (i != j) {
 		//右指针左移，寻找小于基准数的数
-		while (a[j] > temp) {
+		while (a[j] >= temp && i < j) {
 			j--;
 		}
 		//左指针右移，寻找大于基准数的数
-		while (a[i] < temp) {
+		while (a[i] <= temp && i < j) {
 			i++;
 		}
 
