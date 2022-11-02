@@ -16,25 +16,26 @@
   <meta name="author" content="CY1">
   <meta name="keywords" content="">
   
-    <meta name="description" content="quicksort本文我们将学习排序算法中的快速排序。  算法描述快速排序算法思想基于二分法，也叫分治法。主要分为以下步骤：  分解 把数组A[p,r]分成两个子数组A[p,q-1]、A[q+1,r]，并且使得数组A[p,q-1]中的元素都小于数组A[q+1,r]中的元素（我们可以采取基准数来实现，即选定一个数让小于基准数的元素放在左边，大于基准数的元素放在右边） 解决 然后我们分别解决两个小数组">
+    <meta name="description" content="列表可以储存多个数据，相等于c语言的数组。 列表的创建创建列表的第一种方式使用[]list1 &#x3D; [“Hello”,”World”,98,87]  创建列表的第二种方式 使用内置函数list()list2 &#x3D;list([“Hello”,”World”,98,87]) 列表的特点 有序 可以储存重复数据 可以储存不同的类型 动态分配内存和回收空间 索引对应唯一的值  列表的索引i">
 <meta property="og:type" content="article">
-<meta property="og:title" content="quicksort">
-<meta property="og:url" content="http://cy1blog.top/2022/10/31/quicksort/index.html">
+<meta property="og:title" content="python列表">
+<meta property="og:url" content="http://cy1blog.top/2022/11/02/python%E5%88%97%E8%A1%A8/index.html">
 <meta property="og:site_name" content="CY1blog">
-<meta property="og:description" content="quicksort本文我们将学习排序算法中的快速排序。  算法描述快速排序算法思想基于二分法，也叫分治法。主要分为以下步骤：  分解 把数组A[p,r]分成两个子数组A[p,q-1]、A[q+1,r]，并且使得数组A[p,q-1]中的元素都小于数组A[q+1,r]中的元素（我们可以采取基准数来实现，即选定一个数让小于基准数的元素放在左边，大于基准数的元素放在右边） 解决 然后我们分别解决两个小数组">
+<meta property="og:description" content="列表可以储存多个数据，相等于c语言的数组。 列表的创建创建列表的第一种方式使用[]list1 &#x3D; [“Hello”,”World”,98,87]  创建列表的第二种方式 使用内置函数list()list2 &#x3D;list([“Hello”,”World”,98,87]) 列表的特点 有序 可以储存重复数据 可以储存不同的类型 动态分配内存和回收空间 索引对应唯一的值  列表的索引i">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="d:/cy1blog/source_posts/quicksort/code.png">
-<meta property="og:image" content="d:/cy1blog/source_posts/quicksort/sort_code.png">
-<meta property="article:published_time" content="2022-10-31T05:06:26.000Z">
-<meta property="article:modified_time" content="2022-10-31T23:49:33.236Z">
+<meta property="og:image" content="http://cy1blog.top/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20221028233725.png">
+<meta property="og:image" content="http://cy1blog.top/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20221028234334.png">
+<meta property="og:image" content="http://cy1blog.top/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20221028234810.png">
+<meta property="article:published_time" content="2022-11-02T07:21:09.000Z">
+<meta property="article:modified_time" content="2022-11-02T08:35:51.947Z">
 <meta property="article:author" content="CY1">
-<meta property="article:tag" content="quicksort">
+<meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="d:/cy1blog/source_posts/quicksort/code.png">
+<meta name="twitter:image" content="http://cy1blog.top/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20221028233725.png">
   
   
   
-  <title>quicksort - CY1blog</title>
+  <title>python列表 - CY1blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="quicksort"></span>
+            <span id="subtitle" data-typed-text="python列表"></span>
           
         </div>
 
@@ -210,8 +211,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-10-31 13:06" pubdate>
-          2022年10月31日 下午
+        <time datetime="2022-11-02 15:21" pubdate>
+          2022年11月2日 下午
         </time>
       </span>
     
@@ -222,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          289 字
+          1.9k 字
         
       </span>
     
@@ -233,7 +234,7 @@
         
         
         
-          3 分钟
+          16 分钟
         
       </span>
     
@@ -271,21 +272,68 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">quicksort</h1>
+            <h1 style="display: none">python列表</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="quicksort"><a href="#quicksort" class="headerlink" title="quicksort"></a>quicksort</h1><p>本文我们将学习排序算法中的快速排序。</p>
-<!---more--->
-<h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><p>快速排序算法思想基于二分法，也叫分治法。主要分为以下步骤：</p>
-<ul>
-<li>分解 把数组A[p,r]分成两个子数组A[p,q-1]、A[q+1,r]，并且使得数组A[p,q-1]中的元素都小于数组A[q+1,r]中的元素（我们可以采取基准数来实现，即选定一个数让小于基准数的元素放在左边，大于基准数的元素放在右边）</li>
-<li>解决 然后我们分别解决两个小数组的排序，对于这两个数组的排序我们可以接着分解（有递归味道）</li>
-<li>合成 我们把排好序的小数组合起来，就把原来的数组排好序了。但因为数组地址是连续的，排好序，自然就合在一起了。</li>
-</ul>
-<p>伪代码<br><img src="D:\cy1blog\source_posts\quicksort/code.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="时间复杂度分析"><a href="#时间复杂度分析" class="headerlink" title="时间复杂度分析"></a>时间复杂度分析</h2><h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p><img src="D:\cy1blog\source_posts\quicksort/sort_code.png" srcset="/img/loading.gif" lazyload></p>
+                <p>列表可以储存多个数据，相等于c语言的数组。</p>
+<h4 id="列表的创建"><a href="#列表的创建" class="headerlink" title="列表的创建"></a>列表的创建</h4><h5 id="创建列表的第一种方式使用"><a href="#创建列表的第一种方式使用" class="headerlink" title="创建列表的第一种方式使用[]"></a>创建列表的第一种方式使用[]</h5><p>list1 &#x3D; [“Hello”,”World”,98,87]</p>
+<p><img src="/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20221028233725.png" srcset="/img/loading.gif" lazyload><br><img src="/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20221028234334.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="创建列表的第二种方式-使用内置函数list"><a href="#创建列表的第二种方式-使用内置函数list" class="headerlink" title="创建列表的第二种方式 使用内置函数list()"></a>创建列表的第二种方式 使用内置函数list()</h5><p>list2 &#x3D;list([“Hello”,”World”,98,87])<br><img src="/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20221028234810.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="列表的特点"><a href="#列表的特点" class="headerlink" title="列表的特点"></a>列表的特点</h4><ol>
+<li>有序</li>
+<li>可以储存重复数据</li>
+<li>可以储存不同的类型</li>
+<li>动态分配内存和回收空间</li>
+<li>索引对应唯一的值</li>
+</ol>
+<h4 id="列表的索引"><a href="#列表的索引" class="headerlink" title="列表的索引"></a>列表的索引</h4><p>index()</p>
+<p>lst &#x3D;[“Hello”,”World”,98,”Hello”]</p>
+<p>print(lst.index(“Hello”))</p>
+<hr>
+<p>输出结果 0</p>
+<p>如果列表有多个相同元素，索引为相同元素里的第一个，如果列表不含有该元素，会报错，</p>
+<p>lst &#x3D;[“Hello”,”World”,98,”Hello”]</p>
+<p>print(lst.index(“Hello”，1，3))</p>
+<hr>
+<p>输出结果 会报错说不存在该元素<br>因为我们指定它从1-3元素里查找</p>
+<h4 id="获取列表特定的元素"><a href="#获取列表特定的元素" class="headerlink" title="获取列表特定的元素"></a>获取列表特定的元素</h4><p>lis[“Hello”,”World”,98]</p>
+<p>正向索引是从0到（N-1）<br>逆向索引是从（-N）到(-1)</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">print(lis[1])</span><br><span class="hljs-string">print(lis[-1])</span><br><br><br><span class="hljs-meta">---</span><br><span class="hljs-string">World</span><br><span class="hljs-number">98</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="列表切片"><a href="#列表切片" class="headerlink" title="列表切片"></a>列表切片</h4><p>如果我们想获得列表中的单个元素就用索引，想获得多个元素就用切片</p>
+<ol>
+<li>操作格式<br>列表名[start : stop : step]</li>
+</ol>
+<p>占位图片(正在施工，未完待续)</p>
+<h4 id="列表元素的判断和遍历"><a href="#列表元素的判断和遍历" class="headerlink" title="列表元素的判断和遍历"></a>列表元素的判断和遍历</h4><ol>
+<li>元素 <strong>in</strong> 列表</li>
+<li>元素 <strong>not in</strong> 列表</li>
+</ol>
+<p>for 临时变量名 in 列表:<br>    操作</p>
+<h4 id="列表元素的增、删、改"><a href="#列表元素的增、删、改" class="headerlink" title="列表元素的增、删、改"></a>列表元素的增、删、改</h4><p>列表元素的增加<br>    1. 向列表末尾添加一个元素<br>       lis &#x3D; [10,20,30]<br>       print(lis,id(lis))<br>       lis.append(100)<br>       print(lis,id(lis))<br>       &#x2F;&#x2F;添加前后都是同一个列表对象<br>    2. 向列表末尾添加添加至少一个元素<br>       lis &#x3D; [10,20,30]<br>       print(lis,id(lis))<br>       lis2 &#x3D; [“Hello”,”World”]<br>       lis.extend(lis2)<br>       print(lis,id(lis))<br>    3.向列表任意位置插入元素<br>       lis &#x3D; [10,20,30]<br>       print(lis,id(lis))<br>       lis.insert(1,100)<br>       print(lis,id(lis))<br>    4.向列表任意位置切片至少一个元素<br>       lis &#x3D; [10,20,30]<br>       print(lis,id(lis))<br>       lis3 &#x3D; [“Hello”,”World”]<br>       lis[1:] &#x3D; lis3<br>       print(lis,id(lis))<br>    —–运行结果 [10,”Hello”,”World”]<br>列表元素的删除<br>    1. remove()<br>       remove 一次删除一个元素，有相同元素时只删除第一个，若元素不存在报错<br>    2. pop()<br>       根据索引删除指定元素，如果不写索引，默认最后一个<br>    3.切片<br>        一次最少删除一个元素，切片后是新的列表对象<br>        lis &#x3D; [“Hello”,”World”,98,35]<br>        new_list &#x3D; lis[1:2]<br>        不产生新列表对象，用空列表覆盖<br>        lis &#x3D; [“Hello”,”World”,98,35]</p>
+<pre><code class="hljs">    lis[1:2] = []
+4. clear()
+   清除列表所有元素
+   lis =[&quot;Hello&quot;,&quot;World&quot;,98,35]
+   lis.clear()
+ 5. del
+    删除列表对象
+    del lis
+    删除列表中的元素
+    del lis[2]
+</code></pre>
+<p> 列表的修改</p>
+<ol>
+<li>指定索引元素修改<br>lis &#x3D; [10,20,30,40,50,60]<br>lis[2] &#x3D; 0</li>
+<li>指定切片元素修改<br>lis &#x3D;[10,20,30,4,0,50,60]<br>lis[1:3] &#x3D; [100,200,300,400]</li>
+</ol>
+<h4 id="列表的排序"><a href="#列表的排序" class="headerlink" title="列表的排序"></a>列表的排序</h4><ol>
+<li>调用sort()函数，列表中元素默认按从小到大排序，reveser&#x3D;True,进行降序<br>list &#x3D; [10,30,50,4,50,10,100,9]<br>list.sort()<br>list.sort(reverser &#x3D;True)</li>
+<li>调用内置函数sorted(),可以指定reverse&#x3D;True 进行降序排序，原列表不发生改变<br>lis &#x3D; [10,30,50,40,10,100,9]<br>new_list &#x3D; sorted(list)<br>decl_list &#x3D; sorted(lis,reverser &#x3D;True)</li>
+</ol>
+<h4 id="列表生成式"><a href="#列表生成式" class="headerlink" title="列表生成式"></a>列表生成式</h4><p>生成列表的公式<br>语法格式：  lst &#x3D; [i for i in range(1,10)]</p>
 
                 
               </div>
@@ -298,7 +346,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/quicksort/">#quicksort</a>
+        <a href="/tags/python/">#python</a>
       
     </div>
   
@@ -310,8 +358,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>quicksort</div>
-      <div>http://cy1blog.top/2022/10/31/quicksort/</div>
+      <div>python列表</div>
+      <div>http://cy1blog.top/2022/11/02/python列表/</div>
     </div>
     <div class="license-meta">
       
@@ -323,7 +371,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年10月31日</div>
+          <div>2022年11月2日</div>
         </div>
       
       
@@ -355,9 +403,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/11/02/python%E5%87%BD%E6%95%B0/" title="python函数">
+                      <a href="/2022/11/02/python%E7%B1%BB/" title="python类">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">python函数</span>
+                        <span class="hidden-mobile">python类</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -365,8 +413,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/10/30/MarkDown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="MarkDown语法学习">
-                        <span class="hidden-mobile">MarkDown语法学习</span>
+                      <a href="/2022/11/02/python%E5%87%BD%E6%95%B0/" title="python函数">
+                        <span class="hidden-mobile">python函数</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

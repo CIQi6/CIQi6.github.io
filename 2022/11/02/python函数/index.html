@@ -1,0 +1,706 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="CY1">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="定义函数123def 函数名(形参):	操作	return 函数参数的传递和其他语言一样，都是传值。 传递参数参数可以是数字，字符串，列表，元组，字典，函数参数是形参，对于非列表，元组，字典的修改，在函数外是不生效的python函数参数的传递有两种方式，位置参数和指定参数  位置参数python根据位置来传递1234567  def animal(pet_type,pet_name):   &amp;qu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python函数">
+<meta property="og:url" content="http://cy1blog.top/2022/11/02/python%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="CY1blog">
+<meta property="og:description" content="定义函数123def 函数名(形参):	操作	return 函数参数的传递和其他语言一样，都是传值。 传递参数参数可以是数字，字符串，列表，元组，字典，函数参数是形参，对于非列表，元组，字典的修改，在函数外是不生效的python函数参数的传递有两种方式，位置参数和指定参数  位置参数python根据位置来传递1234567  def animal(pet_type,pet_name):   &amp;qu">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-02T07:20:46.000Z">
+<meta property="article:modified_time" content="2022-11-02T08:30:07.726Z">
+<meta property="article:author" content="CY1">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>python函数 - CY1blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"cy1blog.top","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CY1blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="python函数"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-02 15:20" pubdate>
+          2022年11月2日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">python函数</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">函数名</span>(<span class="hljs-params">形参</span>):<br>	操作<br>	<span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure>
+<p>函数参数的传递和其他语言一样，都是传值。</p>
+<h3 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h3><p>参数可以是数字，字符串，列表，元组，字典，函数参数是形参，对于非列表，元组，字典的修改，在函数外是不生效的<br>python函数参数的传递有两种方式，位置参数和指定参数</p>
+<ol>
+<li>位置参数<br>python根据位置来传递<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">  <span class="hljs-keyword">def</span> <span class="hljs-title function_">animal</span>(<span class="hljs-params">pet_type,pet_name</span>):<br>   <span class="hljs-string">&quot;&quot;&quot;显示宠物信息&quot;&quot;&quot;</span> <br>   <span class="hljs-comment"># 这是函数文档申明，用来解释函数的用途</span><br>   <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;pet_type:&quot;</span>+pet_type)<br>   <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;pet_name:&quot;</span>+pet_name)<br><br>animal(”小狗“，”大黄“)<br></code></pre></td></tr></table></figure></li>
+<li>指定参数 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">  <span class="hljs-keyword">def</span> <span class="hljs-title function_">animal</span>(<span class="hljs-params">pet_type,pet_name</span>):<br>	<span class="hljs-string">&quot;&quot;&quot;显示宠物信息&quot;&quot;&quot;</span> <br>    <span class="hljs-comment"># 这是函数文档申明，用来解释函数的用途</span><br>   <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;pet_type:&quot;</span>+pet_type)<br>   <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;pet_name:&quot;</span>+pet_name)<br>animal(pet_name =<span class="hljs-string">&quot;大黄&quot;</span>,pet_type=<span class="hljs-string">&quot;小狗&quot;</span>)<br></code></pre></td></tr></table></figure></li>
+<li>默认值<br>在定义函数时可以设定默认值，如果函数需要的参数包含默认值和非默认值，则默认值要放在非默认值后面 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">  <span class="hljs-keyword">def</span> <span class="hljs-title function_">animal</span>(<span class="hljs-params">pet_name,pet_type=<span class="hljs-string">&quot;小狗&quot;</span></span>):<br>   <span class="hljs-string">&quot;&quot;&quot;显示宠物信息&quot;&quot;&quot;</span><br>   <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;pet_type:&quot;</span>+pet_type)<br>   <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;pet_name:&quot;</span>+pet_name)<br><br>animal(<span class="hljs-string">&quot;大黄&quot;</span>)<br>animal(<span class="hljs-string">&quot;橘子&quot;</span>，”小猫“) <br>animal(pet_type = <span class="hljs-string">&quot;小猫&quot;</span>,pet_name=<span class="hljs-string">&quot;柚子&quot;</span>)<br></code></pre></td></tr></table></figure>
+ 设定好默认值后，缺少的参数会按照默认值传递，若不缺少则按照传递的值来穿传递,位置传参，指定传参，默认值可以混合使用</li>
+<li>可选参数  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">  <span class="hljs-keyword">def</span> <span class="hljs-title function_">animal</span>(<span class="hljs-params">pet_name,pet_type=<span class="hljs-string">&quot;小狗&quot;</span>,pet_age=<span class="hljs-string">&quot;&quot;</span></span>):<br>   <span class="hljs-string">&quot;&quot;&quot;显示宠物信息&quot;&quot;&quot;</span><br>   <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;pet_type:&quot;</span>+pet_type)<br>   <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;pet_name:&quot;</span>+pet_name)<br>   <span class="hljs-keyword">if</span> pet_age:<br>	   <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;pet_age:&quot;</span>,+pet_age)<br><br>animal(<span class="hljs-string">&quot;大黄&quot;</span>)<br>animal(<span class="hljs-string">&quot;橘子&quot;</span>，”小猫“) <br>animal(pet_type = <span class="hljs-string">&quot;小猫&quot;</span>,pet_name=<span class="hljs-string">&quot;柚子&quot;</span>)<br></code></pre></td></tr></table></figure>
+ 上面pet_age变成了可选参数，如果输入有传递pet_age的参数就输出，没有则不输出</li>
+</ol>
+<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><p>自己定义的函数可以没有返回值如定义一个打印函数，排序函数等，如果想要在调用完函数后返回一个值，就在函数的末尾加上return 返回值。返回值可以是任意数据类型<br>整型，字符串，列表，字典。</p>
+<h3 id="在函数中修改列表"><a href="#在函数中修改列表" class="headerlink" title="在函数中修改列表"></a>在函数中修改列表</h3><p>传列表进函数默认是传原件进，在函数内修改列表，也会影响列表在函数外的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">printf</span>(<span class="hljs-params">lis</span>):<br>	<span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> lis.pop():<br>		<span class="hljs-built_in">print</span>(num)<br><br>lis = [<span class="hljs-number">10</span>,<span class="hljs-number">20</span>,<span class="hljs-number">30</span>,<span class="hljs-number">40</span>,<span class="hljs-number">50</span>,<span class="hljs-number">60</span>,<span class="hljs-number">70</span>]<br><br>printf(lis)<br></code></pre></td></tr></table></figure>
+
+<h3 id="禁止函数修改列表"><a href="#禁止函数修改列表" class="headerlink" title="禁止函数修改列表"></a>禁止函数修改列表</h3><p>如果我们不想让函数修改列表原有的值。我们可以传列表的副本进函数，这样就避免了函数修改原列表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">printf</span>(<span class="hljs-params">lis</span>):<br>	<span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> lis.pop():<br>		<span class="hljs-built_in">print</span>(num)<br><br>lis = [<span class="hljs-number">10</span>,<span class="hljs-number">20</span>,<span class="hljs-number">30</span>,<span class="hljs-number">40</span>,<span class="hljs-number">50</span>,<span class="hljs-number">60</span>,<span class="hljs-number">70</span>]<br><br>printf(lis[ : ])<br></code></pre></td></tr></table></figure>
+
+<h3 id="传递任意数量的参数"><a href="#传递任意数量的参数" class="headerlink" title="传递任意数量的参数"></a>传递任意数量的参数</h3><p>如果我们事先不知道要传递多少个参数给函数，我们可以def printname(* name)的语句，python会把我们传递的参数全部封包到name这个元组里，无论是一个还是多个。<br>例如我们编写一个披萨配料</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">make_pizza</span>(<span class="hljs-params">*toppings</span>):<br>	<span class="hljs-string">&quot;&quot;&quot;概述披萨&quot;&quot;&quot;</span><br>	<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\\nMaking a pizza with the follwoing toppings:&quot;</span>)<br>	<span class="hljs-keyword">for</span> topping <span class="hljs-keyword">in</span> toppings:<br>		<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;-&quot;</span>+topping)<br><br>make_pizza(<span class="hljs-string">&quot;pepperoni&quot;</span>)<br>make_pizza(<span class="hljs-string">&quot;mushrooms&quot;</span>,<span class="hljs-string">&quot;green peppers&quot;</span>,<span class="hljs-string">&quot;extra chees&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>如果我们要传递任意数量的参数，而且参数包含关键字参数（像字典那样key-value）,我们可以让函数把参数放入字典中<br>例如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">build_porfile</span>(<span class="hljs-params">first,last,\*\*user_info</span>)<br>	<span class="hljs-string">&quot;&quot;&quot;创建一个字典，其中包含我们知道的有关用户的一切&quot;&quot;&quot;</span><br>	profile =&#123;&#125;<br>	profile[<span class="hljs-string">&#x27;first&#x27;</span>] = first<br>	profile[<span class="hljs-string">&#x27;last&#x27;</span>] = last<br>	<span class="hljs-keyword">for</span> key,value <span class="hljs-keyword">in</span> user_info.items():<br>		profile[key] = value<br>	<span class="hljs-keyword">return</span> profile<br><br>user_profile = build_porfile(<span class="hljs-string">&#x27;albert&#x27;</span>,<span class="hljs-string">&#x27;einsten&#x27;</span>,<br>											location=<span class="hljs-string">&#x27;princeton&#x27;</span>,<br>											field = <span class="hljs-string">&#x27;physics&#x27;</span>)<br><span class="hljs-built_in">print</span>(user_profile)<br></code></pre></td></tr></table></figure>
+
+<h3 id="把函数储存在模块里"><a href="#把函数储存在模块里" class="headerlink" title="把函数储存在模块里"></a>把函数储存在模块里</h3><p>函数可以把代码和主程序分开来，通过给函数描述性名称，使得主程序代码更加容易理解，但如果函数过多，和主程序都编写在一个文件里，就显得臃肿了。我们可以把函数写在模块里，再通过import语句调用模块。</p>
+<p>例如<br>我们先创建一个pizza.py文件，里面除了make_pizza函数，其他代码都不写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">make_pizza</span>(<span class="hljs-params">size,*toppings</span>):<br>	<span class="hljs-string">&quot;&quot;&quot;概述披萨&quot;&quot;&quot;</span><br>	<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\\nMaking &quot;</span> srt(size) +<span class="hljs-string">&quot; -inch pizza with the follwoing toppings:&quot;</span>)<br>	<span class="hljs-keyword">for</span> topping <span class="hljs-keyword">in</span> toppings:<br>		<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;-&quot;</span>+topping)<br></code></pre></td></tr></table></figure>
+
+<p>我们再在pizza.py文件的同目录下创建一个making_pizzas.py文件,这个文件导入pizza.py文件，然后再调用函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pizza<br><br>pizza.make_pizza(<span class="hljs-number">16</span>,<span class="hljs-string">&quot;pepperoni&quot;</span>)<br>pizza.make_pizza(<span class="hljs-number">12</span>,<span class="hljs-string">&quot;mushrooms&quot;</span>,<span class="hljs-string">&quot;green ppers&quot;</span>,<span class="hljs-string">&quot;extra cheese&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h4 id="导入特定的函数"><a href="#导入特定的函数" class="headerlink" title="导入特定的函数"></a>导入特定的函数</h4><p>如果我们创建了一个包含很多函数在funtion.py，但我们只需其中的一个函数，我们可以使用下面的语法<br>from fution import funtion_name<br>导入多个特定的函数<br>from fution import funtion_name1,funtion_name2<br>而且如果使用这个方式导入函数，可以直接使用函数名来调用函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> fution <span class="hljs-keyword">import</span> funtion_name1,funtion_name2<br>make_pizza(<span class="hljs-number">16</span>,<span class="hljs-string">&quot;pepperoni&quot;</span>)<br>make_pizza(<span class="hljs-number">12</span>,<span class="hljs-string">&quot;mushrooms&quot;</span>,<span class="hljs-string">&quot;green ppers&quot;</span>,<span class="hljs-string">&quot;extra cheese&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h4 id="设置函数别名"><a href="#设置函数别名" class="headerlink" title="设置函数别名"></a>设置函数别名</h4><p>如果导入的函数名与程序现有的名称冲突，或太长了。我们可以给它设置一个别名。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pizza <span class="hljs-keyword">import</span> make_pizza <span class="hljs-keyword">as</span> mp<br><br>mp(<span class="hljs-number">16</span>,<span class="hljs-string">&quot;pepperoni&quot;</span>)<br>mp(<span class="hljs-number">12</span>,<span class="hljs-string">&quot;mushrooms&quot;</span>,<span class="hljs-string">&quot;green ppers&quot;</span>,<span class="hljs-string">&quot;extra cheese&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/python/">#python</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>python函数</div>
+      <div>http://cy1blog.top/2022/11/02/python函数/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>CY1</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/02/python%E5%88%97%E8%A1%A8/" title="python列表">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">python列表</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/31/quicksort/" title="quicksort">
+                        <span class="hidden-mobile">quicksort</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
