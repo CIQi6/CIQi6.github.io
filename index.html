@@ -1,707 +1,326 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-
-  
-  <title>CY1blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="learning,Machine Learning,deep Leaning,C,C++,acm">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>CY1blog</title><meta name="author" content="CY1"><meta name="copyright" content="CY1"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="learning,Machine Learning,deep Leaning,C,C++,acm">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CY1blog">
 <meta property="og:url" content="http://cy1blog.top/index.html">
 <meta property="og:site_name" content="CY1blog">
 <meta property="og:description" content="learning,Machine Learning,deep Leaning,C,C++,acm">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
 <meta property="article:author" content="CY1">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="CY1blog" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://cy1blog.top/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CY1blog',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-11-02 21:27:11'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-<meta name="generator" content="Hexo 5.4.2"></head>
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">CY1blog</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://cy1blog.top"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-python类" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/11/02/python%E7%B1%BB/" class="article-date">
-  <time datetime="2022-11-02T07:21:21.000Z" itemprop="datePublished">2022-11-02</time>
-</a>
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/02/python%E7%B1%BB/">python类</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="类"><a href="#类" class="headerlink" title="类"></a>类</h1><p>基于类创建对象时， 每个对象都自动具备这种通用行为，然后可根据需要赋予每个对象独 特的个性。</p>
-<h3 id="创建和使用类"><a href="#创建和使用类" class="headerlink" title="创建和使用类"></a>创建和使用类</h3><p>下面是模拟小狗的一个类<br>class Dog():<br>    “””一次模拟小狗的简单尝试”””</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_init_</span>(<span class="params">self,name,age</span>):</span><br><span class="line">	<span class="string">&quot;&quot;&quot;初始化属性name和age&quot;&quot;&quot;</span></span><br><span class="line">	self.name = name</span><br><span class="line">	self.age = age</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sit</span>(<span class="params">self</span>):</span><br><span class="line">	<span class="string">&quot;&quot;&quot;模拟小狗被命令时蹲下&quot;&quot;&quot;</span> </span><br><span class="line">	<span class="built_in">print</span>(self.name.title()+<span class="string">&quot; is nowstting.&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">roll_over</span>(<span class="params">self</span>):</span><br><span class="line">	<span class="string">&quot;&quot;&quot;模拟小狗被命令时打滚&quot;&quot;&quot;</span></span><br><span class="line">	<span class="built_in">print</span>(self.name.title()+<span class="string">&quot; rolled over!&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>在python规范中首字母大写的名称为类。<br>类中的函数叫做方法。<br>方法__init__是一个特殊的方法，每个类都要有，当你根据Dog类创建实例时，python都会自动运行它，__init__包含三个参数self name age，其中self是必不可少的，且在最前面，因为python在调用__init__时将自动传入参数self，它是一个指向实例本身的引用，让实例能够访问类中的属性和方法。以self为前缀的变量可供类中使用方法使用，self.name &#x3D; name获取存储在形参name中的值，并将 其存储到变量name中，然后该变量被关联到当前创建的实例。可以通过实例访问的变量叫属性。(注意init前后面分别是两个下划线)</p>
-<h3 id="初始化属性"><a href="#初始化属性" class="headerlink" title="初始化属性"></a>初始化属性</h3><p>类中的每个属性都要有初始值，哪怕是0或空字符串。设定初始值后，你可以不提供该属性的参数，来创建一个实例。</p>
-<ol>
-<li>直接修改<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Car</span>():</span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,make,model,year</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;初始化汽车属性&quot;&quot;&quot;</span></span><br><span class="line">    self.make = make</span><br><span class="line">    self.model = model</span><br><span class="line">    self.year = year</span><br><span class="line">    self.odometer_reading =<span class="number">0</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">get_descriptive_name</span>(<span class="params">self</span>):</span><br><span class="line">	  <span class="string">&quot;&quot;&quot;返回整洁的汽车描述信息&quot;&quot;&quot;</span></span><br><span class="line">	  long_name = <span class="built_in">str</span>(self.year) + <span class="string">&#x27; &#x27;</span> + self.make + self.model</span><br><span class="line">	  <span class="keyword">return</span> long_name</span><br><span class="line"></span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">read_odometer</span>(<span class="params">self</span>):</span><br><span class="line">	   <span class="string">&quot;&quot;&quot;打印汽车的里程信息&quot;&quot;&quot;</span></span><br><span class="line">	   <span class="built_in">print</span>(<span class="string">&quot;This car has &quot;</span>+<span class="built_in">str</span>(self.odometer_reading) + <span class="string">&quot; miles on it.&quot;</span>)</span><br><span class="line"></span><br><span class="line">my_new_car = Car(<span class="string">&quot;audi&quot;</span>,<span class="string">&quot;A4&quot;</span>,<span class="number">2016</span>)</span><br><span class="line">my_new_car.odometer_reading = <span class="number">23</span></span><br><span class="line">my_new_car.read_odometer()</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-<li>通过方法修改<br>通过update.odometer()方法修改属性的值<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Car</span>():</span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,make,model,year</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;初始化汽车属性&quot;&quot;&quot;</span></span><br><span class="line">    self.make = make</span><br><span class="line">    self.model = model</span><br><span class="line">    self.year = year</span><br><span class="line">    self.odometer_reading =<span class="number">0</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">get_descriptive_name</span>(<span class="params">self</span>):</span><br><span class="line">	  <span class="string">&quot;&quot;&quot;返回整洁的汽车描述信息&quot;&quot;&quot;</span></span><br><span class="line">	  long_name = <span class="built_in">str</span>(self.year) + <span class="string">&#x27; &#x27;</span> + self.make + self.model</span><br><span class="line">	  <span class="keyword">return</span> long_name</span><br><span class="line">	  </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">update_odometer</span>(<span class="params">self,mileage</span>):</span><br><span class="line">	  <span class="string">&quot;&quot;&quot;将里程表设置为指定值&quot;&quot;&quot;</span></span><br><span class="line">	  self.odometer_reading = mileage</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">read_odometer</span>(<span class="params">self</span>):</span><br><span class="line">	   <span class="string">&quot;&quot;&quot;打印汽车的里程信息&quot;&quot;&quot;</span></span><br><span class="line">	   <span class="built_in">print</span>(<span class="string">&quot;This car has &quot;</span>+<span class="built_in">str</span>(self.odometer_reading) + <span class="string">&quot; miles on it.&quot;</span>)</span><br><span class="line"></span><br><span class="line">my_new_car = Car(<span class="string">&quot;audi&quot;</span>,<span class="string">&quot;A4&quot;</span>,<span class="number">2016</span>)</span><br><span class="line">my_new_car.update_odometer(<span class="number">23</span>)</span><br><span class="line">my_new_car.read_odometer()</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h3 id="继承-inheritance"><a href="#继承-inheritance" class="headerlink" title="继承(inheritance)"></a>继承(inheritance)</h3><p>当我们想要创建拥有另一个类里面属性的类，我们不必从零开始。我们可以通过继承的方法来创建，原类我们称它为父类，新创建的类我们叫子类。需要注意的是，创建子类，父类要在同一文件，且父类在子类前面。（我知道你爸爸，就能大概知道你的样貌，儿子和爸爸有相同，也有独特）</p>
-<ol>
-<li>子类的方法__init__() <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Car</span>():</span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,make,model,year</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;初始化汽车属性&quot;&quot;&quot;</span></span><br><span class="line">    self.make = make</span><br><span class="line">    self.model = model</span><br><span class="line">    self.year = year</span><br><span class="line">    self.odometer_reading =<span class="number">0</span></span><br><span class="line">   </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">get_descriptive_name</span>(<span class="params">self</span>):</span><br><span class="line">	  <span class="string">&quot;&quot;&quot;返回整洁的汽车描述信息&quot;&quot;&quot;</span></span><br><span class="line">	  long_name = <span class="built_in">str</span>(self.year) + <span class="string">&#x27; &#x27;</span> + self.make + self.model</span><br><span class="line">	  <span class="keyword">return</span> long_name</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">update_odometer</span>(<span class="params">self,mileage</span>):</span><br><span class="line">	  <span class="string">&quot;&quot;&quot;将里程表设置为指定值&quot;&quot;&quot;</span></span><br><span class="line">	  <span class="keyword">if</span> mileage &gt;= self.odometer_reading:</span><br><span class="line">		  self.odometer_reading = mileage</span><br><span class="line">	  <span class="keyword">else</span>:</span><br><span class="line">		  <span class="built_in">print</span>(<span class="string">&quot;You can&#x27;t roll back an odometer&quot;</span>)</span><br><span class="line">	  </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">read_odometer</span>(<span class="params">self</span>):</span><br><span class="line">	   <span class="string">&quot;&quot;&quot;打印汽车的里程信息&quot;&quot;&quot;</span></span><br><span class="line">	   <span class="built_in">print</span>(<span class="string">&quot;This car has &quot;</span>+<span class="built_in">str</span>(self.odometer_reading) + <span class="string">&quot; miles on it.&quot;</span>)</span><br><span class="line">   </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">increment_odometer</span>(<span class="params">self,mileage</span>):</span><br><span class="line">	  <span class="keyword">if</span> mileage &gt;=<span class="number">0</span>:</span><br><span class="line">		  self.odometer_reading += mileage</span><br><span class="line">	  <span class="keyword">else</span>:</span><br><span class="line">		  <span class="built_in">print</span>(<span class="string">&quot;You can&#x27;t roll back an odometer&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ElectricCar</span>(<span class="title class_ inherited__">Car</span>):</span><br><span class="line">	<span class="string">&quot;&quot;&quot;电动车&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,make,model,year</span>):</span><br><span class="line">		<span class="string">&quot;&quot;&quot;初始化父类属性&quot;&quot;&quot;</span></span><br><span class="line">		<span class="built_in">super</span>().__init__(make,model,year)</span><br><span class="line"></span><br><span class="line">my_tesla = ElectricCar(<span class="string">&quot;tesla&quot;</span>,<span class="string">&quot;model_s&quot;</span>,<span class="number">2016</span>)</span><br><span class="line"><span class="built_in">print</span>(my_tesla.get_descritive_name())</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-<li>给子类定义新属性<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Car</span>():</span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,make,model,year</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;初始化汽车属性&quot;&quot;&quot;</span></span><br><span class="line">    self.make = make</span><br><span class="line">    self.model = model</span><br><span class="line">    self.year = year</span><br><span class="line">    self.odometer_reading =<span class="number">0</span></span><br><span class="line">   </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">get_descriptive_name</span>(<span class="params">self</span>):</span><br><span class="line">	  <span class="string">&quot;&quot;&quot;返回整洁的汽车描述信息&quot;&quot;&quot;</span></span><br><span class="line">	  long_name = <span class="built_in">str</span>(self.year) + <span class="string">&#x27; &#x27;</span> + self.make + self.model</span><br><span class="line">	  <span class="keyword">return</span> long_name</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">update_odometer</span>(<span class="params">self,mileage</span>):</span><br><span class="line">	  <span class="string">&quot;&quot;&quot;将里程表设置为指定值&quot;&quot;&quot;</span></span><br><span class="line">	  <span class="keyword">if</span> mileage &gt;= self.odometer_reading:</span><br><span class="line">		  self.odometer_reading = mileage</span><br><span class="line">	  <span class="keyword">else</span>:</span><br><span class="line">		  <span class="built_in">print</span>(<span class="string">&quot;You can&#x27;t roll back an odometer&quot;</span>)</span><br><span class="line">	  </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">read_odometer</span>(<span class="params">self</span>):</span><br><span class="line">	   <span class="string">&quot;&quot;&quot;打印汽车的里程信息&quot;&quot;&quot;</span></span><br><span class="line">	   <span class="built_in">print</span>(<span class="string">&quot;This car has &quot;</span>+<span class="built_in">str</span>(self.odometer_reading) + <span class="string">&quot; miles on it.&quot;</span>)</span><br><span class="line">   </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">increment_odometer</span>(<span class="params">self,mileage</span>):</span><br><span class="line">	  <span class="keyword">if</span> mileage &gt;=<span class="number">0</span>:</span><br><span class="line">		  self.odometer_reading += mileage</span><br><span class="line">	  <span class="keyword">else</span>:</span><br><span class="line">		  <span class="built_in">print</span>(<span class="string">&quot;You can&#x27;t roll back an odometer&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ElectricCar</span>(<span class="title class_ inherited__">Car</span>):</span><br><span class="line">	<span class="string">&quot;&quot;&quot;电动车&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,make,model,year</span>):</span><br><span class="line">		<span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">			电动车独特之处</span></span><br><span class="line"><span class="string">			初始化父类属性，在初始化子类属性</span></span><br><span class="line"><span class="string">		&quot;&quot;&quot;</span></span><br><span class="line">		<span class="built_in">super</span>().__init__(make,model,year)</span><br><span class="line">		self.battery_size = <span class="number">70</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">describe_battery</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;This car has a &quot;</span>+<span class="built_in">str</span>(self.battery_size) + <span class="string">&quot;-kWh battery.&quot;</span>)</span><br><span class="line"></span><br><span class="line">my_tesla = ElectricCar(<span class="string">&quot;tesla&quot;</span>,<span class="string">&quot;model_s&quot;</span>,<span class="number">2016</span>)</span><br><span class="line"><span class="built_in">print</span>(my_tesla.get_descritive_name())</span><br><span class="line">my_tesla.describe_battery()</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-</ol>
-<h4 id="重写父类"><a href="#重写父类" class="headerlink" title="重写父类"></a>重写父类</h4><p>如果父类的属性在子类是不合适的，我们可以在子类中，重新定义这个属性来覆盖父类中的属性。</p>
-<h4 id="将实例用作属性"><a href="#将实例用作属性" class="headerlink" title="将实例用作属性"></a>将实例用作属性</h4><p>当我们对一个类添加非常多的属性时，整个类就显得十分臃肿。我们可以把这些属性归类，把某一类的属性定义在一个类里，再供我们使用。如我们上面写的电动车，我们把有关电动车电池的一些属性放在一起，如电池容量，显示电池容(descriptive_battery),剩余电量能行走的里程放在class Battery()中。我们接着在class ElectricCar() 中self.battery &#x3D; Battery()，写这句语法，我们就能把Battery储存在ElectriCar了。<br>my_tesla.battery.descriptive_battery()，这样我们也可以调用查看电池容量。</p>
-<h3 id="导入类"><a href="#导入类" class="headerlink" title="导入类"></a>导入类</h3><p>和函数一样，我们也可以把类全部编写在一个文件里，供另一个文件使用。导入方法和导入函数的一样。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cy1blog.top/2022/11/02/python%E7%B1%BB/" data-id="cl9znwzon000bx0vxepry1sz6" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-python列表" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/11/02/python%E5%88%97%E8%A1%A8/" class="article-date">
-  <time datetime="2022-11-02T07:21:09.000Z" itemprop="datePublished">2022-11-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/02/python%E5%88%97%E8%A1%A8/">python列表</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>列表可以储存多个数据，相等于c语言的数组。</p>
-<h4 id="列表的创建"><a href="#列表的创建" class="headerlink" title="列表的创建"></a>列表的创建</h4><h5 id="创建列表的第一种方式使用"><a href="#创建列表的第一种方式使用" class="headerlink" title="创建列表的第一种方式使用[]"></a>创建列表的第一种方式使用[]</h5><p>list1 &#x3D; [“Hello”,”World”,98,87]</p>
-<p><img src="/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20221028233725.png"><br><img src="/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20221028234334.png"></p>
-<h5 id="创建列表的第二种方式-使用内置函数list"><a href="#创建列表的第二种方式-使用内置函数list" class="headerlink" title="创建列表的第二种方式 使用内置函数list()"></a>创建列表的第二种方式 使用内置函数list()</h5><p>list2 &#x3D;list([“Hello”,”World”,98,87])<br><img src="/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20221028234810.png"></p>
-<h4 id="列表的特点"><a href="#列表的特点" class="headerlink" title="列表的特点"></a>列表的特点</h4><ol>
-<li>有序</li>
-<li>可以储存重复数据</li>
-<li>可以储存不同的类型</li>
-<li>动态分配内存和回收空间</li>
-<li>索引对应唯一的值</li>
-</ol>
-<h4 id="列表的索引"><a href="#列表的索引" class="headerlink" title="列表的索引"></a>列表的索引</h4><p>index()</p>
-<p>lst &#x3D;[“Hello”,”World”,98,”Hello”]</p>
-<p>print(lst.index(“Hello”))</p>
-<hr>
-<p>输出结果 0</p>
-<p>如果列表有多个相同元素，索引为相同元素里的第一个，如果列表不含有该元素，会报错，</p>
-<p>lst &#x3D;[“Hello”,”World”,98,”Hello”]</p>
-<p>print(lst.index(“Hello”，1，3))</p>
-<hr>
-<p>输出结果 会报错说不存在该元素<br>因为我们指定它从1-3元素里查找</p>
-<h4 id="获取列表特定的元素"><a href="#获取列表特定的元素" class="headerlink" title="获取列表特定的元素"></a>获取列表特定的元素</h4><p>lis[“Hello”,”World”,98]</p>
-<p>正向索引是从0到（N-1）<br>逆向索引是从（-N）到(-1)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">print(lis[1])</span><br><span class="line">print(lis[-1])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">World</span><br><span class="line">98</span><br></pre></td></tr></table></figure>
-
-<h4 id="列表切片"><a href="#列表切片" class="headerlink" title="列表切片"></a>列表切片</h4><p>如果我们想获得列表中的单个元素就用索引，想获得多个元素就用切片</p>
-<ol>
-<li>操作格式<br>列表名[start : stop : step]</li>
-</ol>
-<p>占位图片(正在施工，未完待续)</p>
-<h4 id="列表元素的判断和遍历"><a href="#列表元素的判断和遍历" class="headerlink" title="列表元素的判断和遍历"></a>列表元素的判断和遍历</h4><ol>
-<li>元素 <strong>in</strong> 列表</li>
-<li>元素 <strong>not in</strong> 列表</li>
-</ol>
-<p>for 临时变量名 in 列表:<br>    操作</p>
-<h4 id="列表元素的增、删、改"><a href="#列表元素的增、删、改" class="headerlink" title="列表元素的增、删、改"></a>列表元素的增、删、改</h4><p>列表元素的增加<br>    1. 向列表末尾添加一个元素<br>       lis &#x3D; [10,20,30]<br>       print(lis,id(lis))<br>       lis.append(100)<br>       print(lis,id(lis))<br>       &#x2F;&#x2F;添加前后都是同一个列表对象<br>    2. 向列表末尾添加添加至少一个元素<br>       lis &#x3D; [10,20,30]<br>       print(lis,id(lis))<br>       lis2 &#x3D; [“Hello”,”World”]<br>       lis.extend(lis2)<br>       print(lis,id(lis))<br>    3.向列表任意位置插入元素<br>       lis &#x3D; [10,20,30]<br>       print(lis,id(lis))<br>       lis.insert(1,100)<br>       print(lis,id(lis))<br>    4.向列表任意位置切片至少一个元素<br>       lis &#x3D; [10,20,30]<br>       print(lis,id(lis))<br>       lis3 &#x3D; [“Hello”,”World”]<br>       lis[1:] &#x3D; lis3<br>       print(lis,id(lis))<br>    —–运行结果 [10,”Hello”,”World”]<br>列表元素的删除<br>    1. remove()<br>       remove 一次删除一个元素，有相同元素时只删除第一个，若元素不存在报错<br>    2. pop()<br>       根据索引删除指定元素，如果不写索引，默认最后一个<br>    3.切片<br>        一次最少删除一个元素，切片后是新的列表对象<br>        lis &#x3D; [“Hello”,”World”,98,35]<br>        new_list &#x3D; lis[1:2]<br>        不产生新列表对象，用空列表覆盖<br>        lis &#x3D; [“Hello”,”World”,98,35]</p>
-<pre><code>    lis[1:2] = []
-4. clear()
-   清除列表所有元素
-   lis =[&quot;Hello&quot;,&quot;World&quot;,98,35]
-   lis.clear()
- 5. del
-    删除列表对象
-    del lis
-    删除列表中的元素
-    del lis[2]
-</code></pre>
-<p> 列表的修改</p>
-<ol>
-<li>指定索引元素修改<br>lis &#x3D; [10,20,30,40,50,60]<br>lis[2] &#x3D; 0</li>
-<li>指定切片元素修改<br>lis &#x3D;[10,20,30,4,0,50,60]<br>lis[1:3] &#x3D; [100,200,300,400]</li>
-</ol>
-<h4 id="列表的排序"><a href="#列表的排序" class="headerlink" title="列表的排序"></a>列表的排序</h4><ol>
-<li>调用sort()函数，列表中元素默认按从小到大排序，reveser&#x3D;True,进行降序<br>list &#x3D; [10,30,50,4,50,10,100,9]<br>list.sort()<br>list.sort(reverser &#x3D;True)</li>
-<li>调用内置函数sorted(),可以指定reverse&#x3D;True 进行降序排序，原列表不发生改变<br>lis &#x3D; [10,30,50,40,10,100,9]<br>new_list &#x3D; sorted(list)<br>decl_list &#x3D; sorted(lis,reverser &#x3D;True)</li>
-</ol>
-<h4 id="列表生成式"><a href="#列表生成式" class="headerlink" title="列表生成式"></a>列表生成式</h4><p>生成列表的公式<br>语法格式：  lst &#x3D; [i for i in range(1,10)]</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cy1blog.top/2022/11/02/python%E5%88%97%E8%A1%A8/" data-id="cl9znwzoi0005x0vxahy40dra" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-python函数" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/11/02/python%E5%87%BD%E6%95%B0/" class="article-date">
-  <time datetime="2022-11-02T07:20:46.000Z" itemprop="datePublished">2022-11-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/02/python%E5%87%BD%E6%95%B0/">python函数</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def 函数名(形参):</span><br><span class="line">	操作</span><br><span class="line">	return</span><br></pre></td></tr></table></figure>
-<p>函数参数的传递和其他语言一样，都是传值。</p>
-<h3 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h3><p>参数可以是数字，字符串，列表，元组，字典，函数参数是形参，对于非列表，元组，字典的修改，在函数外是不生效的<br>python函数参数的传递有两种方式，位置参数和指定参数</p>
-<ol>
-<li>位置参数<br>python根据位置来传递<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">def</span> <span class="title function_">animal</span>(<span class="params">pet_type,pet_name</span>):</span><br><span class="line">   <span class="string">&quot;&quot;&quot;显示宠物信息&quot;&quot;&quot;</span> </span><br><span class="line">   <span class="comment"># 这是函数文档申明，用来解释函数的用途</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;pet_type:&quot;</span>+pet_type)</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;pet_name:&quot;</span>+pet_name)</span><br><span class="line"></span><br><span class="line">animal(”小狗“，”大黄“)</span><br></pre></td></tr></table></figure></li>
-<li>指定参数 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">def</span> <span class="title function_">animal</span>(<span class="params">pet_type,pet_name</span>):</span><br><span class="line">	<span class="string">&quot;&quot;&quot;显示宠物信息&quot;&quot;&quot;</span> </span><br><span class="line">    <span class="comment"># 这是函数文档申明，用来解释函数的用途</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;pet_type:&quot;</span>+pet_type)</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;pet_name:&quot;</span>+pet_name)</span><br><span class="line">animal(pet_name =<span class="string">&quot;大黄&quot;</span>,pet_type=<span class="string">&quot;小狗&quot;</span>)</span><br></pre></td></tr></table></figure></li>
-<li>默认值<br>在定义函数时可以设定默认值，如果函数需要的参数包含默认值和非默认值，则默认值要放在非默认值后面 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">def</span> <span class="title function_">animal</span>(<span class="params">pet_name,pet_type=<span class="string">&quot;小狗&quot;</span></span>):</span><br><span class="line">   <span class="string">&quot;&quot;&quot;显示宠物信息&quot;&quot;&quot;</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;pet_type:&quot;</span>+pet_type)</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;pet_name:&quot;</span>+pet_name)</span><br><span class="line"></span><br><span class="line">animal(<span class="string">&quot;大黄&quot;</span>)</span><br><span class="line">animal(<span class="string">&quot;橘子&quot;</span>，”小猫“) </span><br><span class="line">animal(pet_type = <span class="string">&quot;小猫&quot;</span>,pet_name=<span class="string">&quot;柚子&quot;</span>)</span><br></pre></td></tr></table></figure>
- 设定好默认值后，缺少的参数会按照默认值传递，若不缺少则按照传递的值来穿传递,位置传参，指定传参，默认值可以混合使用</li>
-<li>可选参数  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">def</span> <span class="title function_">animal</span>(<span class="params">pet_name,pet_type=<span class="string">&quot;小狗&quot;</span>,pet_age=<span class="string">&quot;&quot;</span></span>):</span><br><span class="line">   <span class="string">&quot;&quot;&quot;显示宠物信息&quot;&quot;&quot;</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;pet_type:&quot;</span>+pet_type)</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;pet_name:&quot;</span>+pet_name)</span><br><span class="line">   <span class="keyword">if</span> pet_age:</span><br><span class="line">	   <span class="built_in">print</span>(<span class="string">&quot;pet_age:&quot;</span>,+pet_age)</span><br><span class="line"></span><br><span class="line">animal(<span class="string">&quot;大黄&quot;</span>)</span><br><span class="line">animal(<span class="string">&quot;橘子&quot;</span>，”小猫“) </span><br><span class="line">animal(pet_type = <span class="string">&quot;小猫&quot;</span>,pet_name=<span class="string">&quot;柚子&quot;</span>)</span><br></pre></td></tr></table></figure>
- 上面pet_age变成了可选参数，如果输入有传递pet_age的参数就输出，没有则不输出</li>
-</ol>
-<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><p>自己定义的函数可以没有返回值如定义一个打印函数，排序函数等，如果想要在调用完函数后返回一个值，就在函数的末尾加上return 返回值。返回值可以是任意数据类型<br>整型，字符串，列表，字典。</p>
-<h3 id="在函数中修改列表"><a href="#在函数中修改列表" class="headerlink" title="在函数中修改列表"></a>在函数中修改列表</h3><p>传列表进函数默认是传原件进，在函数内修改列表，也会影响列表在函数外的值。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">printf</span>(<span class="params">lis</span>):</span><br><span class="line">	<span class="keyword">for</span> num <span class="keyword">in</span> lis.pop():</span><br><span class="line">		<span class="built_in">print</span>(num)</span><br><span class="line"></span><br><span class="line">lis = [<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>,<span class="number">40</span>,<span class="number">50</span>,<span class="number">60</span>,<span class="number">70</span>]</span><br><span class="line"></span><br><span class="line">printf(lis)</span><br></pre></td></tr></table></figure>
-
-<h3 id="禁止函数修改列表"><a href="#禁止函数修改列表" class="headerlink" title="禁止函数修改列表"></a>禁止函数修改列表</h3><p>如果我们不想让函数修改列表原有的值。我们可以传列表的副本进函数，这样就避免了函数修改原列表。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">printf</span>(<span class="params">lis</span>):</span><br><span class="line">	<span class="keyword">for</span> num <span class="keyword">in</span> lis.pop():</span><br><span class="line">		<span class="built_in">print</span>(num)</span><br><span class="line"></span><br><span class="line">lis = [<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>,<span class="number">40</span>,<span class="number">50</span>,<span class="number">60</span>,<span class="number">70</span>]</span><br><span class="line"></span><br><span class="line">printf(lis[ : ])</span><br></pre></td></tr></table></figure>
-
-<h3 id="传递任意数量的参数"><a href="#传递任意数量的参数" class="headerlink" title="传递任意数量的参数"></a>传递任意数量的参数</h3><p>如果我们事先不知道要传递多少个参数给函数，我们可以def printname(* name)的语句，python会把我们传递的参数全部封包到name这个元组里，无论是一个还是多个。<br>例如我们编写一个披萨配料</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">make_pizza</span>(<span class="params">*toppings</span>):</span><br><span class="line">	<span class="string">&quot;&quot;&quot;概述披萨&quot;&quot;&quot;</span></span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;\\nMaking a pizza with the follwoing toppings:&quot;</span>)</span><br><span class="line">	<span class="keyword">for</span> topping <span class="keyword">in</span> toppings:</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;-&quot;</span>+topping)</span><br><span class="line"></span><br><span class="line">make_pizza(<span class="string">&quot;pepperoni&quot;</span>)</span><br><span class="line">make_pizza(<span class="string">&quot;mushrooms&quot;</span>,<span class="string">&quot;green peppers&quot;</span>,<span class="string">&quot;extra chees&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>如果我们要传递任意数量的参数，而且参数包含关键字参数（像字典那样key-value）,我们可以让函数把参数放入字典中<br>例如</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">build_porfile</span>(<span class="params">first,last,\*\*user_info</span>)</span><br><span class="line">	<span class="string">&quot;&quot;&quot;创建一个字典，其中包含我们知道的有关用户的一切&quot;&quot;&quot;</span></span><br><span class="line">	profile =&#123;&#125;</span><br><span class="line">	profile[<span class="string">&#x27;first&#x27;</span>] = first</span><br><span class="line">	profile[<span class="string">&#x27;last&#x27;</span>] = last</span><br><span class="line">	<span class="keyword">for</span> key,value <span class="keyword">in</span> user_info.items():</span><br><span class="line">		profile[key] = value</span><br><span class="line">	<span class="keyword">return</span> profile</span><br><span class="line"></span><br><span class="line">user_profile = build_porfile(<span class="string">&#x27;albert&#x27;</span>,<span class="string">&#x27;einsten&#x27;</span>,</span><br><span class="line">											location=<span class="string">&#x27;princeton&#x27;</span>,</span><br><span class="line">											field = <span class="string">&#x27;physics&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(user_profile)</span><br></pre></td></tr></table></figure>
-
-<h3 id="把函数储存在模块里"><a href="#把函数储存在模块里" class="headerlink" title="把函数储存在模块里"></a>把函数储存在模块里</h3><p>函数可以把代码和主程序分开来，通过给函数描述性名称，使得主程序代码更加容易理解，但如果函数过多，和主程序都编写在一个文件里，就显得臃肿了。我们可以把函数写在模块里，再通过import语句调用模块。</p>
-<p>例如<br>我们先创建一个pizza.py文件，里面除了make_pizza函数，其他代码都不写</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">make_pizza</span>(<span class="params">size,*toppings</span>):</span><br><span class="line">	<span class="string">&quot;&quot;&quot;概述披萨&quot;&quot;&quot;</span></span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;\\nMaking &quot;</span> srt(size) +<span class="string">&quot; -inch pizza with the follwoing toppings:&quot;</span>)</span><br><span class="line">	<span class="keyword">for</span> topping <span class="keyword">in</span> toppings:</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;-&quot;</span>+topping)</span><br></pre></td></tr></table></figure>
-
-<p>我们再在pizza.py文件的同目录下创建一个making_pizzas.py文件,这个文件导入pizza.py文件，然后再调用函数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pizza</span><br><span class="line"></span><br><span class="line">pizza.make_pizza(<span class="number">16</span>,<span class="string">&quot;pepperoni&quot;</span>)</span><br><span class="line">pizza.make_pizza(<span class="number">12</span>,<span class="string">&quot;mushrooms&quot;</span>,<span class="string">&quot;green ppers&quot;</span>,<span class="string">&quot;extra cheese&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="导入特定的函数"><a href="#导入特定的函数" class="headerlink" title="导入特定的函数"></a>导入特定的函数</h4><p>如果我们创建了一个包含很多函数在funtion.py，但我们只需其中的一个函数，我们可以使用下面的语法<br>from fution import funtion_name<br>导入多个特定的函数<br>from fution import funtion_name1,funtion_name2<br>而且如果使用这个方式导入函数，可以直接使用函数名来调用函数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> fution <span class="keyword">import</span> funtion_name1,funtion_name2</span><br><span class="line">make_pizza(<span class="number">16</span>,<span class="string">&quot;pepperoni&quot;</span>)</span><br><span class="line">make_pizza(<span class="number">12</span>,<span class="string">&quot;mushrooms&quot;</span>,<span class="string">&quot;green ppers&quot;</span>,<span class="string">&quot;extra cheese&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="设置函数别名"><a href="#设置函数别名" class="headerlink" title="设置函数别名"></a>设置函数别名</h4><p>如果导入的函数名与程序现有的名称冲突，或太长了。我们可以给它设置一个别名。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pizza <span class="keyword">import</span> make_pizza <span class="keyword">as</span> mp</span><br><span class="line"></span><br><span class="line">mp(<span class="number">16</span>,<span class="string">&quot;pepperoni&quot;</span>)</span><br><span class="line">mp(<span class="number">12</span>,<span class="string">&quot;mushrooms&quot;</span>,<span class="string">&quot;green ppers&quot;</span>,<span class="string">&quot;extra cheese&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cy1blog.top/2022/11/02/python%E5%87%BD%E6%95%B0/" data-id="cl9znwzof0003x0vx64mme68e" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-quicksort" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/10/31/quicksort/" class="article-date">
-  <time datetime="2022-10-31T05:06:26.000Z" itemprop="datePublished">2022-10-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/10/31/quicksort/">quicksort</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="quicksort"><a href="#quicksort" class="headerlink" title="quicksort"></a>quicksort</h1><p>本文我们将学习排序算法中的快速排序。</p>
-<!---more--->
-<h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><p>快速排序算法思想基于二分法，也叫分治法。主要分为以下步骤：</p>
-<ul>
-<li>分解 把数组A[p,r]分成两个子数组A[p,q-1]、A[q+1,r]，并且使得数组A[p,q-1]中的元素都小于数组A[q+1,r]中的元素（我们可以采取基准数来实现，即选定一个数让小于基准数的元素放在左边，大于基准数的元素放在右边）</li>
-<li>解决 然后我们分别解决两个小数组的排序，对于这两个数组的排序我们可以接着分解（有递归味道）</li>
-<li>合成 我们把排好序的小数组合起来，就把原来的数组排好序了。但因为数组地址是连续的，排好序，自然就合在一起了。</li>
-</ul>
-<p>伪代码<br><img src="D:\cy1blog\source_posts\quicksort/code.png"></p>
-<h2 id="时间复杂度分析"><a href="#时间复杂度分析" class="headerlink" title="时间复杂度分析"></a>时间复杂度分析</h2><h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p><img src="D:\cy1blog\source_posts\quicksort/sort_code.png"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cy1blog.top/2022/10/31/quicksort/" data-id="cl9znwzon000cx0vx5fbq5mj9" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/quicksort/" rel="tag">quicksort</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-MarkDown语法学习" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/10/30/MarkDown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/" class="article-date">
-  <time datetime="2022-10-30T12:34:01.000Z" itemprop="datePublished">2022-10-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/10/30/MarkDown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/">MarkDown语法学习</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <pre><code>                                       MarkDown语法学习
-</code></pre>
-<p>本文我们将学习MarkDown语法，包括标题、段落格式、列表、区块、代码块、链接、图片、表格以及一些高级技巧。</p>
-<p>&lt; ! – more – &gt;</p>
-<h2 id="MarkDown-标题"><a href="#MarkDown-标题" class="headerlink" title="MarkDown 标题"></a>MarkDown 标题</h2><p>使用*#*号可以表示1-6级标题，</p>
-<blockquote>
-<p># 一级标题</p>
-<p>## 二级标题</p>
-<p>### 三级标题</p>
-<p>#### 四级标题</p>
-<p>##### 五级标题</p>
-<p>###### 六级标题</p>
-</blockquote>
-<p><img src="D:\cy1blog\source_posts\MarkDown语法学习\markdown标题.png"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cy1blog.top/2022/10/30/MarkDown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/" data-id="cl9znwzoc0002x0vx1k3ta073" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MarkDown/" rel="tag">MarkDown</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-算法竞赛入门经典例题讲解" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/10/30/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E5%85%A5%E9%97%A8%E7%BB%8F%E5%85%B8%E4%BE%8B%E9%A2%98%E8%AE%B2%E8%A7%A3/" class="article-date">
-  <time datetime="2022-10-30T12:34:01.000Z" itemprop="datePublished">2022-10-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/10/30/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E5%85%A5%E9%97%A8%E7%BB%8F%E5%85%B8%E4%BE%8B%E9%A2%98%E8%AE%B2%E8%A7%A3/">回文词</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="算法竞赛入门经典例题讲解"><a href="#算法竞赛入门经典例题讲解" class="headerlink" title="算法竞赛入门经典例题讲解"></a>算法竞赛入门经典例题讲解</h1><h2 id="回文词（Palindromes-UVa401）"><a href="#回文词（Palindromes-UVa401）" class="headerlink" title="回文词（Palindromes,UVa401）"></a>回文词（Palindromes,UVa401）</h2><p>本文会对该题进行分析和分享自己的见解。</p>
-<hr>
-<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>输入一个字符串，判断它是否为回文串以及镜像串。输入字符串保证不包含数字0.所谓回文串，就是反转后和原串相同。如abba,abccba,madam。而镜像串，就是左右镜像后原串相同。把一个字符串的一半字符，镜像翻转后和原来剩下一半的字符相同。如2s（2镜像翻转后变成s）、3AIAE（3镜像翻转为E，A镜像翻转为A）</p>
-<h3 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h3><ul>
-<li>回文串的判断：要想一个字符串是回文串，即从正向读和反向读相同，只要第i个字符和倒数第i个字符相同即可。</li>
-<li>镜像串的判断：<br>镜像表（并非所有字符都有镜像，没有镜像的有空格表示）<table>
-<thead>
-<tr>
-<th align="center">字符</th>
-<th align="center">镜像</th>
-<th align="center">字符</th>
-<th align="center">镜像</th>
-<th align="center">字符</th>
-<th align="center">镜像</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">A</td>
-<td align="center">A</td>
-<td align="center">M</td>
-<td align="center">M</td>
-<td align="center">Y</td>
-<td align="center">Y</td>
-</tr>
-<tr>
-<td align="center">B</td>
-<td align="center"></td>
-<td align="center">N</td>
-<td align="center"></td>
-<td align="center">Z</td>
-<td align="center">5</td>
-</tr>
-<tr>
-<td align="center">C</td>
-<td align="center"></td>
-<td align="center">O</td>
-<td align="center">O</td>
-<td align="center">1</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">D</td>
-<td align="center"></td>
-<td align="center">P</td>
-<td align="center"></td>
-<td align="center">2</td>
-<td align="center">S</td>
-</tr>
-<tr>
-<td align="center">E</td>
-<td align="center">3</td>
-<td align="center">Q</td>
-<td align="center"></td>
-<td align="center">3</td>
-<td align="center">E</td>
-</tr>
-<tr>
-<td align="center">F</td>
-<td align="center"></td>
-<td align="center">R</td>
-<td align="center"></td>
-<td align="center">4</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">G</td>
-<td align="center"></td>
-<td align="center">S</td>
-<td align="center">2</td>
-<td align="center">5</td>
-<td align="center">Z</td>
-</tr>
-<tr>
-<td align="center">H</td>
-<td align="center">H</td>
-<td align="center">T</td>
-<td align="center">T</td>
-<td align="center">6</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">I</td>
-<td align="center">I</td>
-<td align="center">U</td>
-<td align="center">U</td>
-<td align="center">7</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">J</td>
-<td align="center">L</td>
-<td align="center">V</td>
-<td align="center">V</td>
-<td align="center">8</td>
-<td align="center">8</td>
-</tr>
-<tr>
-<td align="center">K</td>
-<td align="center"></td>
-<td align="center">W</td>
-<td align="center">W</td>
-<td align="center">9</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">L</td>
-<td align="center">J</td>
-<td align="center">X</td>
-<td align="center">X</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<p>我们只要把上面的表格按顺序用数组制成表格，如数组索引0代表字符A的镜像。。。我们根据字符的运算很容易就能算出相应的索引了。但我们制作的表格大写字母和数字是连续的, 而ASCALL码里却是不连续的，所以我们在计算字母的镜像索引和计算数字的镜像索引要分开计算。</p>
-<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line">	<span class="meta">#<span class="keyword">include</span><span class="string">&lt;string.h&gt;</span></span></span><br><span class="line">	<span class="meta">#<span class="keyword">include</span><span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span>* rev =<span class="string">&quot;A   3  HIL JM O   2TUVWXY51SE Z  8 &quot;</span> <span class="comment">//制作镜像表</span></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span>* msg[] = &#123;<span class="string">&quot;not a palindrome&quot;</span>,<span class="string">&quot;a regular palindrome&quot;</span>,<span class="string">&quot;a mirrored string&quot;</span>,<span class="string">&quot;a mirrored palindrome&quot;</span>&#125;<span class="comment">//四种组合，目的是为了减少消耗，简便化，下面会进一步说明。</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//镜像串的判断函数</span></span><br><span class="line">	<span class="type">char</span> r(<span class="type">char</span> ch)&#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">isalpha</span>(ch)) <span class="keyword">return</span> rev[ch-<span class="string">&#x27;A&#x27;</span>];<span class="comment">//isalpha函数是用来判断是否为字母，声明包含在ctype.h头文件</span></span><br><span class="line">		<span class="keyword">return</span> rev[ch-<span class="string">&#x27;0&#x27;</span>+<span class="number">25</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">		<span class="type">char</span> s[<span class="number">30</span>];</span><br><span class="line">		<span class="keyword">while</span>(<span class="built_in">scanf</span>(%s,s)==<span class="number">1</span>)&#123;</span><br><span class="line">			<span class="type">int</span> len = <span class="built_in">strlen</span>(s);</span><br><span class="line">			<span class="type">int</span> p = <span class="number">1</span>,m=<span class="number">1</span>;<span class="comment">//用于回文串和镜像串状态判断，p有1，0态，代表是否回文串；m有1，0态，代表是否镜像串.</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> i;i&lt;(len+<span class="number">1</span>)/<span class="number">2</span>;i++)&#123;</span><br><span class="line">				<span class="keyword">if</span>(s[i]!=s[len<span class="number">-1</span>-i]) p=<span class="number">0</span>; <span class="comment">//不是回文串</span></span><br><span class="line">				<span class="keyword">if</span>(r(s[i])!=s[len<span class="number">-1</span>-i]) m=<span class="number">0</span>;<span class="comment">//不是镜像串</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;%s -- is %ss.\n\n&quot;</span>,s,msg[m*<span class="number">2</span>+p]);</span><br><span class="line">			<span class="comment">//msg[]就是用于这里的效率</span></span><br><span class="line">			<span class="comment">//msg有四种状态，不是回文串非镜像，是回文串非镜像，是镜像串非回文，是镜像回文串。</span></span><br><span class="line">			<span class="comment">//为什么回文状态p*1，而镜像状态m**2？</span></span><br><span class="line">			<span class="comment">//分析msg[0],msg[1],区别是否回文，下标差为1；msg[2],msg[3]区别为是			//否回文，下标差为1.而msg[0]和msg[2]区别为是否镜像，下标差为2，				//msg[1]和msg[3]区别是是否镜像,下标差为2。可以简单理解为权重。我们也可			   //以修改msg状态顺序来让实现msg[p*2+m]，只要改成msg[] = &#123;&quot;not a 				//mirroredstring&quot;,&quot;a mirrored sring&quot;,&quot; a palindrome&quot;,&quot;a 				//mirrored palindrome&quot;&#125;</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cy1blog.top/2022/10/30/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E5%85%A5%E9%97%A8%E7%BB%8F%E5%85%B8%E4%BE%8B%E9%A2%98%E8%AE%B2%E8%A7%A3/" data-id="cl9znwzoo000ex0vx2ajdb7zv" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ACM/" rel="tag">ACM</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/10/28/hello-world/" class="article-date">
-  <time datetime="2022-10-28T05:01:34.440Z" itemprop="datePublished">2022-10-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/10/28/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cy1blog.top/2022/10/28/hello-world/" data-id="cl9znwzo70001x0vx2znp88rq" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACM/" rel="tag">ACM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MarkDown/" rel="tag">MarkDown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/quicksort/" rel="tag">quicksort</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/ACM/" style="font-size: 10px;">ACM</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/quicksort/" style="font-size: 10px;">quicksort</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/11/02/python%E7%B1%BB/">python类</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/02/python%E5%88%97%E8%A1%A8/">python列表</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/02/python%E5%87%BD%E6%95%B0/">python函数</a>
-          </li>
-        
-          <li>
-            <a href="/2022/10/31/quicksort/">quicksort</a>
-          </li>
-        
-          <li>
-            <a href="/2022/10/30/MarkDown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/">MarkDown语法学习</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2022 CY1<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-  </div>
-</body>
-</html>
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">CY1blog</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">CY1blog</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2022/11/02/python%E7%B1%BB/" title="python类"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python类"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/11/02/python%E7%B1%BB/" title="python类">python类</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-02T07:21:21.000Z" title="发表于 2022-11-02 15:21:21">2022-11-02</time></span></div><div class="content">类基于类创建对象时， 每个对象都自动具备这种通用行为，然后可根据需要赋予每个对象独 特的个性。
+创建和使用类下面是模拟小狗的一个类class Dog():    “””一次模拟小狗的简单尝试”””
+123456789101112def _init_(self,name,age):	&quot;&quot;&quot;初始化属性name和age&quot;&quot;&quot;	self.name = name	self.age = agedef sit(self):	&quot;&quot;&quot;模拟小狗被命令时蹲下&quot;&quot;&quot; 	print(self.name.title()+&quot; is nowstting.&quot;)def roll_over(self):	&quot;&quot;&quot;模拟小狗被命令时打滚&quot;&quot;&quot;	print(self.name.title()+&quot; rolled over!&quot;)
+
+在python规范中首字母大写的名称为类。类中的函数叫做方法。方法__init__是一个 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/11/02/python%E5%88%97%E8%A1%A8/" title="python列表"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python列表"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/11/02/python%E5%88%97%E8%A1%A8/" title="python列表">python列表</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-02T07:21:09.000Z" title="发表于 2022-11-02 15:21:09">2022-11-02</time></span></div><div class="content">列表可以储存多个数据，相等于c语言的数组。
+列表的创建创建列表的第一种方式使用[]list1 &#x3D; [“Hello”,”World”,98,87]
+
+创建列表的第二种方式 使用内置函数list()list2 &#x3D;list([“Hello”,”World”,98,87])
+列表的特点
+有序
+可以储存重复数据
+可以储存不同的类型
+动态分配内存和回收空间
+索引对应唯一的值
+
+列表的索引index()
+lst &#x3D;[“Hello”,”World”,98,”Hello”]
+print(lst.index(“Hello”))
+
+输出结果 0
+如果列表有多个相同元素，索引为相同元素里的第一个，如果列表不含有该元素，会报错，
+lst &#x3D;[“Hello”,”World”,98,”Hello”]
+print(lst.index(“Hello”，1，3))
+
+输出结果 会报错说不存在该元素因为我们指定它从1-3元素里查找
+获取列表特定的元素lis[“Hello”,”World”,98]
+正向索引是从0到（N-1）逆向索引是从（-N）到(-1)
+1234567print(li ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/11/02/python%E5%87%BD%E6%95%B0/" title="python函数"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python函数"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/11/02/python%E5%87%BD%E6%95%B0/" title="python函数">python函数</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-02T07:20:46.000Z" title="发表于 2022-11-02 15:20:46">2022-11-02</time></span></div><div class="content">定义函数123def 函数名(形参):	操作	return
+函数参数的传递和其他语言一样，都是传值。
+传递参数参数可以是数字，字符串，列表，元组，字典，函数参数是形参，对于非列表，元组，字典的修改，在函数外是不生效的python函数参数的传递有两种方式，位置参数和指定参数
+
+位置参数python根据位置来传递1234567  def animal(pet_type,pet_name):   &quot;&quot;&quot;显示宠物信息&quot;&quot;&quot;    # 这是函数文档申明，用来解释函数的用途   print(&quot;pet_type:&quot;+pet_type)   print(&quot;pet_name:&quot;+pet_name)animal(”小狗“，”大黄“)
+指定参数 123456  def animal(pet_type,pet_name):	&quot;&quot;&quot;显示宠物信息&quot;&quot;&quot;     # 这是函数文档申明，用来解释函数的用途   print(&quot;pet_type:&quo ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/10/31/quicksort/" title="quicksort"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="quicksort"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/31/quicksort/" title="quicksort">quicksort</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-31T05:06:26.000Z" title="发表于 2022-10-31 13:06:26">2022-10-31</time></span></div><div class="content">quicksort本文我们将学习排序算法中的快速排序。
+
+算法描述快速排序算法思想基于二分法，也叫分治法。主要分为以下步骤：
+
+分解 把数组A[p,r]分成两个子数组A[p,q-1]、A[q+1,r]，并且使得数组A[p,q-1]中的元素都小于数组A[q+1,r]中的元素（我们可以采取基准数来实现，即选定一个数让小于基准数的元素放在左边，大于基准数的元素放在右边）
+解决 然后我们分别解决两个小数组的排序，对于这两个数组的排序我们可以接着分解（有递归味道）
+合成 我们把排好序的小数组合起来，就把原来的数组排好序了。但因为数组地址是连续的，排好序，自然就合在一起了。
+
+伪代码
+时间复杂度分析代码实现
+</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/10/30/MarkDown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="MarkDown语法学习"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MarkDown语法学习"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/30/MarkDown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="MarkDown语法学习">MarkDown语法学习</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-30T12:34:01.000Z" title="发表于 2022-10-30 20:34:01">2022-10-30</time></span></div><div class="content">                                       MarkDown语法学习
+
+本文我们将学习MarkDown语法，包括标题、段落格式、列表、区块、代码块、链接、图片、表格以及一些高级技巧。
+&lt; ! – more – &gt;
+MarkDown 标题使用*#*号可以表示1-6级标题，
+
+# 一级标题
+## 二级标题
+### 三级标题
+#### 四级标题
+##### 五级标题
+###### 六级标题
+
+
+</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/10/30/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E5%85%A5%E9%97%A8%E7%BB%8F%E5%85%B8%E4%BE%8B%E9%A2%98%E8%AE%B2%E8%A7%A3/" title="回文词"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="回文词"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/30/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E5%85%A5%E9%97%A8%E7%BB%8F%E5%85%B8%E4%BE%8B%E9%A2%98%E8%AE%B2%E8%A7%A3/" title="回文词">回文词</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-30T12:34:01.000Z" title="发表于 2022-10-30 20:34:01">2022-10-30</time></span></div><div class="content">算法竞赛入门经典例题讲解回文词（Palindromes,UVa401）本文会对该题进行分析和分享自己的见解。
+
+问题描述输入一个字符串，判断它是否为回文串以及镜像串。输入字符串保证不包含数字0.所谓回文串，就是反转后和原串相同。如abba,abccba,madam。而镜像串，就是左右镜像后原串相同。把一个字符串的一半字符，镜像翻转后和原来剩下一半的字符相同。如2s（2镜像翻转后变成s）、3AIAE（3镜像翻转为E，A镜像翻转为A）
+思路分析
+回文串的判断：要想一个字符串是回文串，即从正向读和反向读相同，只要第i个字符和倒数第i个字符相同即可。
+镜像串的判断：镜像表（并非所有字符都有镜像，没有镜像的有空格表示）
+
+
+字符
+镜像
+字符
+镜像
+字符
+镜像
+
+
+
+A
+A
+M
+M
+Y
+Y
+
+
+B
+
+N
+
+Z
+5
+
+
+C
+
+O
+O
+1
+1
+
+
+D
+
+P
+
+2
+S
+
+
+E
+3
+Q
+
+3
+E
+
+
+F
+
+R
+
+4
+
+
+
+G
+
+S
+2
+5
+Z
+
+
+H
+H
+T
+T
+6
+
+
+
+I
+I
+U
+U
+7
+
+
+
+J
+L
+V
+V
+8
+8
+
+
+K
+
+W
+W
+9
+
+
+
+L
+J
+X
+X
+
+
+
+
+
+
+我们只要把上面的表格按顺序用 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/10/28/hello-world/" title="Hello World"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/28/hello-world/" title="Hello World">Hello World</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-28T05:01:34.440Z" title="发表于 2022-10-28 13:01:34">2022-10-28</time></span></div><div class="content">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;
+
+More info: Writing
+Run server1$ hexo server
+
+More info: Server
+Generate static files1$ hexo generate
+
+More info: Generating
+Deploy to remote sites1$ hexo deploy
+
+More info: Deployment
+</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">CY1</div><div class="author-info__description">learning,Machine Learning,deep Leaning,C,C++,acm</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/11/02/python%E7%B1%BB/" title="python类"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python类"/></a><div class="content"><a class="title" href="/2022/11/02/python%E7%B1%BB/" title="python类">python类</a><time datetime="2022-11-02T07:21:21.000Z" title="发表于 2022-11-02 15:21:21">2022-11-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/02/python%E5%88%97%E8%A1%A8/" title="python列表"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python列表"/></a><div class="content"><a class="title" href="/2022/11/02/python%E5%88%97%E8%A1%A8/" title="python列表">python列表</a><time datetime="2022-11-02T07:21:09.000Z" title="发表于 2022-11-02 15:21:09">2022-11-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/02/python%E5%87%BD%E6%95%B0/" title="python函数"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python函数"/></a><div class="content"><a class="title" href="/2022/11/02/python%E5%87%BD%E6%95%B0/" title="python函数">python函数</a><time datetime="2022-11-02T07:20:46.000Z" title="发表于 2022-11-02 15:20:46">2022-11-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/31/quicksort/" title="quicksort"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="quicksort"/></a><div class="content"><a class="title" href="/2022/10/31/quicksort/" title="quicksort">quicksort</a><time datetime="2022-10-31T05:06:26.000Z" title="发表于 2022-10-31 13:06:26">2022-10-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/30/MarkDown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="MarkDown语法学习"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MarkDown语法学习"/></a><div class="content"><a class="title" href="/2022/10/30/MarkDown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="MarkDown语法学习">MarkDown语法学习</a><time datetime="2022-10-30T12:34:01.000Z" title="发表于 2022-10-30 20:34:01">2022-10-30</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/ACM/" style="font-size: 1.1em; color: #999">ACM</a> <a href="/tags/MarkDown/" style="font-size: 1.1em; color: #999">MarkDown</a> <a href="/tags/python/" style="font-size: 1.5em; color: #99a9bf">python</a> <a href="/tags/quicksort/" style="font-size: 1.1em; color: #999">quicksort</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/11/"><span class="card-archive-list-date">十一月 2022</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">十月 2022</span><span class="card-archive-list-count">4</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">7</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2022-11-02T13:27:10.919Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By CY1</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
