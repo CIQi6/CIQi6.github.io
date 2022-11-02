@@ -8,7 +8,7 @@
     <link href="/2022/10/31/quicksort/"/>
     <url>/2022/10/31/quicksort/</url>
     
-    <content type="html"><![CDATA[<h1 id="quicksort"><a href="#quicksort" class="headerlink" title="quicksort"></a>quicksort</h1><p>本文我们将学习排序算法中的快速排序。</p><!---more---><h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><p>快速排序算法思想基于二分法，也叫分治法。主要分为以下步骤：</p><ul><li>分解 把数组A[p,r]分成两个子数组A[p,q-1]、A[q+1,r]，并且使得数组A[p,q-1]中的元素都小于数组A[q+1,r]中的元素（我们可以采取基准数来实现，即选定一个数让小于基准数的元素放在左边，大于基准数的元素放在右边）</li><li>解决 然后我们分别解决两个小数组的排序，对于这两个数组的排序我们可以接着分解（有递归味道）</li><li>合成 我们把排好序的小数组合起来，就把原来的数组排好序了。但因为数组地址是连续的，排好序，自然就合在一起了。</li></ul><p>伪代码<br><img src="/code.png"></p><h2 id="时间复杂度分析"><a href="#时间复杂度分析" class="headerlink" title="时间复杂度分析"></a>时间复杂度分析</h2><h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p><img src="/sort_code.png"></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="quicksort"><a href="#quicksort" class="headerlink" title="quicksort"></a>quicksort</h1><p>本文我们将学习排序算法中的快速排序。</p><!---more---><h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><p>快速排序算法思想基于二分法，也叫分治法。主要分为以下步骤：</p><ul><li>分解 把数组A[p,r]分成两个子数组A[p,q-1]、A[q+1,r]，并且使得数组A[p,q-1]中的元素都小于数组A[q+1,r]中的元素（我们可以采取基准数来实现，即选定一个数让小于基准数的元素放在左边，大于基准数的元素放在右边）</li><li>解决 然后我们分别解决两个小数组的排序，对于这两个数组的排序我们可以接着分解（有递归味道）</li><li>合成 我们把排好序的小数组合起来，就把原来的数组排好序了。但因为数组地址是连续的，排好序，自然就合在一起了。</li></ul><p>伪代码<br><img src="D:\cy1blog\source_posts\quicksort/code.png"></p><h2 id="时间复杂度分析"><a href="#时间复杂度分析" class="headerlink" title="时间复杂度分析"></a>时间复杂度分析</h2><h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p><img src="D:\cy1blog\source_posts\quicksort/sort_code.png"></p>]]></content>
     
     
     
