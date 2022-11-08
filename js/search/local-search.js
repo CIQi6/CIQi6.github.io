@@ -1,1 +1,188 @@
-"use strict";function _typeof(t){return(_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function _regeneratorRuntime(){_regeneratorRuntime=function(){return i};var i={},t=Object.prototype,u=t.hasOwnProperty,l=Object.defineProperty||function(t,e,r){t[e]=r.value},e="function"==typeof Symbol?Symbol:{},n=e.iterator||"@@iterator",r=e.asyncIterator||"@@asyncIterator",o=e.toStringTag||"@@toStringTag";function a(t,e,r){return Object.defineProperty(t,e,{value:r,enumerable:!0,configurable:!0,writable:!0}),t[e]}try{a({},"")}catch(t){a=function(t,e,r){return t[e]=r}}function c(t,e,r,n){var o,a,i,c,e=e&&e.prototype instanceof h?e:h,e=Object.create(e.prototype),n=new L(n||[]);return l(e,"_invoke",{value:(o=t,a=r,i=n,c="suspendedStart",function(t,e){if("executing"===c)throw new Error("Generator is already running");if("completed"===c){if("throw"===t)throw e;return x()}for(i.method=t,i.arg=e;;){var r=i.delegate;if(r){r=function t(e,r){var n=e.iterator[r.method];if(void 0===n){if(r.delegate=null,"throw"===r.method){if(e.iterator.return&&(r.method="return",r.arg=void 0,t(e,r),"throw"===r.method))return f;r.method="throw",r.arg=new TypeError("The iterator does not provide a 'throw' method")}return f}n=s(n,e.iterator,r.arg);if("throw"===n.type)return r.method="throw",r.arg=n.arg,r.delegate=null,f;n=n.arg;return n?n.done?(r[e.resultName]=n.value,r.next=e.nextLoc,"return"!==r.method&&(r.method="next",r.arg=void 0),r.delegate=null,f):n:(r.method="throw",r.arg=new TypeError("iterator result is not an object"),r.delegate=null,f)}(r,i);if(r){if(r===f)continue;return r}}if("next"===i.method)i.sent=i._sent=i.arg;else if("throw"===i.method){if("suspendedStart"===c)throw c="completed",i.arg;i.dispatchException(i.arg)}else"return"===i.method&&i.abrupt("return",i.arg);c="executing";r=s(o,a,i);if("normal"===r.type){if(c=i.done?"completed":"suspendedYield",r.arg===f)continue;return{value:r.arg,done:i.done}}"throw"===r.type&&(c="completed",i.method="throw",i.arg=r.arg)}})}),e}function s(t,e,r){try{return{type:"normal",arg:t.call(e,r)}}catch(t){return{type:"throw",arg:t}}}i.wrap=c;var f={};function h(){}function y(){}function d(){}var e={},p=(a(e,n,function(){return this}),Object.getPrototypeOf),p=p&&p(p(_([]))),m=(p&&p!==t&&u.call(p,n)&&(e=p),d.prototype=h.prototype=Object.create(e));function v(t){["next","throw","return"].forEach(function(e){a(t,e,function(t){return this._invoke(e,t)})})}function g(i,c){var e;l(this,"_invoke",{value:function(r,n){function t(){return new c(function(t,e){!function e(t,r,n,o){var a,t=s(i[t],i,r);if("throw"!==t.type)return(r=(a=t.arg).value)&&"object"==_typeof(r)&&u.call(r,"__await")?c.resolve(r.__await).then(function(t){e("next",t,n,o)},function(t){e("throw",t,n,o)}):c.resolve(r).then(function(t){a.value=t,n(a)},function(t){return e("throw",t,n,o)});o(t.arg)}(r,n,t,e)})}return e=e?e.then(t,t):t()}})}function w(t){var e={tryLoc:t[0]};1 in t&&(e.catchLoc=t[1]),2 in t&&(e.finallyLoc=t[2],e.afterLoc=t[3]),this.tryEntries.push(e)}function b(t){var e=t.completion||{};e.type="normal",delete e.arg,t.completion=e}function L(t){this.tryEntries=[{tryLoc:"root"}],t.forEach(w,this),this.reset(!0)}function _(e){if(e){var r,t=e[n];if(t)return t.call(e);if("function"==typeof e.next)return e;if(!isNaN(e.length))return r=-1,(t=function t(){for(;++r<e.length;)if(u.call(e,r))return t.value=e[r],t.done=!1,t;return t.value=void 0,t.done=!0,t}).next=t}return{next:x}}function x(){return{value:void 0,done:!0}}return l(m,"constructor",{value:y.prototype=d,configurable:!0}),l(d,"constructor",{value:y,configurable:!0}),y.displayName=a(d,o,"GeneratorFunction"),i.isGeneratorFunction=function(t){t="function"==typeof t&&t.constructor;return!!t&&(t===y||"GeneratorFunction"===(t.displayName||t.name))},i.mark=function(t){return Object.setPrototypeOf?Object.setPrototypeOf(t,d):(t.__proto__=d,a(t,o,"GeneratorFunction")),t.prototype=Object.create(m),t},i.awrap=function(t){return{__await:t}},v(g.prototype),a(g.prototype,r,function(){return this}),i.AsyncIterator=g,i.async=function(t,e,r,n,o){void 0===o&&(o=Promise);var a=new g(c(t,e,r,n),o);return i.isGeneratorFunction(e)?a:a.next().then(function(t){return t.done?t.value:a.next()})},v(m),a(m,o,"Generator"),a(m,n,function(){return this}),a(m,"toString",function(){return"[object Generator]"}),i.keys=function(t){var e,r=Object(t),n=[];for(e in r)n.push(e);return n.reverse(),function t(){for(;n.length;){var e=n.pop();if(e in r)return t.value=e,t.done=!1,t}return t.done=!0,t}},i.values=_,L.prototype={constructor:L,reset:function(t){if(this.prev=0,this.next=0,this.sent=this._sent=void 0,this.done=!1,this.delegate=null,this.method="next",this.arg=void 0,this.tryEntries.forEach(b),!t)for(var e in this)"t"===e.charAt(0)&&u.call(this,e)&&!isNaN(+e.slice(1))&&(this[e]=void 0)},stop:function(){this.done=!0;var t=this.tryEntries[0].completion;if("throw"===t.type)throw t.arg;return this.rval},dispatchException:function(r){if(this.done)throw r;var n=this;function t(t,e){return a.type="throw",a.arg=r,n.next=t,e&&(n.method="next",n.arg=void 0),!!e}for(var e=this.tryEntries.length-1;0<=e;--e){var o=this.tryEntries[e],a=o.completion;if("root"===o.tryLoc)return t("end");if(o.tryLoc<=this.prev){var i=u.call(o,"catchLoc"),c=u.call(o,"finallyLoc");if(i&&c){if(this.prev<o.catchLoc)return t(o.catchLoc,!0);if(this.prev<o.finallyLoc)return t(o.finallyLoc)}else if(i){if(this.prev<o.catchLoc)return t(o.catchLoc,!0)}else{if(!c)throw new Error("try statement without catch or finally");if(this.prev<o.finallyLoc)return t(o.finallyLoc)}}}},abrupt:function(t,e){for(var r=this.tryEntries.length-1;0<=r;--r){var n=this.tryEntries[r];if(n.tryLoc<=this.prev&&u.call(n,"finallyLoc")&&this.prev<n.finallyLoc){var o=n;break}}var a=(o=o&&("break"===t||"continue"===t)&&o.tryLoc<=e&&e<=o.finallyLoc?null:o)?o.completion:{};return a.type=t,a.arg=e,o?(this.method="next",this.next=o.finallyLoc,f):this.complete(a)},complete:function(t,e){if("throw"===t.type)throw t.arg;return"break"===t.type||"continue"===t.type?this.next=t.arg:"return"===t.type?(this.rval=this.arg=t.arg,this.method="return",this.next="end"):"normal"===t.type&&e&&(this.next=e),f},finish:function(t){for(var e=this.tryEntries.length-1;0<=e;--e){var r=this.tryEntries[e];if(r.finallyLoc===t)return this.complete(r.completion,r.afterLoc),b(r),f}},catch:function(t){for(var e=this.tryEntries.length-1;0<=e;--e){var r,n,o=this.tryEntries[e];if(o.tryLoc===t)return"throw"===(r=o.completion).type&&(n=r.arg,b(o)),n}throw new Error("illegal catch attempt")},delegateYield:function(t,e,r){return this.delegate={iterator:_(t),resultName:e,nextLoc:r},"next"===this.method&&(this.arg=void 0),f}},i}function _toConsumableArray(t){return _arrayWithoutHoles(t)||_iterableToArray(t)||_unsupportedIterableToArray(t)||_nonIterableSpread()}function _nonIterableSpread(){throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}function _unsupportedIterableToArray(t,e){var r;if(t)return"string"==typeof t?_arrayLikeToArray(t,e):"Map"===(r="Object"===(r=Object.prototype.toString.call(t).slice(8,-1))&&t.constructor?t.constructor.name:r)||"Set"===r?Array.from(t):"Arguments"===r||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)?_arrayLikeToArray(t,e):void 0}function _iterableToArray(t){if("undefined"!=typeof Symbol&&null!=t[Symbol.iterator]||null!=t["@@iterator"])return Array.from(t)}function _arrayWithoutHoles(t){if(Array.isArray(t))return _arrayLikeToArray(t)}function _arrayLikeToArray(t,e){(null==e||e>t.length)&&(e=t.length);for(var r=0,n=new Array(e);r<e;r++)n[r]=t[r];return n}function asyncGeneratorStep(t,e,r,n,o,a,i){try{var c=t[a](i),u=c.value}catch(t){return void r(t)}c.done?e(u):Promise.resolve(u).then(n,o)}function _asyncToGenerator(c){return function(){var t=this,i=arguments;return new Promise(function(e,r){var n=c.apply(t,i);function o(t){asyncGeneratorStep(n,e,r,o,a,"next",t)}function a(t){asyncGeneratorStep(n,e,r,o,a,"throw",t)}o(void 0)})}}window.addEventListener("load",function(){function t(){var t=document.body.style;t.width="100%",t.overflow="hidden",btf.animateIn(n,"to_show 0.5s"),btf.animateIn(document.querySelector("#local-search .search-dialog"),"titleScale 0.5s"),setTimeout(function(){document.querySelector("#local-search-input input").focus()},100),r||(c(),r=!0),document.addEventListener("keydown",function t(e){"Escape"===e.code&&(a(),document.removeEventListener("keydown",t))})}function e(){document.querySelector("#search-button > .search").addEventListener("click",t)}var r=!1,o=[],n=document.getElementById("search-mask"),a=function(){var t=document.body.style;t.width="",t.overflow="",btf.animateOut(document.querySelector("#local-search .search-dialog"),"search_close .5s"),btf.animateOut(n,"to_hide 0.5s")},i=function(){var e=_asyncToGenerator(_regeneratorRuntime().mark(function t(e){var r,n,o,a;return _regeneratorRuntime().wrap(function(t){for(;;)switch(t.prev=t.next){case 0:return r=[],t.next=3,fetch(e);case 3:if(n=t.sent,/\.json$/.test(e))return t.next=7,n.json();t.next=10;break;case 7:r=t.sent,t.next=20;break;case 10:return t.next=12,n.text();case 12:return o=t.sent,t.next=15,(new window.DOMParser).parseFromString(o,"text/xml");case 15:return o=t.sent,t.next=18,o;case 18:a=t.sent,r=_toConsumableArray(a.querySelectorAll("entry")).map(function(t){return{title:t.querySelector("title").textContent,content:t.querySelector("content")&&t.querySelector("content").textContent,url:t.querySelector("url").textContent}});case 20:return n.ok&&((a=document.getElementById("loading-database")).nextElementSibling.style.display="block",a.remove()),t.abrupt("return",r);case 22:case"end":return t.stop()}},t)}));return function(t){return e.apply(this,arguments)}}(),c=function(){GLOBAL_CONFIG.localSearch.preload||(o=i(GLOBAL_CONFIG.localSearch.path));var t=document.querySelector("#local-search-input input"),r=document.getElementById("local-search-results"),n=document.getElementById("loading-status");t.addEventListener("input",function(){var h,e=this,y=this.value.trim().toLowerCase().split(/[\s]+/),d=(""!==y[0]&&(n.innerHTML='<i class="fas fa-spinner fa-pulse"></i>'),r.innerHTML="",'<div class="search-result-list">');y.length<=0||(h=0,o.then(function(t){t.forEach(function(t){var r,e,n,o,a,i,c=!0,u=t.title?t.title.trim().toLowerCase():"",l=t.content?t.content.trim().replace(/<[^>]+>/g,"").toLowerCase():"",t=t.url.startsWith("/")?t.url:GLOBAL_CONFIG.root+t.url,s=-1,f=-1;""!==u||""!==l?y.forEach(function(t,e){r=u.indexOf(t),s=l.indexOf(t),r<0&&s<0?c=!1:(s<0&&(s=0),0===e&&(f=s))}):c=!1,c&&(0<=f&&(n=f+100,a=o="",0===(e=(e=f-30)<0?0:e)?n=100:o="...",n>l.length?n=l.length:a="...",i=l.substring(e,n),y.forEach(function(t){var e=new RegExp(t,"gi");i=i.replace(e,'<span class="search-keyword">'+t+"</span>"),u=u.replace(e,'<span class="search-keyword">'+t+"</span>")}),d+='<div class="local-search__hit-item"><a href="'+t+'" class="search-result-title">'+u+"</a>",h+=1,""!==l)&&(d+='<p class="search-result">'+o+i+a+"</p>"),d+="</div>")}),0===h&&(d+='<div id="local-search__hits-empty">'+GLOBAL_CONFIG.localSearch.languages.hits_empty.replace(/\$\{query}/,e.value.trim())+"</div>"),d+="</div>",r.innerHTML=d,""!==y[0]&&(n.innerHTML=""),window.pjax&&window.pjax.refresh(r)}))})};e(),document.querySelector("#local-search .search-close-button").addEventListener("click",a),n.addEventListener("click",a),GLOBAL_CONFIG.localSearch.preload&&(o=i(GLOBAL_CONFIG.localSearch.path)),window.addEventListener("pjax:complete",function(){btf.isHidden(n)||a(),e()})});
+window.addEventListener('load', () => {
+  let loadFlag = false
+  let dataObj = []
+  const $searchMask = document.getElementById('search-mask')
+
+  const openSearch = () => {
+    const bodyStyle = document.body.style
+    bodyStyle.width = '100%'
+    bodyStyle.overflow = 'hidden'
+    btf.animateIn($searchMask, 'to_show 0.5s')
+    btf.animateIn(document.querySelector('#local-search .search-dialog'), 'titleScale 0.5s')
+    setTimeout(() => { document.querySelector('#local-search-input input').focus() }, 100)
+    if (!loadFlag) {
+      search()
+      loadFlag = true
+    }
+    // shortcut: ESC
+    document.addEventListener('keydown', function f (event) {
+      if (event.code === 'Escape') {
+        closeSearch()
+        document.removeEventListener('keydown', f)
+      }
+    })
+  }
+
+  const closeSearch = () => {
+    const bodyStyle = document.body.style
+    bodyStyle.width = ''
+    bodyStyle.overflow = ''
+    btf.animateOut(document.querySelector('#local-search .search-dialog'), 'search_close .5s')
+    btf.animateOut($searchMask, 'to_hide 0.5s')
+  }
+
+  const searchClickFn = () => {
+    document.querySelector('#search-button > .search').addEventListener('click', openSearch)
+  }
+
+  const searchClickFnOnce = () => {
+    document.querySelector('#local-search .search-close-button').addEventListener('click', closeSearch)
+    $searchMask.addEventListener('click', closeSearch)
+    if (GLOBAL_CONFIG.localSearch.preload) dataObj = fetchData(GLOBAL_CONFIG.localSearch.path)
+  }
+
+  // check url is json or not
+  const isJson = url => {
+    const reg = /\.json$/
+    return reg.test(url)
+  }
+
+  const fetchData = async (path) => {
+    let data = []
+    const response = await fetch(path)
+    if (isJson(path)) {
+      data = await response.json()
+    } else {
+      const res = await response.text()
+      const t = await new window.DOMParser().parseFromString(res, 'text/xml')
+      const a = await t
+      data = [...a.querySelectorAll('entry')].map(item =>{
+        return {
+          title: item.querySelector('title').textContent,
+          content: item.querySelector('content') && item.querySelector('content').textContent,
+          url: item.querySelector('url').textContent
+        }
+      })
+    }
+    if (response.ok) {
+      const $loadDataItem = document.getElementById('loading-database')
+      $loadDataItem.nextElementSibling.style.display = 'block'
+      $loadDataItem.remove()
+    }
+    return data
+  }
+
+  const search = () => {
+    if (!GLOBAL_CONFIG.localSearch.preload) {
+      dataObj = fetchData(GLOBAL_CONFIG.localSearch.path)
+    }
+
+    const $input = document.querySelector('#local-search-input input')
+    const $resultContent = document.getElementById('local-search-results')
+    const $loadingStatus = document.getElementById('loading-status')
+
+    $input.addEventListener('input', function () {
+      const keywords = this.value.trim().toLowerCase().split(/[\s]+/)
+      if (keywords[0] !== '') $loadingStatus.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>'
+
+      $resultContent.innerHTML = ''
+      let str = '<div class="search-result-list">'
+      if (keywords.length <= 0) return
+      let count = 0
+      // perform local searching
+      dataObj.then(data => {
+        data.forEach(data => {
+          let isMatch = true
+          let dataTitle = data.title ? data.title.trim().toLowerCase() : ''
+          const dataContent = data.content ? data.content.trim().replace(/<[^>]+>/g, '').toLowerCase() : ''
+          const dataUrl = data.url.startsWith('/') ? data.url : GLOBAL_CONFIG.root + data.url
+          let indexTitle = -1
+          let indexContent = -1
+          let firstOccur = -1
+          // only match articles with not empty titles and contents
+          if (dataTitle !== '' || dataContent !== '') {
+            keywords.forEach((keyword, i) => {
+              indexTitle = dataTitle.indexOf(keyword)
+              indexContent = dataContent.indexOf(keyword)
+              if (indexTitle < 0 && indexContent < 0) {
+                isMatch = false
+              } else {
+                if (indexContent < 0) {
+                  indexContent = 0
+                }
+                if (i === 0) {
+                  firstOccur = indexContent
+                }
+              }
+            })
+          } else {
+            isMatch = false
+          }
+
+          // show search results
+          if (isMatch) {
+            if (firstOccur >= 0) {
+              // cut out 130 characters
+              // let start = firstOccur - 30 < 0 ? 0 : firstOccur - 30
+              // let end = firstOccur + 50 > dataContent.length ? dataContent.length : firstOccur + 50
+              let start = firstOccur - 30
+              let end = firstOccur + 100
+              let pre = ''
+              let post = ''
+
+              if (start < 0) {
+                start = 0
+              }
+
+              if (start === 0) {
+                end = 100
+              } else {
+                pre = '...'
+              }
+
+              if (end > dataContent.length) {
+                end = dataContent.length
+              } else {
+                post = '...'
+              }
+
+              let matchContent = dataContent.substring(start, end)
+
+              // highlight all keywords
+              keywords.forEach(keyword => {
+                const regS = new RegExp(keyword, 'gi')
+                matchContent = matchContent.replace(regS, '<span class="search-keyword">' + keyword + '</span>')
+                dataTitle = dataTitle.replace(regS, '<span class="search-keyword">' + keyword + '</span>')
+              })
+
+              str += '<div class="local-search__hit-item"><a href="' + dataUrl + '" class="search-result-title">' + dataTitle + '</a>'
+              count += 1
+
+              if (dataContent !== '') {
+                str += '<p class="search-result">' + pre + matchContent + post + '</p>'
+              }
+            }
+            str += '</div>'
+          }
+        })
+        if (count === 0) {
+          str += '<div id="local-search__hits-empty">' + GLOBAL_CONFIG.localSearch.languages.hits_empty.replace(/\$\{query}/, this.value.trim()) +
+            '</div>'
+        }
+        str += '</div>'
+        $resultContent.innerHTML = str
+        if (keywords[0] !== '') $loadingStatus.innerHTML = ''
+        window.pjax && window.pjax.refresh($resultContent)
+      })
+    })
+  }
+
+  searchClickFn()
+  searchClickFnOnce()
+
+  // pjax
+  window.addEventListener('pjax:complete', () => {
+    !btf.isHidden($searchMask) && closeSearch()
+    searchClickFn()
+  })
+})
