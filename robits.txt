@@ -1,0 +1,15 @@
+User-agent: * 
+Allow: /
+Allow: /categories/
+Allow: /tags/
+Allow: /archives/
+
+Disallow: /js/
+Disallow: /css/
+Disallow: /images/
+Disallow: /img/
+Disallow: /lib/
+
+Sitemap: https://cy1blog.top/sitemap.xml
+Sitemap: https://cy1blog.top/baidusitemap.xml
+
