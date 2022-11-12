@@ -1,11 +1,11 @@
 #web_bg {
   
    /* 背景图片的地址 */
-  /* background: url(); */
+   background: url(https://cdn.staticaly.com/gh/CIQi6/picture-for-cy1Blog@main/img/blog_backimg.3kpqd9kekpa0.webp); 
   /* 背景图片不重复 */
-  /* background-repeat: no-repeat; */
+   background-repeat: no-repeat; 
   /* 背景图片大小 */
-  /* background-size: cover; */
+   background-size: cover; 
 
 
   background: -webkit-linear-gradient(
