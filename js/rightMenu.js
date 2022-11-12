@@ -1,4 +1,4 @@
-let rm = {};
+var rm = {};
 rm.showRightMenu = function (isTrue, x = 0, y = 0) {
     let $rightMenu = $('#rightMenu');
     $rightMenu.css('top', x + 'px').css('left', y + 'px');
@@ -172,7 +172,6 @@ function translateInitialization() {
 $('#menu-backward').on('click', function () { window.history.back(); });
 $('#menu-forward').on('click', function () { window.history.forward(); });
 $('#menu-refresh').on('click', function () { window.location.reload(); });
-/*如果是选择了我的日夜动画，下面的switchDarkMode()则可以换出switchNightMode()实现切换动画*/
 $('#menu-darkmode').on('click', function () { switchDarkMode() });
 $('#menu-home').on('click', function () { window.location.href = window.location.origin; });
 /* 简体繁体切换 */
