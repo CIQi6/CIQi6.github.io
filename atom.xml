@@ -272,14 +272,15 @@
     <link href="http://cy1blog.top/2022/10/28/hello-world/"/>
     <id>http://cy1blog.top/2022/10/28/hello-world/</id>
     <published>2022-10-28T05:01:34.440Z</published>
-    <updated>2022-11-14T06:28:08.276Z</updated>
+    <updated>2022-11-14T06:30:19.813Z</updated>
     
-    <content type="html"><![CDATA[<p>这是一个测试文章。</p><p>博客用了hexo框架，主题为butterfly。</p>]]></content>
+    <content type="html"><![CDATA[<p><strong>这是一个测试文章。</strong></p><hr><p>博客用了hexo框架，主题为butterfly。</p>]]></content>
     
     
       
       
-    <summary type="html">&lt;p&gt;这是一个测试文章。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;&lt;strong&gt;这是一个测试文章。&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
 &lt;p&gt;博客用了hexo框架，主题为butterfly。&lt;/p&gt;
 </summary>
       
