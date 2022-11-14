@@ -949,11 +949,6 @@ svg.icon {
   height: 1.5em;
 }
 
-/*top-img黑色透明玻璃效果移除，不建议加，除非你执着于完全一图流或者背景图对比色明显 */
-#page-header:not(.not-top-img):before {
-  background-color: transparent !important;
-}
-
 /* 首页文章卡片 */
 #recent-posts > .recent-post-item {
   background: rgba(255, 255, 255, 0.9);
