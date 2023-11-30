@@ -14,7 +14,7 @@
 <meta property="og:description" content="copy constructor 的杂谈copy constructor 为什么第一个参数必须为引用类型？  为了减少一次内存拷贝吗？ 仔细想想，并不是这个原因。   The fact that the copy constructor is used to initialize nonreference parameters of class type explains why the copy">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-11-30T15:45:39.000Z">
-<meta property="article:modified_time" content="2023-11-30T15:46:19.824Z">
+<meta property="article:modified_time" content="2023-11-30T15:48:49.353Z">
 <meta property="article:author" content="Memetor">
 <meta property="article:tag" content="cpp">
 <meta name="twitter:card" content="summary">
@@ -184,11 +184,11 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
 <p>为了调用 copy constructor ，我们需要把我们传给 copy constructor 的参数（例如： string(“999”) ），给 copy constructor 参数类表中， 又因为参数列表中的参数是未构造的，而我们又通过传值的方式传递。因此，我们又需要调用一次 copy constructor 。最终陷入无限递归。</p>
 <p>在下面几种情况下会调用拷贝构造函数：</p>
 <ul>
-<li>显式或隐式地用同类型的一个对象来初始化另外一个对象。如上例中，用对象c初始化d；</li>
-<li>作为实参(argument)传递给一个函数。如CClass(const CClass c_class)中，就会调用CClass的拷贝构造函数；</li>
-<li>在函数体内返回一个对象时，也会调用返回值类型的拷贝构造函数；</li>
-<li>初始化序列容器中的元素时。比如 vector<string> svec(5)，string的缺省构造函数和拷贝构造函数都会被调用；</li>
-<li>用列表的方式初始化数组元素时。string a[] &#x3D; {string(“hello”), string(“world”)}; 会调用string的拷贝构造函数。</li>
+<li>显式或隐式地用同类型的一个对象来初始化另外一个对象。</li>
+<li>作为实参传递给一个参数为非引用类型的函数。</li>
+<li>在函数体内返回一个非引用类型对象时。</li>
+<li>初始化序列容器中的元素时。比如 <code>vector&lt;string&gt; svec(5)</code>。</li>
+<li>用列表的方式初始化数组元素时。<code>string a[] = &#123;string(“hello”), string(“world”)&#125;;</code> 。</li>
 </ul>
 
   </div>
