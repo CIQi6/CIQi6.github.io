@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>copy constructor 杂谈(一)</title>
+      <link href="/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/"/>
+      <url>/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/</url>
+      
+        <content type="html"><![CDATA[<h1 id="copy-constructor-的杂谈"><a href="#copy-constructor-的杂谈" class="headerlink" title="copy constructor 的杂谈"></a>copy constructor 的杂谈</h1><pre><code>copy constructor 为什么第一个参数必须为引用类型？</code></pre><p>为了减少一次内存拷贝吗？</p><p>仔细想想，并不是这个原因。</p><hr><blockquote><pre><code>The fact that the copy constructor is used to initialize nonreference parameters ofclass type explains why the copy constructor’s own parameter must be a reference. Ifthat parameter were not a reference, then the call would never succeed—to call thecopy constructor, we’d need to use the copy constructor to copy the argument, but tocopy the argument, we’d need to call the copy constructor, and so on indefinitely.</code></pre></blockquote><p>这是 cpp Primer 对此的解释。</p><p>是的，避免 copy constructor 函数无限递归，最终造成栈溢出。</p><hr><p>如果 copy constructor 第一个参数为非引用类型，即通过传值的方式。</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string str1 = <span class="string">&quot;999&quot;</span></span><br></pre></td></tr></table></figure><p>为了调用 copy constructor ，我们需要把我们传给 copy constructor 的参数（例如： string(“999”) ），给 copy constructor 参数类表中， 又因为参数列表中的参数是未构造的，而我们又通过传值的方式传递。因此，我们又需要调用一次 copy constructor 。最终陷入无限递归。</p><p>在下面几种情况下会调用拷贝构造函数：</p><ul><li>显式或隐式地用同类型的一个对象来初始化另外一个对象。如上例中，用对象c初始化d；</li><li>作为实参(argument)传递给一个函数。如CClass(const CClass c_class)中，就会调用CClass的拷贝构造函数；</li><li>在函数体内返回一个对象时，也会调用返回值类型的拷贝构造函数；</li><li>初始化序列容器中的元素时。比如 vector<string> svec(5)，string的缺省构造函数和拷贝构造函数都会被调用；</li><li>用列表的方式初始化数组元素时。string a[] &#x3D; {string(“hello”), string(“world”)}; 会调用string的拷贝构造函数。</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> cpp </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>git基础</title>
       <link href="/2023/11/28/git%E5%9F%BA%E7%A1%80/"/>
       <url>/2023/11/28/git%E5%9F%BA%E7%A1%80/</url>
