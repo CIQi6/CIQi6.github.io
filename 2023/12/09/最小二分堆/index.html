@@ -16,6 +16,16 @@
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
   <script src="/lib/pace/pace.min.js"></script>
+  <script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+  </script>
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
@@ -239,6 +249,16 @@
               <span>2 mins.</span>
             </span>
 
+        </div>
+
+        <div>
+          
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------ 本文结束------</div>
+    
+</div>
+          
         </div>
       </header>
 
