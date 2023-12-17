@@ -39,29 +39,6 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2023/11/11/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2023/11/11/test/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>git基础</title>
     <url>/2023/11/28/git%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h1 id="Git基础"><a href="#Git基础" class="headerlink" title="Git基础"></a>Git基础</h1><h2 id="文档内容"><a href="#文档内容" class="headerlink" title="文档内容"></a>文档内容</h2><p>本文档是关于学习 MIT——The missing semester 。 大致内容为从 git 的底层数据模型开始，学习 git 的内部实现，继而理解 git 各种命令。包括：git 如何对文件&#x2F;文件夹建模，历史快照（snapshots of history）是什么？</p>
@@ -166,6 +143,83 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
 ]]></content>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>graph</title>
+    <url>/2023/12/17/graph/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2023/11/11/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2023/11/11/test/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>tree</title>
+    <url>/2023/12/17/tree/</url>
+    <content><![CDATA[<h2 id="什么是树？"><a href="#什么是树？" class="headerlink" title="什么是树？"></a>什么是树？</h2><p>树的组成:</p>
+<ul>
+<li>一组节点 (nodes)</li>
+<li>一组连接着节点的边 (edges)<ul>
+<li>限制：任意两个节点只能有一条边</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://ooo.0x0.ooo/2023/12/17/OKB83I.png" alt="image-20231217151738479"></p>
+<p>如上图，绿色标记的是树，红色的不是树。</p>
+<h2 id="树有什么用？"><a href="#树有什么用？" class="headerlink" title="树有什么用？"></a>树有什么用？</h2><p>事实上，树结构是一个十分有用、高效的结构。在我们创建高效算法时非常有用：加快搜索速度、前缀、检查连接性等，例如 Search Trees，Tries，Heaps， Disjoint Sets。</p>
+<p>另外，我们日常生活中的，大部分都是树结构。例如，一个族谱，文件目录。</p>
+<h2 id="树的遍历"><a href="#树的遍历" class="headerlink" title="树的遍历"></a>树的遍历</h2><ul>
+<li>层次遍历 （Level order traversal）</li>
+<li>深度优先遍历 （Depth-First traversal）<ul>
+<li>先序遍历 （Pre-Order traversal）</li>
+<li>中序遍历 （In-Order traversal）</li>
+<li>后序遍历 （Post-Order traversal）</li>
+</ul>
+</li>
+</ul>
+<h2 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h2><p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
+<p>层次遍历就是从上到下，从左往右一次遍历。</p>
+<p>例如，上图的层次遍历序列为：D、B、F、A、C、E、G</p>
+<h2 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h2><p>先序遍历是先访问根节点，再访问左子树，访问右子树。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">preOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    <span class="built_in">print</span>(x.key)</span><br><span class="line">    preOrder(x.left)</span><br><span class="line">    preOrder(x.right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
+<p>先序遍历序列为: D、B、A、C、F、E、G</p>
+<h2 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h2><p>中序遍历是先访问左子树，再访问根节点，最后访问右子树。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">inOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    inOrder(x.left)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">    inOrder(x.right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
+<p>中序遍历序列为: A、B、C、D、E、F、G</p>
+<h2 id="后序遍历"><a href="#后序遍历" class="headerlink" title="## 后序遍历"></a>## 后序遍历</h2><p>后序遍历是先访问左子树，再访问右子树，最后访问根节点。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">postOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    postOrder(x.left)</span><br><span class="line">    postOrder(x.right)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
+<p>后序遍历序列为: A、C、B、E、G、F、D</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>Tree</tag>
+        <tag>Tree Traversals</tag>
       </tags>
   </entry>
   <entry>
@@ -338,60 +392,6 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
       <tags>
         <tag>dataStruct</tag>
         <tag>Heap</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>graph</title>
-    <url>/2023/12/17/graph/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>tree</title>
-    <url>/2023/12/17/tree/</url>
-    <content><![CDATA[<h2 id="什么是树？"><a href="#什么是树？" class="headerlink" title="什么是树？"></a>什么是树？</h2><p>树的组成:</p>
-<ul>
-<li>一组节点 (nodes)</li>
-<li>一组连接着节点的边 (edges)<ul>
-<li>限制：任意两个节点只能有一条边</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://ooo.0x0.ooo/2023/12/17/OKB83I.png" alt="image-20231217151738479"></p>
-<p>如上图，绿色标记的是树，红色的不是树。</p>
-<h2 id="树有什么用？"><a href="#树有什么用？" class="headerlink" title="树有什么用？"></a>树有什么用？</h2><p>事实上，树结构是一个十分有用、高效的结构。在我们创建高效算法时非常有用：加快搜索速度、前缀、检查连接性等，例如 Search Trees，Tries，Heaps， Disjoint Sets。</p>
-<p>另外，我们日常生活中的，大部分都是树结构。例如，一个族谱，文件目录。</p>
-<h2 id="树的遍历"><a href="#树的遍历" class="headerlink" title="树的遍历"></a>树的遍历</h2><ul>
-<li>层次遍历 （Level order traversal）</li>
-<li>深度优先遍历 （Depth-First traversal）<ul>
-<li>先序遍历 （Pre-Order traversal）</li>
-<li>中序遍历 （In-Order traversal）</li>
-<li>后序遍历 （Post-Order traversal）</li>
-</ul>
-</li>
-</ul>
-<h2 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h2><p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
-<p>层次遍历就是从上到下，从左往右一次遍历。</p>
-<p>例如，上图的层次遍历序列为：D、B、F、A、C、E、G</p>
-<h2 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h2><p>先序遍历是先访问根节点，再访问左子树，访问右子树。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">preOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    <span class="built_in">print</span>(x.key)</span><br><span class="line">    preOrder(x.left)</span><br><span class="line">    preOrder(x.right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
-<p>先序遍历序列为: D、B、A、C、F、E、G</p>
-<h2 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h2><p>中序遍历是先访问左子树，再访问根节点，最后访问右子树。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">inOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    inOrder(x.left)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">    inOrder(x.right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
-<p>中序遍历序列为: A、B、C、D、E、F、G</p>
-<h2 id="后序遍历"><a href="#后序遍历" class="headerlink" title="## 后序遍历"></a>## 后序遍历</h2><p>后序遍历是先访问左子树，再访问右子树，最后访问根节点。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">postOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    postOrder(x.left)</span><br><span class="line">    postOrder(x.right)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
-<p>后序遍历序列为: A、C、B、E、G、F、D</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>Tree</tag>
-        <tag>Tree Traversals</tag>
       </tags>
   </entry>
 </search>

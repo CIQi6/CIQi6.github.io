@@ -1,299 +1,62 @@
-<!DOCTYPE html>
-<html lang=en>
-<head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Memetor&#39;s Blog">
-<meta property="og:url" content="https://lightc.top/archives/2023/11/index.html">
-<meta property="og:site_name" content="Memetor&#39;s Blog">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="Memetor">
-<meta name="twitter:card" content="summary">
-    
-    
-      
-        
-          <link rel="shortcut icon" href="/images/favicon.ico">
-        
-      
-      
-        
-          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-        
-      
-      
-        
-          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-        
-      
-    
-    <!-- title -->
-    <title>Writing: 2023/11</title>
-    <!-- async scripts -->
-    <!-- Google Analytics -->
+{% extends '_layout.swig' %}
+{% import '_macro/post-collapse.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
+{% block title %}{{ __('title.archive') }} | {{ config.title }}{% endblock %}
 
-    <!-- Umami Analytics -->
+{% block page_class %}page-archive{% endblock %}
 
+{% block content %}
 
-    <!-- styles -->
-    
-<link rel="stylesheet" href="/css/style.css">
+  {#####################}
+  {### ARCHIVE BLOCK ###}
+  {#####################}
+  <div class="post-block archive">
+    <div id="posts" class="posts-collapse">
+      <span class="archive-move-on"></span>
 
-    <!-- persian styles -->
-    
-    <!-- rss -->
-    
-    
-	<!-- mathjax -->
-	
-<meta name="generator" content="Hexo 6.3.0"></head>
+      <span class="archive-page-counter">
+        {% set cheers %}
+        {% set posts_length = site.posts.length %}
+        {% if posts_length > 210 %} {% set cheers = 'excellent' %}
+          {% elif posts_length > 130 %} {% set cheers = 'great' %}
+          {% elif posts_length > 80 %} {% set cheers = 'good' %}
+          {% elif posts_length > 50 %} {% set cheers = 'nice' %}
+          {% elif posts_length > 30 %} {% set cheers = 'ok' %}
+        {% else %}
+          {% set cheers = 'um' %}
+        {% endif %}
+        {{ __('cheers.' + cheers) }}! {{ _p("counter.archive_posts", site.posts.length) }} {{ __('keep_on') }}
+      </span>
 
-<body class="max-width mx-auto px3 ltr">
-    
-    <div class="content index py4 ">
-        
-          <header id="header">
-  <a class="u-url u-uid" href="/">
-  
-    
-      <img id="logo" alt class="u-logo" src="/images/logo.png" />
-    
-  
-    <div id="title">
-      <h1 class="p-name">Memetor&#39;s Blog</h1>
+      {% for post in page.posts %}
+
+        {# Show year #}
+        {% set year %}
+        {% set post.year = date(post.date, 'YYYY') %}
+
+        {% if post.year !== year %}
+          {% set year = post.year %}
+          <div class="collection-title">
+            <{% if theme.seo %}h2{% else %}h1{% endif %} class="archive-year" id="archive-year-{{ year }}">{{ year }}</{% if theme.seo %}h2{% else %}h1{% endif %}>
+          </div>
+        {% endif %}
+        {# endshow #}
+
+        {{ post_template.render(post) }}
+
+      {% endfor %}
+
     </div>
-  </a>
-  <div id="nav">
-    <ul>
-      <li class="icon">
-        <a href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-2x"></i></a>
-      </li>
-      <!--
-     --><li><a href="/">Home</a></li><!--
-   --><!--
-     --><li><a href="/about/">About</a></li><!--
-   --><!--
-     --><li><a href="/archives/">Writing</a></li><!--
-   --><!--
-     --><li><a href="/search/">Search</a></li><!--
-   --><!--
-     --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">Projects</a></li><!--
-   -->
-    </ul>
   </div>
-</header>
+  {#########################}
+  {### END ARCHIVE BLOCK ###}
+  {#########################}
 
-        
-        <div id="archive">
-  <ul class="post-list">
-    
-    
-    
-    
-      
-      
-      
-      
-        <li class="post-year"><h2>2023</h2></li>
-      
-      <li class="post-item">
-        
-    <div class="meta">
-      
-        
-          <time datetime="2023-11-30T15:45:39.000Z" class="dt-published" itemprop="datePublished">2023-11-30</time>
-        
-      
-    </div>
+  {% include '_partials/pagination.swig' %}
 
+{% endblock %}
 
-        <span>
-    
-        <a class="" href="/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/">copy constructor 杂谈(一)</a>
-    
-
-
-</span>
-      </li>
-    
-      
-      
-      
-      
-      <li class="post-item">
-        
-    <div class="meta">
-      
-        
-          <time datetime="2023-11-28T14:15:46.000Z" class="dt-published" itemprop="datePublished">2023-11-28</time>
-        
-      
-    </div>
-
-
-        <span>
-    
-        <a class="" href="/2023/11/28/git%E5%9F%BA%E7%A1%80/">git基础</a>
-    
-
-
-</span>
-      </li>
-    
-      
-      
-      
-      
-      <li class="post-item">
-        
-    <div class="meta">
-      
-        
-          <time datetime="2023-11-19T13:20:30.000Z" class="dt-published" itemprop="datePublished">2023-11-19</time>
-        
-      
-    </div>
-
-
-        <span>
-    
-        <a class="" href="/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/">tmux食用指南</a>
-    
-
-
-</span>
-      </li>
-    
-      
-      
-      
-      
-      <li class="post-item">
-        
-    <div class="meta">
-      
-        
-          <time datetime="2023-11-11T02:04:08.000Z" class="dt-published" itemprop="datePublished">2023-11-11</time>
-        
-      
-    </div>
-
-
-        <span>
-    
-        <a class="" href="/2023/11/11/test/">test</a>
-    
-
-
-</span>
-      </li>
-    
-      
-      
-      
-      
-      <li class="post-item">
-        
-    <div class="meta">
-      
-        
-          <time datetime="2023-11-11T00:28:33.574Z" class="dt-published" itemprop="datePublished">2023-11-11</time>
-        
-      
-    </div>
-
-
-        <span>
-    
-        <a class="" href="/2023/11/11/hello-world/">Hello World</a>
-    
-
-
-</span>
-      </li>
-    
-  </ul>
-  
-
-</div>
-
-        
-        
-<footer id="footer">
-  <div class="footer-left">
-    Copyright &copy;
-    
-    
-    2016-2023
-    Memetor
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-        <!--
-      --><li><a href="/">Home</a></li><!--
-    --><!--
-      --><li><a href="/about/">About</a></li><!--
-    --><!--
-      --><li><a href="/archives/">Writing</a></li><!--
-    --><!--
-      --><li><a href="/search/">Search</a></li><!--
-    --><!--
-      --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">Projects</a></li><!--
-    -->
-      </ul>
-      <ul>
-        
-          <!-- 不蒜子统计 -->
-          <span id="busuanzi_container_site_pv">
-              本站总访问量<span id="busuanzi_value_site_pv"></span>次
-          </span>
-          <span class="post-meta-divider">|</span>
-          <span id="busuanzi_container_site_uv" style='display:none'>
-                  本站访客数<span id="busuanzi_value_site_uv"></span>人
-          </span>
-        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-        
-      </ul>
-    </nav>
-  </div>
-  
-</footer>
-
-    </div>
-    <!-- styles -->
-
-
-
-  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
-
-
-    <!-- jquery -->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
-
-
-
-
-<!-- clipboard -->
-
-
-<script src="/js/main.js"></script>
-
-<!-- search -->
-
-<!-- Baidu Analytics -->
-
-<!-- Cloudflare Analytics -->
-
-<!-- Disqus Comments -->
-
-<!-- utterances Comments -->
-
-</body>
-</html>
+{% block sidebar %}
+  {{ sidebar_template.render(false) }}
+{% endblock %}
