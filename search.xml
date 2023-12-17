@@ -1,397 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>copy constructor 杂谈(一)</title>
-    <url>/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/</url>
-    <content><![CDATA[<h1 id="copy-constructor-的杂谈"><a href="#copy-constructor-的杂谈" class="headerlink" title="copy constructor 的杂谈"></a>copy constructor 的杂谈</h1><pre><code>copy constructor 为什么第一个参数必须为引用类型？
-</code></pre>
-<p>为了减少一次内存拷贝吗？</p>
-<p>仔细想想，并不是这个原因。</p>
-<hr>
-<blockquote>
-<pre><code>The fact that the copy constructor is used to initialize nonreference parameters of
-class type explains why the copy constructor’s own parameter must be a reference. If
-that parameter were not a reference, then the call would never succeed—to call the
-copy constructor, we’d need to use the copy constructor to copy the argument, but to
-copy the argument, we’d need to call the copy constructor, and so on indefinitely.
-</code></pre>
-</blockquote>
-<p>这是 cpp Primer 对此的解释。</p>
-<p>是的，避免 copy constructor 函数无限递归，最终造成栈溢出。</p>
-<hr>
-<p>如果 copy constructor 第一个参数为非引用类型，即通过传值的方式。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">string str1 = <span class="string">&quot;999&quot;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>为了调用 copy constructor ，我们需要把我们传给 copy constructor 的参数（例如： string(“999”) ），给 copy constructor 参数类表中， 又因为参数列表中的参数是未构造的，而我们又通过传值的方式传递。因此，我们又需要调用一次 copy constructor 。最终陷入无限递归。</p>
-<p>在下面几种情况下会调用拷贝构造函数：</p>
-<ul>
-<li>显式或隐式地用同类型的一个对象来初始化另外一个对象。</li>
-<li>作为实参传递给一个参数为非引用类型的函数。</li>
-<li>在函数体内返回一个非引用类型对象时。</li>
-<li>初始化序列容器中的元素时。比如 <code>vector&lt;string&gt; svec(5)</code>。</li>
-<li>用列表的方式初始化数组元素时。<code>string a[] = &#123;string(“hello”), string(“world”)&#125;;</code> 。</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>cpp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2023/11/11/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>git基础</title>
-    <url>/2023/11/28/git%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h1 id="Git基础"><a href="#Git基础" class="headerlink" title="Git基础"></a>Git基础</h1><h2 id="文档内容"><a href="#文档内容" class="headerlink" title="文档内容"></a>文档内容</h2><p>本文档是关于学习 MIT——The missing semester 。 大致内容为从 git 的底层数据模型开始，学习 git 的内部实现，继而理解 git 各种命令。包括：git 如何对文件&#x2F;文件夹建模，历史快照（snapshots of history）是什么？</p>
-<h2 id="Git-的简单介绍"><a href="#Git-的简单介绍" class="headerlink" title="Git 的简单介绍"></a>Git 的简单介绍</h2><p>Git 是一个版本控制系统 (VCS)，在构建大型项目或者团队协作上十分方便。</p>
-<h2 id="Git-的-Data-Model"><a href="#Git-的-Data-Model" class="headerlink" title="Git 的 Data Model"></a>Git 的 Data Model</h2><h3 id="Git-对文件-文件夹的建模"><a href="#Git-对文件-文件夹的建模" class="headerlink" title="Git 对文件&#x2F;文件夹的建模"></a>Git 对文件&#x2F;文件夹的建模</h3><p>Git 把历史记录建模为某个顶层目录中的文件和文件夹的集合。</p>
-<p>git 把文件夹 建模为 `tree` ，文件为 `blob`。这是一个递归的结构。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;root&gt; (tree)</span><br><span class="line">|</span><br><span class="line">+- foo (tree)</span><br><span class="line">|  |</span><br><span class="line">|  + bar.txt (blob, contents = &quot;hello world&quot;)</span><br><span class="line">|</span><br><span class="line">+- baz.txt (blob, contents = &quot;git is wonderful&quot;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="历史快照的建模"><a href="#历史快照的建模" class="headerlink" title="历史快照的建模"></a>历史快照的建模</h3><p>历史快照（ snapshots of history ）。类似于带时间戳的文件夹副本。Git 使用有向无环图来模拟历史。</p>
-<p>类似下面，一个圆圈代表一个快照。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">o &lt;-- o &lt;-- o &lt;-- o</span><br><span class="line">            ^</span><br><span class="line">             \</span><br><span class="line">              --- o &lt;-- o</span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">o &lt;-- o &lt;-- o &lt;-- o &lt;---- o</span><br><span class="line">            ^            /</span><br><span class="line">             \          v</span><br><span class="line">              --- o &lt;-- o</span><br></pre></td></tr></table></figure>
-
-<p>进一步探究细节，每个快照（圆圈）包含一些元数据，例如：提交的作者，以及其他和提交相关的消息等等元数据。</p>
-<h3 id="模型数据"><a href="#模型数据" class="headerlink" title="模型数据"></a>模型数据</h3><p>下面以伪代码的形式介绍以上模型数据的实现。</p>
-<p>blob （文件模型）是一个字节数组，tree （文件夹模型）是一个映射，其文件夹名 | 文件名 string 映射到具体文件夹 | 文件。历史快照模型是一个叫 commit 的结构，其包含父快照，一些元数据和快照。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type blob = array &lt;byte&gt;</span><br><span class="line">type tree = map&lt;string, tree|blod&gt; </span><br><span class="line">type commit = Struct &#123;</span><br><span class="line">		parents : array&lt;byte&gt;</span><br><span class="line">		author : String</span><br><span class="line">		message : String</span><br><span class="line">		snapshots : tress</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="git-对实际数据的存储和寻址"><a href="#git-对实际数据的存储和寻址" class="headerlink" title="git 对实际数据的存储和寻址"></a>git 对实际数据的存储和寻址</h3><p>让我们更进一步，深入探究 git 如何对实际数据的存储和寻址。</p>
-<p>git 定义一个 object 对象，它可以是 blob 、tree、commit。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type object = blod | tree | commit</span><br></pre></td></tr></table></figure>
-
-<p>在 git 中，所有 object 都是内容寻址的。</p>
-<p>git 在磁盘中存储的是一组 object 。这些 object 被保存在一个 &lt; 地址, 内容 &gt; 的哈希表中。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">objects = map&lt;String, object&gt;</span><br></pre></td></tr></table></figure>
-
-<p>所有存储一个对象的方式是把一个它的键（对象的哈希值）放入哈希表中。</p>
-<p>伪代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">def store(o):</span><br><span class="line">	id = sha1(o) //通过SHA-1哈希计算id</span><br><span class="line">	objects[id] = o</span><br><span class="line"></span><br><span class="line">def load(id):</span><br><span class="line">	return objects[id]</span><br></pre></td></tr></table></figure>
-
-
-
-<p>BTW，看起来一个 commit 包含了很多内容，事实上 commit 里面都是指针。 git 的所有对象都存储在 objects 表中。 git 中不同对象的引用都是通过它们的 id —— SHA-1 哈希。</p>
-<p>通过上面，我们已经知道了 git 的数据可以看成是一个 object ，我们可以通过它的 id —— SHA1 哈希，来获取 object 。哈希函数生成的 id 对我们来说就是一串无意义的随机字符串，git 为了便于阅读，git 维护一组对象，然后维护一组引用。</p>
-<p>引用是一个 string 到 string （哈希 id）的哈希表。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">reference = map&lt;string, string&gt;</span><br></pre></td></tr></table></figure>
-
-<p> 简单理解就是引用把哈希 id 映射到我们能够看懂的字符。例如： 我们有一个 commit id 为 45d13a8….bcee5f ，我们把它映射成 “fix encode bug”。</p>
-<h2 id="git-命令"><a href="#git-命令" class="headerlink" title="git 命令"></a>git 命令</h2><h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><h4 id="撤销操作-1"><a href="#撤销操作-1" class="headerlink" title="撤销操作"></a>撤销操作</h4><p>当你提交后发现漏了几个文件，或者需要修改提交信息。</p>
-<p>使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git commit --amend</span><br></pre></td></tr></table></figure>
-
-<p>这个命令会将暂存区中的文件提交。 如果自上次提交以来你还未做任何修改（例如，在上次提交后马上执行了此命令）， 那么快照会保持不变，而你所修改的只是提交信息。</p>
-<blockquote>
-<p>Note：当你在修补最后的提交时，与其说是修复旧提交，倒不如说是完全用一个 <strong>新的提交</strong> 替换旧的提交， 理解这一点非常重要。从效果上来说，就像是旧有的提交从未存在过一样，它并不会出现在仓库的历史中。</p>
-<p>修补提交最明显的价值是可以稍微改进你最后的提交，而不会让“啊，忘了添加一个文件”或者 “小修补，修正笔误”这种提交信息弄乱你的仓库历史。</p>
-</blockquote>
-<h4 id="取消暂缓文件"><a href="#取消暂缓文件" class="headerlink" title="取消暂缓文件"></a>取消暂缓文件</h4><p>如果你需要撤销暂缓文件</p>
-<p>使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git reset HEAD &lt;file&gt;...</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Note：<code>git reset</code> 确实是个危险的命令，如果加上了 <code>--hard</code> 选项则更是如此。 如果工作目录中的文件尚未修改，相对安全一些。</p>
-</blockquote>
-<h4 id="撤销对文件的修改"><a href="#撤销对文件的修改" class="headerlink" title="撤销对文件的修改"></a>撤销对文件的修改</h4><p>如果你并不想保留对 <code>CONTRIBUTING.md</code> 文件的修改怎么办？ 你该如何方便地撤消修改——将它还原成上次提交时的样子（或者刚克隆完的样子，或者刚把它放入工作目录时的样子）？</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout -- &lt;file&gt;...</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Note：请务必记得 <code>git checkout — &lt;file&gt;</code> 是一个危险的命令。 你对那个文件在本地的任何修改都会消失——Git 会用最近提交的版本覆盖掉它。 除非你确实清楚不想要对那个文件的本地修改了，否则请不要使用这个命令。</p>
-</blockquote>
-<p>git 已经提交了的任何东西都可以恢复，但没有提交的不行。</p>
-<h3 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h3><p>远程仓库——托管在互联网或其他网络上的你的项目的版本库。</p>
-<p>通常，这些远程仓库对你只读，一些可以读写。与他人协同工作时涉及管理远程仓库和根据需求推送或者拉取数据。</p>
-<h4 id="查看远程仓库"><a href="#查看远程仓库" class="headerlink" title="查看远程仓库"></a>查看远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote</span><br></pre></td></tr></table></figure>
-
-<p>它会列出你指定的每一个远程服务器的简写。</p>
-<p>如果你克隆了自己的仓库，那么你会看到 origin——Git 给你克隆仓库的默认名字。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git clone https://github.com/schacon/ticgit</span><br><span class="line">Cloning into &#x27;ticgit&#x27;...</span><br><span class="line">remote: Reusing existing pack: 1857, done.</span><br><span class="line">remote: Total 1857 (delta 0), reused 0 (delta 0)</span><br><span class="line">Receiving objects: 100% (1857/1857), 374.35 KiB | 268.00 KiB/s, done.</span><br><span class="line">Resolving deltas: 100% (772/772), done.</span><br><span class="line">Checking connectivity... done.</span><br><span class="line">$ cd ticgit</span><br><span class="line">$ git remote</span><br><span class="line">origin</span><br></pre></td></tr></table></figure>
-
-<p>指定选行 -v，会显示需要读写远程仓库使用的 Git 保存的简写与其对应的 URL。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">origin	https://github.com/schacon/ticgit (fetch)</span><br><span class="line">origin	https://github.com/schacon/ticgit (push)</span><br></pre></td></tr></table></figure>
-
-<h4 id="提交远程仓库"><a href="#提交远程仓库" class="headerlink" title="提交远程仓库"></a>提交远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote add &lt;shortname&gt; &lt;url&gt;</span><br></pre></td></tr></table></figure>
-
-<p>shortname 是你给远程仓库设置的名字。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git remote</span><br><span class="line">origin</span><br><span class="line">$ git remote add pb https://github.com/paulboone/ticgit</span><br><span class="line">$ git remote -v</span><br><span class="line">origin	https://github.com/schacon/ticgit (fetch)</span><br><span class="line">origin	https://github.com/schacon/ticgit (push)</span><br><span class="line">pb	https://github.com/paulboone/ticgit (fetch)</span><br><span class="line">pb	https://github.com/paulboone/ticgit (push)</span><br></pre></td></tr></table></figure>
-
-<p>提交完后，你可以使用你给远程仓库设置的名字来代替远程仓库的 url。</p>
-<p>例如</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git fetch pb</span><br><span class="line">remote: Counting objects: 43, done.</span><br><span class="line">remote: Compressing objects: 100% (36/36), done.</span><br><span class="line">remote: Total 43 (delta 10), reused 31 (delta 5)</span><br><span class="line">Unpacking objects: 100% (43/43), done.</span><br><span class="line">From https://github.com/paulboone/ticgit</span><br><span class="line"> * [new branch]      master     -&gt; pb/master</span><br><span class="line"> * [new branch]      ticgit     -&gt; pb/ticgit</span><br></pre></td></tr></table></figure>
-
-<h4 id="从远程仓库中抓取和拉取"><a href="#从远程仓库中抓取和拉取" class="headerlink" title="从远程仓库中抓取和拉取"></a>从远程仓库中抓取和拉取</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git fetch &lt;remote&gt;</span><br></pre></td></tr></table></figure>
-
-<p>这个命令会访问远程仓库，从中拉取所有你还没有的数据。 执行完成后，你将会拥有那个远程仓库中所有分支的引用，可以随时合并或查看。</p>
-<p>如果你使用 <code>clone</code> 命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以 “origin” 为简写。 所以，<code>git fetch origin</code> 会抓取克隆（或上一次抓取）后新推送的所有工作。 必须注意 <code>git fetch</code> 命令只会将数据下载到你的本地仓库——它并不会自动合并或修改你当前的工作。</p>
-<h4 id="推送到远程仓库"><a href="#推送到远程仓库" class="headerlink" title="推送到远程仓库"></a>推送到远程仓库</h4><p>如果你想分享你的项目，你可以推送到上游。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git push &lt;remote&gt; &lt;branch&gt;</span><br></pre></td></tr></table></figure>
-
-<h4 id="查看某个远程仓库"><a href="#查看某个远程仓库" class="headerlink" title="查看某个远程仓库"></a>查看某个远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote show &lt;remote&gt;</span><br></pre></td></tr></table></figure>
-
-<p>可以查看某个远程仓库。它会列出 url 和跟踪分支的信息。</p>
-<h4 id="远程仓库重名和移除"><a href="#远程仓库重名和移除" class="headerlink" title="远程仓库重名和移除"></a>远程仓库重名和移除</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote rename &lt;name&gt; &lt;rename&gt;</span><br></pre></td></tr></table></figure>
-
-<p>可以更改仓库名字。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote remove &lt;remote&gt;</span><br></pre></td></tr></table></figure>
-
-<p>可以移除某个远程仓库。</p>
-]]></content>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2023/11/11/test/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>graph</title>
-    <url>/2023/12/17/graph/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>tmux食用指南</title>
-    <url>/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/</url>
-    <content><![CDATA[<h1 id="tmux食用指南"><a href="#tmux食用指南" class="headerlink" title="tmux食用指南"></a>tmux食用指南</h1><h2 id="什么是tmux"><a href="#什么是tmux" class="headerlink" title="什么是tmux"></a>什么是tmux</h2><p>tmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入<code>sleep 2000</code>命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。</p>
-<h2 id="tmux的基本概念"><a href="#tmux的基本概念" class="headerlink" title="tmux的基本概念"></a>tmux的基本概念</h2><p>tmux中有三个重要的概念：session、window、pane.</p>
-<p>它们的结构如下：</p>
-<hr>
-<p>——session00</p>
-<p>​		——window00</p>
-<p>​				——pane00</p>
-<p>​		——window01</p>
-<p>——session01</p>
-<p>​		——window00</p>
-<hr>
-<p>session包含window，window包含pane。</p>
-<p>session类似我们的浏览器，window类似于浏览器的标签页，pane类似于网页里面的各个部件。</p>
-<h2 id="tmux的操作"><a href="#tmux的操作" class="headerlink" title="tmux的操作"></a>tmux的操作</h2><p>开启的我们tmux之旅。</p>
-<p>在安装往tmux后。</p>
-<h3 id="新建session"><a href="#新建session" class="headerlink" title="新建session"></a>新建session</h3><p>我们输入<code>tmux </code>，就可以新建一个session。输入后会发现，好像什么也没变，你依旧在shell环境里。</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606162947547.png" alt="image-20230606162947547"></p>
-<p>其实你已经在tmux的shell里。</p>
-<p>shell—&gt;tmux—&gt;shell</p>
-<p>底下是tmux 的state bar。左边是一些window的信息，你使用&lt;C-b ,&gt;来更改window的名字。按&lt;C-b ，&gt; (注：C指ctrl, -表示同时)。&lt;C-b ,&gt;表示同时按下ctrl键和,键，松开，再按下,键。&lt;C-b&gt;是tmux的一个命令前缀，所有命令要加&lt;C-b&gt;。如果你了解Emacs，这对你来说再熟悉不过了。</p>
-<p>如果你想要退出tmux</p>
-<p>按&lt;C-b d&gt; ，然后你会从tmux里脱离(detach)出来。</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606163449662.png" alt="image-20230606163449662"></p>
-<p>在shell中输入<code>tmux ls</code>可以看到你之前创建的session。</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606163630568.png" alt="image-20230606163630568"></p>
-<p>我们可以看到0: 1 windows (created Tue Jun  6 16:29:32 2023)</p>
-<p>0指我们之前创建的session的名字，因为我们创建时没有指定name，所以默认0，1，2。冒号：后面是session 0 里面的内容，可以看到有一个window。如果我们在创建session是可以使用命令<code>tmux new -s name</code>。</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606164012156.png" alt="image-20230606164012156"></p>
-<p>如果要回到detach后的session.输入<code>tmux attach -t name</code>，就可以回到相应的session里面，或者输入<code>tmux a -t name</code>，a是attach的缩写。</p>
-<h3 id="新建window"><a href="#新建window" class="headerlink" title="新建window"></a>新建window</h3><p>session里面后，如果我们想要新建一个window，&lt;C-b c&gt;。</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606164936613.png" alt="image-20230606164936613"></p>
-<p>可以从state bar左边看到，我们新建了两个window1，2。下面我们学习如何在window之间移动。</p>
-<p>窗口名字后面的*代表你在哪个window里。</p>
-<p>&lt;C-b n&gt;移动到下 一个window。</p>
-<p>&lt;C-b p&gt;移动到上一个window。</p>
-<p>&lt;C-b 0&gt;移动到第一个window，&lt;C-b 1&gt;….同理。</p>
-<p>&lt;C-b &amp;&gt;可以关闭当前window。我更喜欢使用shell命令&lt;C-d&gt;</p>
-<h3 id="分离pane"><a href="#分离pane" class="headerlink" title="分离pane"></a>分离pane</h3><p>&lt;C-b %&gt;垂直分隔pane</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165657621.png" alt="image-20230606165657621"></p>
-<p>&lt;C-b “&gt;水平分隔pane</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165721587.png" alt="image-20230606165721587"></p>
-<p>&lt;C-b arrow&gt;（arrow指箭头键）在pane在移动。</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165954495.png" alt="image-20230606165954495"></p>
-<p>&lt;C-b space&gt;改变pane排列的样式</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606170044638.png" alt="image-20230606170044638"></p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606170056275.png" alt="image-20230606170056275"></p>
-<p>&lt;C-b z&gt;放大当前pane</p>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>恭喜你，你已经学会了tmux的基本操作了，你可以灵活的使用tmux来进行更好的开发。如果你想要了解更多tmux的操作，不妨去tmux官方文档或者社区一起交流。噢，对了。&lt;C-b ?&gt;可以了解到更多的tmux命令。</p>
-<h2 id="tmux命令总结-复习"><a href="#tmux命令总结-复习" class="headerlink" title="tmux命令总结&#x2F;复习"></a>tmux命令总结&#x2F;复习</h2><ul>
-<li>session - 每个会话都是一个独立的工作区，其中包含一个或多个窗口<ul>
-<li><code>tmux</code> 开始一个新的会话</li>
-<li><code>tmux new -s NAME</code> 以指定名称开始一个新的会话</li>
-<li><code>tmux ls</code> 列出当前所有会话</li>
-<li>在 <code>tmux</code> 中输入 <code>&lt;C-b&gt; d</code> ，将当前会话分离</li>
-<li><code>tmux a</code> 重新连接最后一个会话。您也可以通过 <code>-t</code> 来指定具体的会话</li>
-</ul>
-</li>
-<li>window  - 相当于编辑器或是浏览器中的标签页，从视觉上将一个会话分割为多个部分<ul>
-<li><code>&lt;C-b&gt; c</code> 创建一个新的窗口，使用 <code>&lt;C-d&gt;</code>关闭</li>
-<li><code>&lt;C-b&gt; N</code> 跳转到第 <em>N</em> 个窗口，注意每个窗口都是有编号的</li>
-<li><code>&lt;C-b&gt; p</code> 切换到前一个窗口</li>
-<li><code>&lt;C-b&gt; n</code> 切换到下一个窗口</li>
-<li><code>&lt;C-b&gt; ,</code> 重命名当前窗口</li>
-<li><code>&lt;C-b&gt; w</code> 列出当前所有窗口</li>
-</ul>
-</li>
-<li>pane  - 像 vim 中的分屏一样，面板使我们可以在一个屏幕里显示多个 shell<ul>
-<li><code>&lt;C-b&gt; &quot;</code> 水平分割</li>
-<li><code>&lt;C-b&gt; %</code> 垂直分割</li>
-<li><code>&lt;C-b&gt; &lt;方向&gt;</code> 切换到指定方向的面板，&lt;方向&gt; 指的是键盘上的方向键</li>
-<li><code>&lt;C-b&gt; z</code> 切换当前面板的缩放</li>
-<li><code>&lt;C-b&gt; [</code> 开始往回卷动屏幕。您可以按下空格键来开始选择，回车键复制选中的部分</li>
-<li><code>&lt;C-b&gt; &lt;空格&gt;</code> 在不同的面板排布间切换</li>
-</ul>
-</li>
-</ul>
-<h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><p>——<a href="https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/">A Quick and Easy Guide to tmux </a>                 一份tmux的快速入门（看完本文后，可以不看）</p>
-<p>——<a href="http://linuxcommand.org/lc3_adv_termmux.php">Linux Command Line Adventure: Terminal Multiplexers</a> 		一篇更加详细的文章，它也包含了<code>screen</code>的内容</p>
-]]></content>
-      <tags>
-        <tag>tmux tool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>tree</title>
-    <url>/2023/12/17/tree/</url>
-    <content><![CDATA[<h2 id="什么是树？"><a href="#什么是树？" class="headerlink" title="什么是树？"></a>什么是树？</h2><p>树的组成:</p>
-<ul>
-<li>一组节点 (nodes)</li>
-<li>一组连接着节点的边 (edges)<ul>
-<li>限制：任意两个节点只能有一条边</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://ooo.0x0.ooo/2023/12/17/OKB83I.png" alt="image-20231217151738479"></p>
-<p>如上图，绿色标记的是树，红色的不是树。</p>
-<h2 id="树有什么用？"><a href="#树有什么用？" class="headerlink" title="树有什么用？"></a>树有什么用？</h2><p>事实上，树结构是一个十分有用、高效的结构。在我们创建高效算法时非常有用：加快搜索速度、前缀、检查连接性等，例如 Search Trees，Tries，Heaps， Disjoint Sets。</p>
-<p>另外，我们日常生活中的，大部分都是树结构。例如，一个族谱，文件目录。</p>
-<h2 id="树的遍历"><a href="#树的遍历" class="headerlink" title="树的遍历"></a>树的遍历</h2><ul>
-<li>层次遍历 （Level order traversal）</li>
-<li>深度优先遍历 （Depth-First traversal）<ul>
-<li>先序遍历 （Pre-Order traversal）</li>
-<li>中序遍历 （In-Order traversal）</li>
-<li>后序遍历 （Post-Order traversal）</li>
-</ul>
-</li>
-</ul>
-<h2 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h2><p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
-<p>层次遍历就是从上到下，从左往右一次遍历。</p>
-<p>例如，上图的层次遍历序列为：D、B、F、A、C、E、G</p>
-<h2 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h2><p>先序遍历是先访问根节点，再访问左子树，访问右子树。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">preOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    <span class="built_in">print</span>(x.key)</span><br><span class="line">    preOrder(x.left)</span><br><span class="line">    preOrder(x.right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
-<p>先序遍历序列为: D、B、A、C、F、E、G</p>
-<h2 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h2><p>中序遍历是先访问左子树，再访问根节点，最后访问右子树。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">inOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    inOrder(x.left)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">    inOrder(x.right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
-<p>中序遍历序列为: A、B、C、D、E、F、G</p>
-<h2 id="后序遍历"><a href="#后序遍历" class="headerlink" title="## 后序遍历"></a>## 后序遍历</h2><p>后序遍历是先访问左子树，再访问右子树，最后访问根节点。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">postOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    postOrder(x.left)</span><br><span class="line">    postOrder(x.right)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
-<p>后序遍历序列为: A、C、B、E、G、F、D</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>Tree</tag>
-        <tag>Tree Traversals</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>优先队列</title>
-    <url>/2023/12/09/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/</url>
-    <content><![CDATA[<h2 id="什么是优先队列"><a href="#什么是优先队列" class="headerlink" title="什么是优先队列"></a>什么是优先队列</h2><p>优先队列是一种用来优化处理最大值或最小值的 ADT 。使用这种结构可以给我们处理涉及最大值或最小值带来时间&#x2F;空间优势。</p>
-<h2 id="优先队列接口"><a href="#优先队列接口" class="headerlink" title="优先队列接口"></a>优先队列接口</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">interface MinPQ&lt;Item&gt; &#123;</span><br><span class="line">	// 将 Item x 添加到 PQ</span><br><span class="line">	add (Item x);</span><br><span class="line">	</span><br><span class="line">	// 返回队列中最小值的引用</span><br><span class="line">	getSmallest();</span><br><span class="line">	</span><br><span class="line">	// 移除队列中最小值并返回</span><br><span class="line">	removeSmallest();</span><br><span class="line">	</span><br><span class="line">	// 返回队列的大小</span><br><span class="line">	size();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="优先队列的实现"><a href="#优先队列的实现" class="headerlink" title="优先队列的实现"></a>优先队列的实现</h2><p>可以使用有序数组（Ordered Array）、二叉查找树（Bushy BST）、哈希表（HashTable）、堆（Heap）结构实现。</p>
-<ul>
-<li>Ordered Array<ul>
-<li><code>add</code>: Θ(<em>N</em>)</li>
-<li><code>getSmallest</code>: Θ(1)</li>
-<li><code>removeSmallest</code>: Θ(<em>N</em>)</li>
-</ul>
-</li>
-<li>Bushy BST<ul>
-<li><code>add</code>: Θ(log<em>N</em>)</li>
-<li><code>getSmallest</code>: Θ(log<em>N</em>)</li>
-<li><code>removeSmallest</code>: Θ(log<em>N</em>)</li>
-</ul>
-</li>
-<li>HashTable<ul>
-<li><code>add</code>: Θ(1)</li>
-<li><code>getSmallest</code>: Θ(<em>N</em>)</li>
-<li><code>removeSmallest</code>: Θ(<em>N</em>)</li>
-</ul>
-</li>
-<li>Heap<ul>
-<li>add : Θ(log<em>N</em>)</li>
-<li>getSmallest : Θ(1)</li>
-<li>removeSmallest : Θ(log<em>N</em>)</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>dataStruct</tag>
-        <tag>Priority Queue</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>堆</title>
-    <url>/2023/12/09/%E6%9C%80%E5%B0%8F%E4%BA%8C%E5%88%86%E5%A0%86/</url>
-    <content><![CDATA[<h2 id="什么是最小二分堆-binary-min-heap"><a href="#什么是最小二分堆-binary-min-heap" class="headerlink" title="什么是最小二分堆 (binary min-heap)"></a>什么是最小二分堆 (binary min-heap)</h2><p>堆是一颗完整的树，而且满足最小堆性质。</p>
-<ul>
-<li>最小堆：每个节点都小于等于子节点。</li>
-<li>完整：仅在最底层有缺失值，且所有节点尽可能靠左。</li>
-</ul>
-<h2 id="最小二分堆的操作"><a href="#最小二分堆的操作" class="headerlink" title="最小二分堆的操作"></a>最小二分堆的操作</h2><ul>
-<li>add ： 将值暂时添加到末尾，“ Swim up” 到合适的位置。<ul>
-<li>swim up ：如果子节点小于父节点，则交换两个节点。</li>
-</ul>
-</li>
-<li>getSmallest ：返回根节点的引用</li>
-<li>removeSmallest ：交换根节点和堆的最后一个节点，” Sink down “ 到合适的位置。<ul>
-<li>sink down ：如果父节点大于子节点，则交换两个节点。</li>
-</ul>
-</li>
-</ul>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>我们已经知道堆是一种满足特殊性质的树。</p>
-<h3 id="树结构实现"><a href="#树结构实现" class="headerlink" title="树结构实现"></a>树结构实现</h3><h4 id="用三叉树实现"><a href="#用三叉树实现" class="headerlink" title="用三叉树实现"></a>用三叉树实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tree1A</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key k;</span><br><span class="line">  Tree1A left;</span><br><span class="line">  Tree1A middle;</span><br><span class="line">  Tree1A right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/09/OA0gkr.png" alt="image-20231209210055087"></p>
-<h4 id="用异构树实现"><a href="#用异构树实现" class="headerlink" title="用异构树实现"></a>用异构树实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tree1B</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key k;</span><br><span class="line">  Tree1B[] children;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/09/OA0Knv.png" alt="image-20231209210322901"></p>
-<h4 id="用兄弟树实现"><a href="#用兄弟树实现" class="headerlink" title="用兄弟树实现"></a>用兄弟树实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tree1C</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key k;</span><br><span class="line">  Tree1C favoredChild;</span><br><span class="line">  Tree1C sibling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/09/OA0v6c.png" alt="image-20231209210255548"></p>
-<h3 id="用数组来实现"><a href="#用数组来实现" class="headerlink" title="用数组来实现"></a>用数组来实现</h3><p>我们也可以用数组来表示树结构，从而实现堆。</p>
-<p>为了表示一棵树，我们可以存储 keys 数组以及 parent 数组。keys 数组表示哪个索引映射到哪个节点，parent 数组表示哪个节点是另一个节点的子节点。</p>
-<p>[<img src="https://ooo.0x0.ooo/2023/12/09/OA0v6c.png" alt="OA0v6c.png"></p>
-<p><img src="https://ooo.0x0.ooo/2023/12/09/OA0mpM.png" alt="OA0mpM.png"></p>
-<h3 id="对数组表示的进一步优化"><a href="#对数组表示的进一步优化" class="headerlink" title="对数组表示的进一步优化"></a>对数组表示的进一步优化</h3><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0P51.png" alt="OA0P51.png"></p>
-<p>观察上图，我们知道 parents 数组是冗余的，我们不需要它就可以表示顺序。设 k 为节点序号，(k-1) &#x2F; 2，得到该节点对应的父节点的序号。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TreeC</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key[] keys;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">swim</span><span class="params">(<span class="type">int</span> k)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (keys[parent(k)] ≻ keys[k]) &#123;</span><br><span class="line">       swap(k, parent(k));</span><br><span class="line">       swim(parent(k));              </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>为了让我们是序号更加合理<code>（0 - 1）/ 2 </code>，以及实现从节点得到子节点。我们让节点序号从 1 开始。这样 左孩子节点的序号为 <code>k*2</code>，右孩子节点序号为 <code>k*2+1</code>，父节点序号为 <code>k/2</code>。</p>
-<p><img src="https://ooo.0x0.ooo/2023/12/09/OA0pYG.png" alt="OA0pYG.png"></p>
-]]></content>
-      <tags>
-        <tag>dataStruct</tag>
-        <tag>Heap</tag>
-      </tags>
-  </entry>
+<search> 
+  
+  
+    
+    <entry>
+      <title>graph</title>
+      <link href="/2023/12/17/graph/"/>
+      <url>/2023/12/17/graph/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Algorithm </tag>
+            
+            <tag> Graph </tag>
+            
+            <tag> Graph Traversals </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>tree</title>
+      <link href="/2023/12/17/tree/"/>
+      <url>/2023/12/17/tree/</url>
+      
+        <content type="html"><![CDATA[<h2 id="什么是树？"><a href="#什么是树？" class="headerlink" title="什么是树？"></a>什么是树？</h2><p>树的组成:</p><ul><li>一组节点 (nodes)</li><li>一组连接着节点的边 (edges)<ul><li>限制：任意两个节点只能有一条边</li></ul></li></ul><p><img src="https://ooo.0x0.ooo/2023/12/17/OKB83I.png" alt="image-20231217151738479"></p><p>如上图，绿色标记的是树，红色的不是树。</p><h2 id="树有什么用？"><a href="#树有什么用？" class="headerlink" title="树有什么用？"></a>树有什么用？</h2><p>事实上，树结构是一个十分有用、高效的结构。在我们创建高效算法时非常有用：加快搜索速度、前缀、检查连接性等，例如 Search Trees，Tries，Heaps， Disjoint Sets。</p><p>另外，我们日常生活中的，大部分都是树结构。例如，一个族谱，文件目录。</p><h2 id="树的遍历"><a href="#树的遍历" class="headerlink" title="树的遍历"></a>树的遍历</h2><ul><li>层次遍历 （Level order traversal）</li><li>深度优先遍历 （Depth-First traversal）<ul><li>先序遍历 （Pre-Order traversal）</li><li>中序遍历 （In-Order traversal）</li><li>后序遍历 （Post-Order traversal）</li></ul></li></ul><h2 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h2><p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p><p>层次遍历就是从上到下，从左往右一次遍历。</p><p>例如，上图的层次遍历序列为：D、B、F、A、C、E、G</p><h2 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h2><p>先序遍历是先访问根节点，再访问左子树，访问右子树。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">preOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    <span class="built_in">print</span>(x.key)</span><br><span class="line">    preOrder(x.left)</span><br><span class="line">    preOrder(x.right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p><p>先序遍历序列为: D、B、A、C、F、E、G</p><h2 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h2><p>中序遍历是先访问左子树，再访问根节点，最后访问右子树。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">inOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    inOrder(x.left)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">    inOrder(x.right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p><p>中序遍历序列为: A、B、C、D、E、F、G</p><h2 id="后序遍历"><a href="#后序遍历" class="headerlink" title="## 后序遍历"></a>## 后序遍历</h2><p>后序遍历是先访问左子树，再访问右子树，最后访问根节点。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">postOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    postOrder(x.left)</span><br><span class="line">    postOrder(x.right)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p><p>后序遍历序列为: A、C、B、E、G、F、D</p><h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Algorithm </tag>
+            
+            <tag> Tree </tag>
+            
+            <tag> Tree Traversals </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>堆</title>
+      <link href="/2023/12/09/%E6%9C%80%E5%B0%8F%E4%BA%8C%E5%88%86%E5%A0%86/"/>
+      <url>/2023/12/09/%E6%9C%80%E5%B0%8F%E4%BA%8C%E5%88%86%E5%A0%86/</url>
+      
+        <content type="html"><![CDATA[<h2 id="什么是最小二分堆-binary-min-heap"><a href="#什么是最小二分堆-binary-min-heap" class="headerlink" title="什么是最小二分堆 (binary min-heap)"></a>什么是最小二分堆 (binary min-heap)</h2><p>堆是一颗完整的树，而且满足最小堆性质。</p><ul><li>最小堆：每个节点都小于等于子节点。</li><li>完整：仅在最底层有缺失值，且所有节点尽可能靠左。</li></ul><h2 id="最小二分堆的操作"><a href="#最小二分堆的操作" class="headerlink" title="最小二分堆的操作"></a>最小二分堆的操作</h2><ul><li>add ： 将值暂时添加到末尾，“ Swim up” 到合适的位置。<ul><li>swim up ：如果子节点小于父节点，则交换两个节点。</li></ul></li><li>getSmallest ：返回根节点的引用</li><li>removeSmallest ：交换根节点和堆的最后一个节点，” Sink down “ 到合适的位置。<ul><li>sink down ：如果父节点大于子节点，则交换两个节点。</li></ul></li></ul><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>我们已经知道堆是一种满足特殊性质的树。</p><h3 id="树结构实现"><a href="#树结构实现" class="headerlink" title="树结构实现"></a>树结构实现</h3><h4 id="用三叉树实现"><a href="#用三叉树实现" class="headerlink" title="用三叉树实现"></a>用三叉树实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tree1A</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key k;</span><br><span class="line">  Tree1A left;</span><br><span class="line">  Tree1A middle;</span><br><span class="line">  Tree1A right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0gkr.png" alt="image-20231209210055087"></p><h4 id="用异构树实现"><a href="#用异构树实现" class="headerlink" title="用异构树实现"></a>用异构树实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tree1B</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key k;</span><br><span class="line">  Tree1B[] children;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0Knv.png" alt="image-20231209210322901"></p><h4 id="用兄弟树实现"><a href="#用兄弟树实现" class="headerlink" title="用兄弟树实现"></a>用兄弟树实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tree1C</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key k;</span><br><span class="line">  Tree1C favoredChild;</span><br><span class="line">  Tree1C sibling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0v6c.png" alt="image-20231209210255548"></p><h3 id="用数组来实现"><a href="#用数组来实现" class="headerlink" title="用数组来实现"></a>用数组来实现</h3><p>我们也可以用数组来表示树结构，从而实现堆。</p><p>为了表示一棵树，我们可以存储 keys 数组以及 parent 数组。keys 数组表示哪个索引映射到哪个节点，parent 数组表示哪个节点是另一个节点的子节点。</p><p>[<img src="https://ooo.0x0.ooo/2023/12/09/OA0v6c.png" alt="OA0v6c.png"></p><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0mpM.png" alt="OA0mpM.png"></p><h3 id="对数组表示的进一步优化"><a href="#对数组表示的进一步优化" class="headerlink" title="对数组表示的进一步优化"></a>对数组表示的进一步优化</h3><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0P51.png" alt="OA0P51.png"></p><p>观察上图，我们知道 parents 数组是冗余的，我们不需要它就可以表示顺序。设 k 为节点序号，(k-1) &#x2F; 2，得到该节点对应的父节点的序号。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TreeC</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key[] keys;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">swim</span><span class="params">(<span class="type">int</span> k)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (keys[parent(k)] ≻ keys[k]) &#123;</span><br><span class="line">       swap(k, parent(k));</span><br><span class="line">       swim(parent(k));              </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>为了让我们是序号更加合理<code>（0 - 1）/ 2 </code>，以及实现从节点得到子节点。我们让节点序号从 1 开始。这样 左孩子节点的序号为 <code>k*2</code>，右孩子节点序号为 <code>k*2+1</code>，父节点序号为 <code>k/2</code>。</p><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0pYG.png" alt="OA0pYG.png"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> dataStruct </tag>
+            
+            <tag> Heap </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>优先队列</title>
+      <link href="/2023/12/09/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/"/>
+      <url>/2023/12/09/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/</url>
+      
+        <content type="html"><![CDATA[<h2 id="什么是优先队列"><a href="#什么是优先队列" class="headerlink" title="什么是优先队列"></a>什么是优先队列</h2><p>优先队列是一种用来优化处理最大值或最小值的 ADT 。使用这种结构可以给我们处理涉及最大值或最小值带来时间&#x2F;空间优势。</p><h2 id="优先队列接口"><a href="#优先队列接口" class="headerlink" title="优先队列接口"></a>优先队列接口</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">interface MinPQ&lt;Item&gt; &#123;</span><br><span class="line">// 将 Item x 添加到 PQ</span><br><span class="line">add (Item x);</span><br><span class="line"></span><br><span class="line">// 返回队列中最小值的引用</span><br><span class="line">getSmallest();</span><br><span class="line"></span><br><span class="line">// 移除队列中最小值并返回</span><br><span class="line">removeSmallest();</span><br><span class="line"></span><br><span class="line">// 返回队列的大小</span><br><span class="line">size();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="优先队列的实现"><a href="#优先队列的实现" class="headerlink" title="优先队列的实现"></a>优先队列的实现</h2><p>可以使用有序数组（Ordered Array）、二叉查找树（Bushy BST）、哈希表（HashTable）、堆（Heap）结构实现。</p><ul><li>Ordered Array<ul><li><code>add</code>: Θ(<em>N</em>)</li><li><code>getSmallest</code>: Θ(1)</li><li><code>removeSmallest</code>: Θ(<em>N</em>)</li></ul></li><li>Bushy BST<ul><li><code>add</code>: Θ(log<em>N</em>)</li><li><code>getSmallest</code>: Θ(log<em>N</em>)</li><li><code>removeSmallest</code>: Θ(log<em>N</em>)</li></ul></li><li>HashTable<ul><li><code>add</code>: Θ(1)</li><li><code>getSmallest</code>: Θ(<em>N</em>)</li><li><code>removeSmallest</code>: Θ(<em>N</em>)</li></ul></li><li>Heap<ul><li>add : Θ(log<em>N</em>)</li><li>getSmallest : Θ(1)</li><li>removeSmallest : Θ(log<em>N</em>)</li></ul></li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> dataStruct </tag>
+            
+            <tag> Priority Queue </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>copy constructor 杂谈(一)</title>
+      <link href="/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/"/>
+      <url>/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/</url>
+      
+        <content type="html"><![CDATA[<h1 id="copy-constructor-的杂谈"><a href="#copy-constructor-的杂谈" class="headerlink" title="copy constructor 的杂谈"></a>copy constructor 的杂谈</h1><pre><code>copy constructor 为什么第一个参数必须为引用类型？</code></pre><p>为了减少一次内存拷贝吗？</p><p>仔细想想，并不是这个原因。</p><hr><blockquote><pre><code>The fact that the copy constructor is used to initialize nonreference parameters ofclass type explains why the copy constructor’s own parameter must be a reference. Ifthat parameter were not a reference, then the call would never succeed—to call thecopy constructor, we’d need to use the copy constructor to copy the argument, but tocopy the argument, we’d need to call the copy constructor, and so on indefinitely.</code></pre></blockquote><p>这是 cpp Primer 对此的解释。</p><p>是的，避免 copy constructor 函数无限递归，最终造成栈溢出。</p><hr><p>如果 copy constructor 第一个参数为非引用类型，即通过传值的方式。</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string str1 = <span class="string">&quot;999&quot;</span></span><br></pre></td></tr></table></figure><p>为了调用 copy constructor ，我们需要把我们传给 copy constructor 的参数（例如： string(“999”) ），给 copy constructor 参数类表中， 又因为参数列表中的参数是未构造的，而我们又通过传值的方式传递。因此，我们又需要调用一次 copy constructor 。最终陷入无限递归。</p><p>在下面几种情况下会调用拷贝构造函数：</p><ul><li>显式或隐式地用同类型的一个对象来初始化另外一个对象。</li><li>作为实参传递给一个参数为非引用类型的函数。</li><li>在函数体内返回一个非引用类型对象时。</li><li>初始化序列容器中的元素时。比如 <code>vector&lt;string&gt; svec(5)</code>。</li><li>用列表的方式初始化数组元素时。<code>string a[] = &#123;string(“hello”), string(“world”)&#125;;</code> 。</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> cpp </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>git基础</title>
+      <link href="/2023/11/28/git%E5%9F%BA%E7%A1%80/"/>
+      <url>/2023/11/28/git%E5%9F%BA%E7%A1%80/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Git基础"><a href="#Git基础" class="headerlink" title="Git基础"></a>Git基础</h1><h2 id="文档内容"><a href="#文档内容" class="headerlink" title="文档内容"></a>文档内容</h2><p>本文档是关于学习 MIT——The missing semester 。 大致内容为从 git 的底层数据模型开始，学习 git 的内部实现，继而理解 git 各种命令。包括：git 如何对文件&#x2F;文件夹建模，历史快照（snapshots of history）是什么？</p><h2 id="Git-的简单介绍"><a href="#Git-的简单介绍" class="headerlink" title="Git 的简单介绍"></a>Git 的简单介绍</h2><p>Git 是一个版本控制系统 (VCS)，在构建大型项目或者团队协作上十分方便。</p><h2 id="Git-的-Data-Model"><a href="#Git-的-Data-Model" class="headerlink" title="Git 的 Data Model"></a>Git 的 Data Model</h2><h3 id="Git-对文件-文件夹的建模"><a href="#Git-对文件-文件夹的建模" class="headerlink" title="Git 对文件&#x2F;文件夹的建模"></a>Git 对文件&#x2F;文件夹的建模</h3><p>Git 把历史记录建模为某个顶层目录中的文件和文件夹的集合。</p><p>git 把文件夹 建模为 `tree` ，文件为 `blob`。这是一个递归的结构。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;root&gt; (tree)</span><br><span class="line">|</span><br><span class="line">+- foo (tree)</span><br><span class="line">|  |</span><br><span class="line">|  + bar.txt (blob, contents = &quot;hello world&quot;)</span><br><span class="line">|</span><br><span class="line">+- baz.txt (blob, contents = &quot;git is wonderful&quot;)</span><br></pre></td></tr></table></figure><h3 id="历史快照的建模"><a href="#历史快照的建模" class="headerlink" title="历史快照的建模"></a>历史快照的建模</h3><p>历史快照（ snapshots of history ）。类似于带时间戳的文件夹副本。Git 使用有向无环图来模拟历史。</p><p>类似下面，一个圆圈代表一个快照。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">o &lt;-- o &lt;-- o &lt;-- o</span><br><span class="line">            ^</span><br><span class="line">             \</span><br><span class="line">              --- o &lt;-- o</span><br></pre></td></tr></table></figure><p>或者</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">o &lt;-- o &lt;-- o &lt;-- o &lt;---- o</span><br><span class="line">            ^            /</span><br><span class="line">             \          v</span><br><span class="line">              --- o &lt;-- o</span><br></pre></td></tr></table></figure><p>进一步探究细节，每个快照（圆圈）包含一些元数据，例如：提交的作者，以及其他和提交相关的消息等等元数据。</p><h3 id="模型数据"><a href="#模型数据" class="headerlink" title="模型数据"></a>模型数据</h3><p>下面以伪代码的形式介绍以上模型数据的实现。</p><p>blob （文件模型）是一个字节数组，tree （文件夹模型）是一个映射，其文件夹名 | 文件名 string 映射到具体文件夹 | 文件。历史快照模型是一个叫 commit 的结构，其包含父快照，一些元数据和快照。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">type blob = array &lt;byte&gt;</span><br><span class="line">type tree = map&lt;string, tree|blod&gt; </span><br><span class="line">type commit = Struct &#123;</span><br><span class="line">parents : array&lt;byte&gt;</span><br><span class="line">author : String</span><br><span class="line">message : String</span><br><span class="line">snapshots : tress</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="git-对实际数据的存储和寻址"><a href="#git-对实际数据的存储和寻址" class="headerlink" title="git 对实际数据的存储和寻址"></a>git 对实际数据的存储和寻址</h3><p>让我们更进一步，深入探究 git 如何对实际数据的存储和寻址。</p><p>git 定义一个 object 对象，它可以是 blob 、tree、commit。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type object = blod | tree | commit</span><br></pre></td></tr></table></figure><p>在 git 中，所有 object 都是内容寻址的。</p><p>git 在磁盘中存储的是一组 object 。这些 object 被保存在一个 &lt; 地址, 内容 &gt; 的哈希表中。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objects = map&lt;String, object&gt;</span><br></pre></td></tr></table></figure><p>所有存储一个对象的方式是把一个它的键（对象的哈希值）放入哈希表中。</p><p>伪代码：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def store(o):</span><br><span class="line">id = sha1(o) //通过SHA-1哈希计算id</span><br><span class="line">objects[id] = o</span><br><span class="line"></span><br><span class="line">def load(id):</span><br><span class="line">return objects[id]</span><br></pre></td></tr></table></figure><p>BTW，看起来一个 commit 包含了很多内容，事实上 commit 里面都是指针。 git 的所有对象都存储在 objects 表中。 git 中不同对象的引用都是通过它们的 id —— SHA-1 哈希。</p><p>通过上面，我们已经知道了 git 的数据可以看成是一个 object ，我们可以通过它的 id —— SHA1 哈希，来获取 object 。哈希函数生成的 id 对我们来说就是一串无意义的随机字符串，git 为了便于阅读，git 维护一组对象，然后维护一组引用。</p><p>引用是一个 string 到 string （哈希 id）的哈希表。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reference = map&lt;string, string&gt;</span><br></pre></td></tr></table></figure><p> 简单理解就是引用把哈希 id 映射到我们能够看懂的字符。例如： 我们有一个 commit id 为 45d13a8….bcee5f ，我们把它映射成 “fix encode bug”。</p><h2 id="git-命令"><a href="#git-命令" class="headerlink" title="git 命令"></a>git 命令</h2><h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><h4 id="撤销操作-1"><a href="#撤销操作-1" class="headerlink" title="撤销操作"></a>撤销操作</h4><p>当你提交后发现漏了几个文件，或者需要修改提交信息。</p><p>使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit --amend</span><br></pre></td></tr></table></figure><p>这个命令会将暂存区中的文件提交。 如果自上次提交以来你还未做任何修改（例如，在上次提交后马上执行了此命令）， 那么快照会保持不变，而你所修改的只是提交信息。</p><blockquote><p>Note：当你在修补最后的提交时，与其说是修复旧提交，倒不如说是完全用一个 <strong>新的提交</strong> 替换旧的提交， 理解这一点非常重要。从效果上来说，就像是旧有的提交从未存在过一样，它并不会出现在仓库的历史中。</p><p>修补提交最明显的价值是可以稍微改进你最后的提交，而不会让“啊，忘了添加一个文件”或者 “小修补，修正笔误”这种提交信息弄乱你的仓库历史。</p></blockquote><h4 id="取消暂缓文件"><a href="#取消暂缓文件" class="headerlink" title="取消暂缓文件"></a>取消暂缓文件</h4><p>如果你需要撤销暂缓文件</p><p>使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD &lt;file&gt;...</span><br></pre></td></tr></table></figure><blockquote><p>Note：<code>git reset</code> 确实是个危险的命令，如果加上了 <code>--hard</code> 选项则更是如此。 如果工作目录中的文件尚未修改，相对安全一些。</p></blockquote><h4 id="撤销对文件的修改"><a href="#撤销对文件的修改" class="headerlink" title="撤销对文件的修改"></a>撤销对文件的修改</h4><p>如果你并不想保留对 <code>CONTRIBUTING.md</code> 文件的修改怎么办？ 你该如何方便地撤消修改——将它还原成上次提交时的样子（或者刚克隆完的样子，或者刚把它放入工作目录时的样子）？</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- &lt;file&gt;...</span><br></pre></td></tr></table></figure><blockquote><p>Note：请务必记得 <code>git checkout — &lt;file&gt;</code> 是一个危险的命令。 你对那个文件在本地的任何修改都会消失——Git 会用最近提交的版本覆盖掉它。 除非你确实清楚不想要对那个文件的本地修改了，否则请不要使用这个命令。</p></blockquote><p>git 已经提交了的任何东西都可以恢复，但没有提交的不行。</p><h3 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h3><p>远程仓库——托管在互联网或其他网络上的你的项目的版本库。</p><p>通常，这些远程仓库对你只读，一些可以读写。与他人协同工作时涉及管理远程仓库和根据需求推送或者拉取数据。</p><h4 id="查看远程仓库"><a href="#查看远程仓库" class="headerlink" title="查看远程仓库"></a>查看远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote</span><br></pre></td></tr></table></figure><p>它会列出你指定的每一个远程服务器的简写。</p><p>如果你克隆了自己的仓库，那么你会看到 origin——Git 给你克隆仓库的默认名字。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/schacon/ticgit</span><br><span class="line">Cloning into &#x27;ticgit&#x27;...</span><br><span class="line">remote: Reusing existing pack: 1857, done.</span><br><span class="line">remote: Total 1857 (delta 0), reused 0 (delta 0)</span><br><span class="line">Receiving objects: 100% (1857/1857), 374.35 KiB | 268.00 KiB/s, done.</span><br><span class="line">Resolving deltas: 100% (772/772), done.</span><br><span class="line">Checking connectivity... done.</span><br><span class="line">$ cd ticgit</span><br><span class="line">$ git remote</span><br><span class="line">origin</span><br></pre></td></tr></table></figure><p>指定选行 -v，会显示需要读写远程仓库使用的 Git 保存的简写与其对应的 URL。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">originhttps://github.com/schacon/ticgit (fetch)</span><br><span class="line">originhttps://github.com/schacon/ticgit (push)</span><br></pre></td></tr></table></figure><h4 id="提交远程仓库"><a href="#提交远程仓库" class="headerlink" title="提交远程仓库"></a>提交远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add &lt;shortname&gt; &lt;url&gt;</span><br></pre></td></tr></table></figure><p>shortname 是你给远程仓库设置的名字。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git remote</span><br><span class="line">origin</span><br><span class="line">$ git remote add pb https://github.com/paulboone/ticgit</span><br><span class="line">$ git remote -v</span><br><span class="line">originhttps://github.com/schacon/ticgit (fetch)</span><br><span class="line">originhttps://github.com/schacon/ticgit (push)</span><br><span class="line">pbhttps://github.com/paulboone/ticgit (fetch)</span><br><span class="line">pbhttps://github.com/paulboone/ticgit (push)</span><br></pre></td></tr></table></figure><p>提交完后，你可以使用你给远程仓库设置的名字来代替远程仓库的 url。</p><p>例如</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch pb</span><br><span class="line">remote: Counting objects: 43, done.</span><br><span class="line">remote: Compressing objects: 100% (36/36), done.</span><br><span class="line">remote: Total 43 (delta 10), reused 31 (delta 5)</span><br><span class="line">Unpacking objects: 100% (43/43), done.</span><br><span class="line">From https://github.com/paulboone/ticgit</span><br><span class="line"> * [new branch]      master     -&gt; pb/master</span><br><span class="line"> * [new branch]      ticgit     -&gt; pb/ticgit</span><br></pre></td></tr></table></figure><h4 id="从远程仓库中抓取和拉取"><a href="#从远程仓库中抓取和拉取" class="headerlink" title="从远程仓库中抓取和拉取"></a>从远程仓库中抓取和拉取</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch &lt;remote&gt;</span><br></pre></td></tr></table></figure><p>这个命令会访问远程仓库，从中拉取所有你还没有的数据。 执行完成后，你将会拥有那个远程仓库中所有分支的引用，可以随时合并或查看。</p><p>如果你使用 <code>clone</code> 命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以 “origin” 为简写。 所以，<code>git fetch origin</code> 会抓取克隆（或上一次抓取）后新推送的所有工作。 必须注意 <code>git fetch</code> 命令只会将数据下载到你的本地仓库——它并不会自动合并或修改你当前的工作。</p><h4 id="推送到远程仓库"><a href="#推送到远程仓库" class="headerlink" title="推送到远程仓库"></a>推送到远程仓库</h4><p>如果你想分享你的项目，你可以推送到上游。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push &lt;remote&gt; &lt;branch&gt;</span><br></pre></td></tr></table></figure><h4 id="查看某个远程仓库"><a href="#查看某个远程仓库" class="headerlink" title="查看某个远程仓库"></a>查看某个远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote show &lt;remote&gt;</span><br></pre></td></tr></table></figure><p>可以查看某个远程仓库。它会列出 url 和跟踪分支的信息。</p><h4 id="远程仓库重名和移除"><a href="#远程仓库重名和移除" class="headerlink" title="远程仓库重名和移除"></a>远程仓库重名和移除</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rename &lt;name&gt; &lt;rename&gt;</span><br></pre></td></tr></table></figure><p>可以更改仓库名字。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote remove &lt;remote&gt;</span><br></pre></td></tr></table></figure><p>可以移除某个远程仓库。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>tmux食用指南</title>
+      <link href="/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+      <url>/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/</url>
+      
+        <content type="html"><![CDATA[<h1 id="tmux食用指南"><a href="#tmux食用指南" class="headerlink" title="tmux食用指南"></a>tmux食用指南</h1><h2 id="什么是tmux"><a href="#什么是tmux" class="headerlink" title="什么是tmux"></a>什么是tmux</h2><p>tmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入<code>sleep 2000</code>命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。</p><h2 id="tmux的基本概念"><a href="#tmux的基本概念" class="headerlink" title="tmux的基本概念"></a>tmux的基本概念</h2><p>tmux中有三个重要的概念：session、window、pane.</p><p>它们的结构如下：</p><hr><p>——session00</p><p>​——window00</p><p>​——pane00</p><p>​——window01</p><p>——session01</p><p>​——window00</p><hr><p>session包含window，window包含pane。</p><p>session类似我们的浏览器，window类似于浏览器的标签页，pane类似于网页里面的各个部件。</p><h2 id="tmux的操作"><a href="#tmux的操作" class="headerlink" title="tmux的操作"></a>tmux的操作</h2><p>开启的我们tmux之旅。</p><p>在安装往tmux后。</p><h3 id="新建session"><a href="#新建session" class="headerlink" title="新建session"></a>新建session</h3><p>我们输入<code>tmux </code>，就可以新建一个session。输入后会发现，好像什么也没变，你依旧在shell环境里。</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606162947547.png" alt="image-20230606162947547"></p><p>其实你已经在tmux的shell里。</p><p>shell—&gt;tmux—&gt;shell</p><p>底下是tmux 的state bar。左边是一些window的信息，你使用&lt;C-b ,&gt;来更改window的名字。按&lt;C-b ，&gt; (注：C指ctrl, -表示同时)。&lt;C-b ,&gt;表示同时按下ctrl键和,键，松开，再按下,键。&lt;C-b&gt;是tmux的一个命令前缀，所有命令要加&lt;C-b&gt;。如果你了解Emacs，这对你来说再熟悉不过了。</p><p>如果你想要退出tmux</p><p>按&lt;C-b d&gt; ，然后你会从tmux里脱离(detach)出来。</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606163449662.png" alt="image-20230606163449662"></p><p>在shell中输入<code>tmux ls</code>可以看到你之前创建的session。</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606163630568.png" alt="image-20230606163630568"></p><p>我们可以看到0: 1 windows (created Tue Jun  6 16:29:32 2023)</p><p>0指我们之前创建的session的名字，因为我们创建时没有指定name，所以默认0，1，2。冒号：后面是session 0 里面的内容，可以看到有一个window。如果我们在创建session是可以使用命令<code>tmux new -s name</code>。</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606164012156.png" alt="image-20230606164012156"></p><p>如果要回到detach后的session.输入<code>tmux attach -t name</code>，就可以回到相应的session里面，或者输入<code>tmux a -t name</code>，a是attach的缩写。</p><h3 id="新建window"><a href="#新建window" class="headerlink" title="新建window"></a>新建window</h3><p>session里面后，如果我们想要新建一个window，&lt;C-b c&gt;。</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606164936613.png" alt="image-20230606164936613"></p><p>可以从state bar左边看到，我们新建了两个window1，2。下面我们学习如何在window之间移动。</p><p>窗口名字后面的*代表你在哪个window里。</p><p>&lt;C-b n&gt;移动到下 一个window。</p><p>&lt;C-b p&gt;移动到上一个window。</p><p>&lt;C-b 0&gt;移动到第一个window，&lt;C-b 1&gt;….同理。</p><p>&lt;C-b &amp;&gt;可以关闭当前window。我更喜欢使用shell命令&lt;C-d&gt;</p><h3 id="分离pane"><a href="#分离pane" class="headerlink" title="分离pane"></a>分离pane</h3><p>&lt;C-b %&gt;垂直分隔pane</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165657621.png" alt="image-20230606165657621"></p><p>&lt;C-b “&gt;水平分隔pane</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165721587.png" alt="image-20230606165721587"></p><p>&lt;C-b arrow&gt;（arrow指箭头键）在pane在移动。</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165954495.png" alt="image-20230606165954495"></p><p>&lt;C-b space&gt;改变pane排列的样式</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606170044638.png" alt="image-20230606170044638"></p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606170056275.png" alt="image-20230606170056275"></p><p>&lt;C-b z&gt;放大当前pane</p><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>恭喜你，你已经学会了tmux的基本操作了，你可以灵活的使用tmux来进行更好的开发。如果你想要了解更多tmux的操作，不妨去tmux官方文档或者社区一起交流。噢，对了。&lt;C-b ?&gt;可以了解到更多的tmux命令。</p><h2 id="tmux命令总结-复习"><a href="#tmux命令总结-复习" class="headerlink" title="tmux命令总结&#x2F;复习"></a>tmux命令总结&#x2F;复习</h2><ul><li>session - 每个会话都是一个独立的工作区，其中包含一个或多个窗口<ul><li><code>tmux</code> 开始一个新的会话</li><li><code>tmux new -s NAME</code> 以指定名称开始一个新的会话</li><li><code>tmux ls</code> 列出当前所有会话</li><li>在 <code>tmux</code> 中输入 <code>&lt;C-b&gt; d</code> ，将当前会话分离</li><li><code>tmux a</code> 重新连接最后一个会话。您也可以通过 <code>-t</code> 来指定具体的会话</li></ul></li><li>window  - 相当于编辑器或是浏览器中的标签页，从视觉上将一个会话分割为多个部分<ul><li><code>&lt;C-b&gt; c</code> 创建一个新的窗口，使用 <code>&lt;C-d&gt;</code>关闭</li><li><code>&lt;C-b&gt; N</code> 跳转到第 <em>N</em> 个窗口，注意每个窗口都是有编号的</li><li><code>&lt;C-b&gt; p</code> 切换到前一个窗口</li><li><code>&lt;C-b&gt; n</code> 切换到下一个窗口</li><li><code>&lt;C-b&gt; ,</code> 重命名当前窗口</li><li><code>&lt;C-b&gt; w</code> 列出当前所有窗口</li></ul></li><li>pane  - 像 vim 中的分屏一样，面板使我们可以在一个屏幕里显示多个 shell<ul><li><code>&lt;C-b&gt; &quot;</code> 水平分割</li><li><code>&lt;C-b&gt; %</code> 垂直分割</li><li><code>&lt;C-b&gt; &lt;方向&gt;</code> 切换到指定方向的面板，&lt;方向&gt; 指的是键盘上的方向键</li><li><code>&lt;C-b&gt; z</code> 切换当前面板的缩放</li><li><code>&lt;C-b&gt; [</code> 开始往回卷动屏幕。您可以按下空格键来开始选择，回车键复制选中的部分</li><li><code>&lt;C-b&gt; &lt;空格&gt;</code> 在不同的面板排布间切换</li></ul></li></ul><h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><p>——<a href="https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/">A Quick and Easy Guide to tmux </a>                 一份tmux的快速入门（看完本文后，可以不看）</p><p>——<a href="http://linuxcommand.org/lc3_adv_termmux.php">Linux Command Line Adventure: Terminal Multiplexers</a> 一篇更加详细的文章，它也包含了<code>screen</code>的内容</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> tmux tool </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>test</title>
+      <link href="/2023/11/11/test/"/>
+      <url>/2023/11/11/test/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2023/11/11/hello-world/"/>
+      <url>/2023/11/11/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
 </search>
