@@ -301,12 +301,12 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
 
 <p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
 <p>中序遍历序列为: A、B、C、D、E、F、G</p>
-<h2 id="后序遍历"><a href="#后序遍历" class="headerlink" title="## 后序遍历"></a>## 后序遍历</h2><p>后序遍历是先访问左子树，再访问右子树，最后访问根节点。</p>
+<h2 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h2><p>后序遍历是先访问左子树，再访问右子树，最后访问根节点。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">postOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    postOrder(x.left)</span><br><span class="line">    postOrder(x.right)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
 <p>后序遍历序列为: A、C、B、E、G、F、D</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+]]></content>
       <tags>
         <tag>Algorithm</tag>
         <tag>Tree</tag>
