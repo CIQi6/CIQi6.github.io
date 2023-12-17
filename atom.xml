@@ -40,16 +40,17 @@
     <link href="https://lightc.top/2023/12/17/tree/"/>
     <id>https://lightc.top/2023/12/17/tree/</id>
     <published>2023-12-17T07:11:11.000Z</published>
-    <updated>2023-12-17T09:40:13.075Z</updated>
+    <updated>2023-12-17T10:37:21.012Z</updated>
     
     
-      
-      
     <summary type="html">&lt;h2 id=&quot;什么是树？&quot;&gt;&lt;a href=&quot;#什么是树？&quot; class=&quot;headerlink&quot; title=&quot;什么是树？&quot;&gt;&lt;/a&gt;什么是树？&lt;/h2&gt;&lt;p&gt;树的组成:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;一组节点 (nodes)&lt;/li&gt;
-&lt;li&gt;一组连接着节点的边 (edges)</summary>
-      
+&lt;li&gt;一组连接着节点的边 (edges)&lt;ul&gt;
+&lt;li&gt;限制：任意两个节点只能有一条边&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</summary>
     
     
     
@@ -67,13 +68,14 @@
     <link href="https://lightc.top/2023/12/09/%E6%9C%80%E5%B0%8F%E4%BA%8C%E5%88%86%E5%A0%86/"/>
     <id>https://lightc.top/2023/12/09/%E6%9C%80%E5%B0%8F%E4%BA%8C%E5%88%86%E5%A0%86/</id>
     <published>2023-12-09T12:40:31.000Z</published>
-    <updated>2023-12-09T13:55:10.695Z</updated>
+    <updated>2023-12-17T10:36:58.643Z</updated>
     
     
-      
-      
-    <summary type="html">&lt;h2 id=&quot;什么是最小二分堆-binary-min-heap&quot;&gt;&lt;a href=&quot;#什么是最小二分堆-binary-min-heap&quot; class=&quot;headerlink&quot; title=&quot;什么是最小二分堆 (binary min-heap)&quot;&gt;&lt;/a&gt;什么是最小二分堆 (bi</summary>
-      
+    <summary type="html">&lt;h2 id=&quot;什么是最小二分堆-binary-min-heap&quot;&gt;&lt;a href=&quot;#什么是最小二分堆-binary-min-heap&quot; class=&quot;headerlink&quot; title=&quot;什么是最小二分堆 (binary min-heap)&quot;&gt;&lt;/a&gt;什么是最小二分堆 (binary min-heap)&lt;/h2&gt;&lt;p&gt;堆是一颗完整的树，而且满足最小堆性质。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;最小堆：每个节点都小于等于子节点。&lt;/li&gt;
+&lt;li&gt;完整：仅在最底层有缺失值，且所有节点尽可能靠左。&lt;/li&gt;
+&lt;/ul&gt;</summary>
     
     
     
@@ -89,13 +91,10 @@
     <link href="https://lightc.top/2023/12/09/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/"/>
     <id>https://lightc.top/2023/12/09/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/</id>
     <published>2023-12-09T12:21:50.000Z</published>
-    <updated>2023-12-09T12:43:33.318Z</updated>
+    <updated>2023-12-17T10:38:48.597Z</updated>
     
     
-      
-      
-    <summary type="html">&lt;h2 id=&quot;什么是优先队列&quot;&gt;&lt;a href=&quot;#什么是优先队列&quot; class=&quot;headerlink&quot; title=&quot;什么是优先队列&quot;&gt;&lt;/a&gt;什么是优先队列&lt;/h2&gt;&lt;p&gt;优先队列是一种用来优化处理最大值或最小值的 ADT 。使用这种结构可以给我们处理涉及最大值或最小值带</summary>
-      
+    <summary type="html">&lt;h2 id=&quot;什么是优先队列&quot;&gt;&lt;a href=&quot;#什么是优先队列&quot; class=&quot;headerlink&quot; title=&quot;什么是优先队列&quot;&gt;&lt;/a&gt;什么是优先队列&lt;/h2&gt;&lt;p&gt;优先队列是一种用来优化处理最大值或最小值的 ADT 。使用这种结构可以给我们处理涉及最大值或最小值带来时间&amp;#x2F;空间优势。&lt;/p&gt;</summary>
     
     
     
@@ -111,13 +110,12 @@
     <link href="https://lightc.top/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/"/>
     <id>https://lightc.top/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/</id>
     <published>2023-11-30T15:45:39.000Z</published>
-    <updated>2023-11-30T15:48:49.353Z</updated>
+    <updated>2023-12-17T10:38:06.136Z</updated>
     
     
-      
-      
-    <summary type="html">&lt;h1 id=&quot;copy-constructor-的杂谈&quot;&gt;&lt;a href=&quot;#copy-constructor-的杂谈&quot; class=&quot;headerlink&quot; title=&quot;copy constructor 的杂谈&quot;&gt;&lt;/a&gt;copy constructor 的杂谈&lt;/h1&gt;&lt;</summary>
-      
+    <summary type="html">&lt;h1 id=&quot;copy-constructor-的杂谈&quot;&gt;&lt;a href=&quot;#copy-constructor-的杂谈&quot; class=&quot;headerlink&quot; title=&quot;copy constructor 的杂谈&quot;&gt;&lt;/a&gt;copy constructor 的杂谈&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;copy constructor 为什么第一个参数必须为引用类型？
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;为了减少一次内存拷贝吗？&lt;/p&gt;</summary>
     
     
     
@@ -131,13 +129,10 @@
     <link href="https://lightc.top/2023/11/28/git%E5%9F%BA%E7%A1%80/"/>
     <id>https://lightc.top/2023/11/28/git%E5%9F%BA%E7%A1%80/</id>
     <published>2023-11-28T14:15:46.000Z</published>
-    <updated>2023-11-28T14:17:47.734Z</updated>
+    <updated>2023-12-17T10:37:56.900Z</updated>
     
     
-      
-      
-    <summary type="html">&lt;h1 id=&quot;Git基础&quot;&gt;&lt;a href=&quot;#Git基础&quot; class=&quot;headerlink&quot; title=&quot;Git基础&quot;&gt;&lt;/a&gt;Git基础&lt;/h1&gt;&lt;h2 id=&quot;文档内容&quot;&gt;&lt;a href=&quot;#文档内容&quot; class=&quot;headerlink&quot; title=&quot;文档内容&quot;</summary>
-      
+    <summary type="html">&lt;h1 id=&quot;Git基础&quot;&gt;&lt;a href=&quot;#Git基础&quot; class=&quot;headerlink&quot; title=&quot;Git基础&quot;&gt;&lt;/a&gt;Git基础&lt;/h1&gt;&lt;h2 id=&quot;文档内容&quot;&gt;&lt;a href=&quot;#文档内容&quot; class=&quot;headerlink&quot; title=&quot;文档内容&quot;&gt;&lt;/a&gt;文档内容&lt;/h2&gt;&lt;p&gt;本文档是关于学习 MIT——The missing semester 。 大致内容为从 git 的底层数据模型开始，学习 git 的内部实现，继而理解 git 各种命令。包括：git 如何对文件&amp;#x2F;文件夹建模，历史快照（snapshots of history）是什么？&lt;/p&gt;</summary>
     
     
     
@@ -151,49 +146,15 @@
     <link href="https://lightc.top/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/"/>
     <id>https://lightc.top/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/</id>
     <published>2023-11-19T13:20:30.000Z</published>
-    <updated>2023-11-19T13:21:56.455Z</updated>
+    <updated>2023-12-17T10:37:30.797Z</updated>
     
     
-      
-      
-    <summary type="html">&lt;h1 id=&quot;tmux食用指南&quot;&gt;&lt;a href=&quot;#tmux食用指南&quot; class=&quot;headerlink&quot; title=&quot;tmux食用指南&quot;&gt;&lt;/a&gt;tmux食用指南&lt;/h1&gt;&lt;h2 id=&quot;什么是tmux&quot;&gt;&lt;a href=&quot;#什么是tmux&quot; class=&quot;header</summary>
-      
+    <summary type="html">&lt;h1 id=&quot;tmux食用指南&quot;&gt;&lt;a href=&quot;#tmux食用指南&quot; class=&quot;headerlink&quot; title=&quot;tmux食用指南&quot;&gt;&lt;/a&gt;tmux食用指南&lt;/h1&gt;&lt;h2 id=&quot;什么是tmux&quot;&gt;&lt;a href=&quot;#什么是tmux&quot; class=&quot;headerlink&quot; title=&quot;什么是tmux&quot;&gt;&lt;/a&gt;什么是tmux&lt;/h2&gt;&lt;p&gt;tmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入&lt;code&gt;sleep 2000&lt;/code&gt;命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。&lt;/p&gt;</summary>
     
     
     
     
     <category term="tmux tool" scheme="https://lightc.top/tags/tmux-tool/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>test</title>
-    <link href="https://lightc.top/2023/11/11/test/"/>
-    <id>https://lightc.top/2023/11/11/test/</id>
-    <published>2023-11-11T02:04:08.000Z</published>
-    <updated>2023-11-11T02:04:08.141Z</updated>
-    
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://lightc.top/2023/11/11/hello-world/"/>
-    <id>https://lightc.top/2023/11/11/hello-world/</id>
-    <published>2023-11-11T00:28:33.574Z</published>
-    <updated>2023-11-11T00:25:16.017Z</updated>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
-      
-    
-    
-    
     
   </entry>
   

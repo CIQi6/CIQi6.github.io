@@ -32,12 +32,12 @@
     var CONFIG = {"hostname":"lightc.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="tmux食用指南什么是tmuxtmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入sleep 2000命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。 tmux的基本概念tmux中有三个重要的概">
+  <meta name="description" content="tmux食用指南什么是tmuxtmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入sleep 2000命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="tmux食用指南">
 <meta property="og:url" content="https://lightc.top/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/index.html">
 <meta property="og:site_name" content="Memetor&#39;s Blog">
-<meta property="og:description" content="tmux食用指南什么是tmuxtmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入sleep 2000命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。 tmux的基本概念tmux中有三个重要的概">
+<meta property="og:description" content="tmux食用指南什么是tmuxtmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入sleep 2000命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606162947547.png">
 <meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606163449662.png">
@@ -50,7 +50,7 @@
 <meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606170044638.png">
 <meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606170056275.png">
 <meta property="article:published_time" content="2023-11-19T13:20:30.000Z">
-<meta property="article:modified_time" content="2023-11-19T13:21:56.455Z">
+<meta property="article:modified_time" content="2023-12-17T10:37:30.797Z">
 <meta property="article:author" content="Memetor">
 <meta property="article:tag" content="tmux tool">
 <meta name="twitter:card" content="summary">
@@ -230,10 +230,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2023-11-19 21:20:30 / Modified: 21:21:56" itemprop="dateCreated datePublished" datetime="2023-11-19T21:20:30+08:00">2023-11-19</time>
+              <time title="Created: 2023-11-19 21:20:30" itemprop="dateCreated datePublished" datetime="2023-11-19T21:20:30+08:00">2023-11-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-12-17 18:37:30" itemprop="dateModified" datetime="2023-12-17T18:37:30+08:00">2023-12-17</time>
+              </span>
 
           <br>
             <span class="post-meta-item" title="Symbols count in article">
@@ -271,6 +277,8 @@
 
       
         <h1 id="tmux食用指南"><a href="#tmux食用指南" class="headerlink" title="tmux食用指南"></a>tmux食用指南</h1><h2 id="什么是tmux"><a href="#什么是tmux" class="headerlink" title="什么是tmux"></a>什么是tmux</h2><p>tmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入<code>sleep 2000</code>命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。</p>
+<span id="more"></span> 
+
 <h2 id="tmux的基本概念"><a href="#tmux的基本概念" class="headerlink" title="tmux的基本概念"></a>tmux的基本概念</h2><p>tmux中有三个重要的概念：session、window、pane.</p>
 <p>它们的结构如下：</p>
 <hr>
@@ -382,10 +390,7 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2023/11/11/test/" rel="prev" title="test">
-      <i class="fa fa-chevron-left"></i> test
-    </a></div>
+      <div class="post-nav-item"></div>
       <div class="post-nav-item">
     <a href="/2023/11/28/git%E5%9F%BA%E7%A1%80/" rel="next" title="git基础">
       git基础 <i class="fa fa-chevron-right"></i>
@@ -464,7 +469,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -513,12 +518,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">11k</span>
+    <span title="Symbols count total">10k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">20 mins.</span>
+    <span title="Reading time total">19 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
