@@ -1,37 +1,481 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lightc.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Git基础文档内容本文档是关于学习 MIT——The missing semester 。 大致内容为从 git 的底层数据模型开始，学习 git 的内部实现，继而理解 git 各种命令。包括：git 如何对文件&#x2F;文件夹建模，历史快照（snapshots of history）是什么？ Git 的简单介绍Git 是一个版本控制系统 (VCS)，在构建大型项目或者团队协作上十分方便。 Gi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git基础">
+<meta property="og:url" content="https://lightc.top/2023/11/28/git%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Memetor&#39;s Blog">
+<meta property="og:description" content="Git基础文档内容本文档是关于学习 MIT——The missing semester 。 大致内容为从 git 的底层数据模型开始，学习 git 的内部实现，继而理解 git 各种命令。包括：git 如何对文件&#x2F;文件夹建模，历史快照（snapshots of history）是什么？ Git 的简单介绍Git 是一个版本控制系统 (VCS)，在构建大型项目或者团队协作上十分方便。 Gi">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-11-28T14:15:46.000Z">
+<meta property="article:modified_time" content="2023-11-28T14:17:47.734Z">
+<meta property="article:author" content="Memetor">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://lightc.top/2023/11/28/git%E5%9F%BA%E7%A1%80/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>git基础 | Memetor's Blog</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Memetor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/11/28/git%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Memetor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Memetor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          git基础
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-11-28 22:15:46 / Modified: 22:17:47" itemprop="dateCreated datePublished" datetime="2023-11-28T22:15:46+08:00">2023-11-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Git基础"><a href="#Git基础" class="headerlink" title="Git基础"></a>Git基础</h1><h2 id="文档内容"><a href="#文档内容" class="headerlink" title="文档内容"></a>文档内容</h2><p>本文档是关于学习 MIT——The missing semester 。 大致内容为从 git 的底层数据模型开始，学习 git 的内部实现，继而理解 git 各种命令。包括：git 如何对文件&#x2F;文件夹建模，历史快照（snapshots of history）是什么？</p>
+<h2 id="Git-的简单介绍"><a href="#Git-的简单介绍" class="headerlink" title="Git 的简单介绍"></a>Git 的简单介绍</h2><p>Git 是一个版本控制系统 (VCS)，在构建大型项目或者团队协作上十分方便。</p>
+<h2 id="Git-的-Data-Model"><a href="#Git-的-Data-Model" class="headerlink" title="Git 的 Data Model"></a>Git 的 Data Model</h2><h3 id="Git-对文件-文件夹的建模"><a href="#Git-对文件-文件夹的建模" class="headerlink" title="Git 对文件&#x2F;文件夹的建模"></a>Git 对文件&#x2F;文件夹的建模</h3><p>Git 把历史记录建模为某个顶层目录中的文件和文件夹的集合。</p>
+<p>git 把文件夹 建模为 `tree` ，文件为 `blob`。这是一个递归的结构。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;root&gt; (tree)</span><br><span class="line">|</span><br><span class="line">+- foo (tree)</span><br><span class="line">|  |</span><br><span class="line">|  + bar.txt (blob, contents = &quot;hello world&quot;)</span><br><span class="line">|</span><br><span class="line">+- baz.txt (blob, contents = &quot;git is wonderful&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="历史快照的建模"><a href="#历史快照的建模" class="headerlink" title="历史快照的建模"></a>历史快照的建模</h3><p>历史快照（ snapshots of history ）。类似于带时间戳的文件夹副本。Git 使用有向无环图来模拟历史。</p>
+<p>类似下面，一个圆圈代表一个快照。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">o &lt;-- o &lt;-- o &lt;-- o</span><br><span class="line">            ^</span><br><span class="line">             \</span><br><span class="line">              --- o &lt;-- o</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">o &lt;-- o &lt;-- o &lt;-- o &lt;---- o</span><br><span class="line">            ^            /</span><br><span class="line">             \          v</span><br><span class="line">              --- o &lt;-- o</span><br></pre></td></tr></table></figure>
+
+<p>进一步探究细节，每个快照（圆圈）包含一些元数据，例如：提交的作者，以及其他和提交相关的消息等等元数据。</p>
+<h3 id="模型数据"><a href="#模型数据" class="headerlink" title="模型数据"></a>模型数据</h3><p>下面以伪代码的形式介绍以上模型数据的实现。</p>
+<p>blob （文件模型）是一个字节数组，tree （文件夹模型）是一个映射，其文件夹名 | 文件名 string 映射到具体文件夹 | 文件。历史快照模型是一个叫 commit 的结构，其包含父快照，一些元数据和快照。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">type blob = array &lt;byte&gt;</span><br><span class="line">type tree = map&lt;string, tree|blod&gt; </span><br><span class="line">type commit = Struct &#123;</span><br><span class="line">		parents : array&lt;byte&gt;</span><br><span class="line">		author : String</span><br><span class="line">		message : String</span><br><span class="line">		snapshots : tress</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="git-对实际数据的存储和寻址"><a href="#git-对实际数据的存储和寻址" class="headerlink" title="git 对实际数据的存储和寻址"></a>git 对实际数据的存储和寻址</h3><p>让我们更进一步，深入探究 git 如何对实际数据的存储和寻址。</p>
+<p>git 定义一个 object 对象，它可以是 blob 、tree、commit。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type object = blod | tree | commit</span><br></pre></td></tr></table></figure>
+
+<p>在 git 中，所有 object 都是内容寻址的。</p>
+<p>git 在磁盘中存储的是一组 object 。这些 object 被保存在一个 &lt; 地址, 内容 &gt; 的哈希表中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objects = map&lt;String, object&gt;</span><br></pre></td></tr></table></figure>
+
+<p>所有存储一个对象的方式是把一个它的键（对象的哈希值）放入哈希表中。</p>
+<p>伪代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def store(o):</span><br><span class="line">	id = sha1(o) //通过SHA-1哈希计算id</span><br><span class="line">	objects[id] = o</span><br><span class="line"></span><br><span class="line">def load(id):</span><br><span class="line">	return objects[id]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>BTW，看起来一个 commit 包含了很多内容，事实上 commit 里面都是指针。 git 的所有对象都存储在 objects 表中。 git 中不同对象的引用都是通过它们的 id —— SHA-1 哈希。</p>
+<p>通过上面，我们已经知道了 git 的数据可以看成是一个 object ，我们可以通过它的 id —— SHA1 哈希，来获取 object 。哈希函数生成的 id 对我们来说就是一串无意义的随机字符串，git 为了便于阅读，git 维护一组对象，然后维护一组引用。</p>
+<p>引用是一个 string 到 string （哈希 id）的哈希表。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reference = map&lt;string, string&gt;</span><br></pre></td></tr></table></figure>
+
+<p> 简单理解就是引用把哈希 id 映射到我们能够看懂的字符。例如： 我们有一个 commit id 为 45d13a8….bcee5f ，我们把它映射成 “fix encode bug”。</p>
+<h2 id="git-命令"><a href="#git-命令" class="headerlink" title="git 命令"></a>git 命令</h2><h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><h4 id="撤销操作-1"><a href="#撤销操作-1" class="headerlink" title="撤销操作"></a>撤销操作</h4><p>当你提交后发现漏了几个文件，或者需要修改提交信息。</p>
+<p>使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit --amend</span><br></pre></td></tr></table></figure>
+
+<p>这个命令会将暂存区中的文件提交。 如果自上次提交以来你还未做任何修改（例如，在上次提交后马上执行了此命令）， 那么快照会保持不变，而你所修改的只是提交信息。</p>
+<blockquote>
+<p>Note：当你在修补最后的提交时，与其说是修复旧提交，倒不如说是完全用一个 <strong>新的提交</strong> 替换旧的提交， 理解这一点非常重要。从效果上来说，就像是旧有的提交从未存在过一样，它并不会出现在仓库的历史中。</p>
+<p>修补提交最明显的价值是可以稍微改进你最后的提交，而不会让“啊，忘了添加一个文件”或者 “小修补，修正笔误”这种提交信息弄乱你的仓库历史。</p>
+</blockquote>
+<h4 id="取消暂缓文件"><a href="#取消暂缓文件" class="headerlink" title="取消暂缓文件"></a>取消暂缓文件</h4><p>如果你需要撤销暂缓文件</p>
+<p>使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD &lt;file&gt;...</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Note：<code>git reset</code> 确实是个危险的命令，如果加上了 <code>--hard</code> 选项则更是如此。 如果工作目录中的文件尚未修改，相对安全一些。</p>
+</blockquote>
+<h4 id="撤销对文件的修改"><a href="#撤销对文件的修改" class="headerlink" title="撤销对文件的修改"></a>撤销对文件的修改</h4><p>如果你并不想保留对 <code>CONTRIBUTING.md</code> 文件的修改怎么办？ 你该如何方便地撤消修改——将它还原成上次提交时的样子（或者刚克隆完的样子，或者刚把它放入工作目录时的样子）？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- &lt;file&gt;...</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Note：请务必记得 <code>git checkout — &lt;file&gt;</code> 是一个危险的命令。 你对那个文件在本地的任何修改都会消失——Git 会用最近提交的版本覆盖掉它。 除非你确实清楚不想要对那个文件的本地修改了，否则请不要使用这个命令。</p>
+</blockquote>
+<p>git 已经提交了的任何东西都可以恢复，但没有提交的不行。</p>
+<h3 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h3><p>远程仓库——托管在互联网或其他网络上的你的项目的版本库。</p>
+<p>通常，这些远程仓库对你只读，一些可以读写。与他人协同工作时涉及管理远程仓库和根据需求推送或者拉取数据。</p>
+<h4 id="查看远程仓库"><a href="#查看远程仓库" class="headerlink" title="查看远程仓库"></a>查看远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote</span><br></pre></td></tr></table></figure>
+
+<p>它会列出你指定的每一个远程服务器的简写。</p>
+<p>如果你克隆了自己的仓库，那么你会看到 origin——Git 给你克隆仓库的默认名字。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/schacon/ticgit</span><br><span class="line">Cloning into &#x27;ticgit&#x27;...</span><br><span class="line">remote: Reusing existing pack: 1857, done.</span><br><span class="line">remote: Total 1857 (delta 0), reused 0 (delta 0)</span><br><span class="line">Receiving objects: 100% (1857/1857), 374.35 KiB | 268.00 KiB/s, done.</span><br><span class="line">Resolving deltas: 100% (772/772), done.</span><br><span class="line">Checking connectivity... done.</span><br><span class="line">$ cd ticgit</span><br><span class="line">$ git remote</span><br><span class="line">origin</span><br></pre></td></tr></table></figure>
+
+<p>指定选行 -v，会显示需要读写远程仓库使用的 Git 保存的简写与其对应的 URL。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">origin	https://github.com/schacon/ticgit (fetch)</span><br><span class="line">origin	https://github.com/schacon/ticgit (push)</span><br></pre></td></tr></table></figure>
+
+<h4 id="提交远程仓库"><a href="#提交远程仓库" class="headerlink" title="提交远程仓库"></a>提交远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add &lt;shortname&gt; &lt;url&gt;</span><br></pre></td></tr></table></figure>
+
+<p>shortname 是你给远程仓库设置的名字。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git remote</span><br><span class="line">origin</span><br><span class="line">$ git remote add pb https://github.com/paulboone/ticgit</span><br><span class="line">$ git remote -v</span><br><span class="line">origin	https://github.com/schacon/ticgit (fetch)</span><br><span class="line">origin	https://github.com/schacon/ticgit (push)</span><br><span class="line">pb	https://github.com/paulboone/ticgit (fetch)</span><br><span class="line">pb	https://github.com/paulboone/ticgit (push)</span><br></pre></td></tr></table></figure>
+
+<p>提交完后，你可以使用你给远程仓库设置的名字来代替远程仓库的 url。</p>
+<p>例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch pb</span><br><span class="line">remote: Counting objects: 43, done.</span><br><span class="line">remote: Compressing objects: 100% (36/36), done.</span><br><span class="line">remote: Total 43 (delta 10), reused 31 (delta 5)</span><br><span class="line">Unpacking objects: 100% (43/43), done.</span><br><span class="line">From https://github.com/paulboone/ticgit</span><br><span class="line"> * [new branch]      master     -&gt; pb/master</span><br><span class="line"> * [new branch]      ticgit     -&gt; pb/ticgit</span><br></pre></td></tr></table></figure>
+
+<h4 id="从远程仓库中抓取和拉取"><a href="#从远程仓库中抓取和拉取" class="headerlink" title="从远程仓库中抓取和拉取"></a>从远程仓库中抓取和拉取</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch &lt;remote&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这个命令会访问远程仓库，从中拉取所有你还没有的数据。 执行完成后，你将会拥有那个远程仓库中所有分支的引用，可以随时合并或查看。</p>
+<p>如果你使用 <code>clone</code> 命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以 “origin” 为简写。 所以，<code>git fetch origin</code> 会抓取克隆（或上一次抓取）后新推送的所有工作。 必须注意 <code>git fetch</code> 命令只会将数据下载到你的本地仓库——它并不会自动合并或修改你当前的工作。</p>
+<h4 id="推送到远程仓库"><a href="#推送到远程仓库" class="headerlink" title="推送到远程仓库"></a>推送到远程仓库</h4><p>如果你想分享你的项目，你可以推送到上游。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push &lt;remote&gt; &lt;branch&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="查看某个远程仓库"><a href="#查看某个远程仓库" class="headerlink" title="查看某个远程仓库"></a>查看某个远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote show &lt;remote&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可以查看某个远程仓库。它会列出 url 和跟踪分支的信息。</p>
+<h4 id="远程仓库重名和移除"><a href="#远程仓库重名和移除" class="headerlink" title="远程仓库重名和移除"></a>远程仓库重名和移除</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rename &lt;name&gt; &lt;rename&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可以更改仓库名字。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote remove &lt;remote&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可以移除某个远程仓库。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/git/" rel="tag"># git</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/" rel="prev" title="tmux食用指南">
+      <i class="fa fa-chevron-left"></i> tmux食用指南
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/" rel="next" title="copy constructor 杂谈(一)">
+      copy constructor 杂谈(一) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">Git基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E5%86%85%E5%AE%B9"><span class="nav-number">1.1.</span> <span class="nav-text">文档内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-%E7%9A%84%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.2.</span> <span class="nav-text">Git 的简单介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-%E7%9A%84-Data-Model"><span class="nav-number">1.3.</span> <span class="nav-text">Git 的 Data Model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Git-%E5%AF%B9%E6%96%87%E4%BB%B6-%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%BB%BA%E6%A8%A1"><span class="nav-number">1.3.1.</span> <span class="nav-text">Git 对文件&#x2F;文件夹的建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2%E5%BF%AB%E7%85%A7%E7%9A%84%E5%BB%BA%E6%A8%A1"><span class="nav-number">1.3.2.</span> <span class="nav-text">历史快照的建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%95%B0%E6%8D%AE"><span class="nav-number">1.3.3.</span> <span class="nav-text">模型数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-%E5%AF%B9%E5%AE%9E%E9%99%85%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AD%98%E5%82%A8%E5%92%8C%E5%AF%BB%E5%9D%80"><span class="nav-number">1.3.4.</span> <span class="nav-text">git 对实际数据的存储和寻址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-%E5%91%BD%E4%BB%A4"><span class="nav-number">1.4.</span> <span class="nav-text">git 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.1.</span> <span class="nav-text">撤销操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C-1"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">撤销操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%96%E6%B6%88%E6%9A%82%E7%BC%93%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">取消暂缓文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%92%A4%E9%94%80%E5%AF%B9%E6%96%87%E4%BB%B6%E7%9A%84%E4%BF%AE%E6%94%B9"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">撤销对文件的修改</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">1.4.2.</span> <span class="nav-text">远程仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">查看远程仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">提交远程仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%8E%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E4%B8%AD%E6%8A%93%E5%8F%96%E5%92%8C%E6%8B%89%E5%8F%96"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">从远程仓库中抓取和拉取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A8%E9%80%81%E5%88%B0%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">推送到远程仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%9F%90%E4%B8%AA%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">1.4.2.5.</span> <span class="nav-text">查看某个远程仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E9%87%8D%E5%90%8D%E5%92%8C%E7%A7%BB%E9%99%A4"><span class="nav-number">1.4.2.6.</span> <span class="nav-text">远程仓库重名和移除</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Memetor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Memetor</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,471 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lightc.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="tmux食用指南什么是tmuxtmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入sleep 2000命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。 tmux的基本概念tmux中有三个重要的概">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tmux食用指南">
+<meta property="og:url" content="https://lightc.top/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="Memetor&#39;s Blog">
+<meta property="og:description" content="tmux食用指南什么是tmuxtmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入sleep 2000命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。 tmux的基本概念tmux中有三个重要的概">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606162947547.png">
+<meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606163449662.png">
+<meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606163630568.png">
+<meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606164012156.png">
+<meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606164936613.png">
+<meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606165657621.png">
+<meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606165721587.png">
+<meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606165954495.png">
+<meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606170044638.png">
+<meta property="og:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606170056275.png">
+<meta property="article:published_time" content="2023-11-19T13:20:30.000Z">
+<meta property="article:modified_time" content="2023-11-19T13:21:56.455Z">
+<meta property="article:author" content="Memetor">
+<meta property="article:tag" content="tmux tool">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\CIQ\Desktop\%E5%8D%9A%E5%AE%A2\%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%88%86%E4%BA%AB\tmux%E4%BD%BF%E7%94%A8\image-20230606162947547.png">
+
+<link rel="canonical" href="https://lightc.top/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>tmux食用指南 | Memetor's Blog</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Memetor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Memetor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Memetor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          tmux食用指南
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-11-19 21:20:30 / Modified: 21:21:56" itemprop="dateCreated datePublished" datetime="2023-11-19T21:20:30+08:00">2023-11-19</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="tmux食用指南"><a href="#tmux食用指南" class="headerlink" title="tmux食用指南"></a>tmux食用指南</h1><h2 id="什么是tmux"><a href="#什么是tmux" class="headerlink" title="什么是tmux"></a>什么是tmux</h2><p>tmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入<code>sleep 2000</code>命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。</p>
+<h2 id="tmux的基本概念"><a href="#tmux的基本概念" class="headerlink" title="tmux的基本概念"></a>tmux的基本概念</h2><p>tmux中有三个重要的概念：session、window、pane.</p>
+<p>它们的结构如下：</p>
+<hr>
+<p>——session00</p>
+<p>​		——window00</p>
+<p>​				——pane00</p>
+<p>​		——window01</p>
+<p>——session01</p>
+<p>​		——window00</p>
+<hr>
+<p>session包含window，window包含pane。</p>
+<p>session类似我们的浏览器，window类似于浏览器的标签页，pane类似于网页里面的各个部件。</p>
+<h2 id="tmux的操作"><a href="#tmux的操作" class="headerlink" title="tmux的操作"></a>tmux的操作</h2><p>开启的我们tmux之旅。</p>
+<p>在安装往tmux后。</p>
+<h3 id="新建session"><a href="#新建session" class="headerlink" title="新建session"></a>新建session</h3><p>我们输入<code>tmux </code>，就可以新建一个session。输入后会发现，好像什么也没变，你依旧在shell环境里。</p>
+<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606162947547.png" alt="image-20230606162947547"></p>
+<p>其实你已经在tmux的shell里。</p>
+<p>shell—&gt;tmux—&gt;shell</p>
+<p>底下是tmux 的state bar。左边是一些window的信息，你使用&lt;C-b ,&gt;来更改window的名字。按&lt;C-b ，&gt; (注：C指ctrl, -表示同时)。&lt;C-b ,&gt;表示同时按下ctrl键和,键，松开，再按下,键。&lt;C-b&gt;是tmux的一个命令前缀，所有命令要加&lt;C-b&gt;。如果你了解Emacs，这对你来说再熟悉不过了。</p>
+<p>如果你想要退出tmux</p>
+<p>按&lt;C-b d&gt; ，然后你会从tmux里脱离(detach)出来。</p>
+<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606163449662.png" alt="image-20230606163449662"></p>
+<p>在shell中输入<code>tmux ls</code>可以看到你之前创建的session。</p>
+<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606163630568.png" alt="image-20230606163630568"></p>
+<p>我们可以看到0: 1 windows (created Tue Jun  6 16:29:32 2023)</p>
+<p>0指我们之前创建的session的名字，因为我们创建时没有指定name，所以默认0，1，2。冒号：后面是session 0 里面的内容，可以看到有一个window。如果我们在创建session是可以使用命令<code>tmux new -s name</code>。</p>
+<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606164012156.png" alt="image-20230606164012156"></p>
+<p>如果要回到detach后的session.输入<code>tmux attach -t name</code>，就可以回到相应的session里面，或者输入<code>tmux a -t name</code>，a是attach的缩写。</p>
+<h3 id="新建window"><a href="#新建window" class="headerlink" title="新建window"></a>新建window</h3><p>session里面后，如果我们想要新建一个window，&lt;C-b c&gt;。</p>
+<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606164936613.png" alt="image-20230606164936613"></p>
+<p>可以从state bar左边看到，我们新建了两个window1，2。下面我们学习如何在window之间移动。</p>
+<p>窗口名字后面的*代表你在哪个window里。</p>
+<p>&lt;C-b n&gt;移动到下 一个window。</p>
+<p>&lt;C-b p&gt;移动到上一个window。</p>
+<p>&lt;C-b 0&gt;移动到第一个window，&lt;C-b 1&gt;….同理。</p>
+<p>&lt;C-b &amp;&gt;可以关闭当前window。我更喜欢使用shell命令&lt;C-d&gt;</p>
+<h3 id="分离pane"><a href="#分离pane" class="headerlink" title="分离pane"></a>分离pane</h3><p>&lt;C-b %&gt;垂直分隔pane</p>
+<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165657621.png" alt="image-20230606165657621"></p>
+<p>&lt;C-b “&gt;水平分隔pane</p>
+<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165721587.png" alt="image-20230606165721587"></p>
+<p>&lt;C-b arrow&gt;（arrow指箭头键）在pane在移动。</p>
+<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165954495.png" alt="image-20230606165954495"></p>
+<p>&lt;C-b space&gt;改变pane排列的样式</p>
+<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606170044638.png" alt="image-20230606170044638"></p>
+<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606170056275.png" alt="image-20230606170056275"></p>
+<p>&lt;C-b z&gt;放大当前pane</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>恭喜你，你已经学会了tmux的基本操作了，你可以灵活的使用tmux来进行更好的开发。如果你想要了解更多tmux的操作，不妨去tmux官方文档或者社区一起交流。噢，对了。&lt;C-b ?&gt;可以了解到更多的tmux命令。</p>
+<h2 id="tmux命令总结-复习"><a href="#tmux命令总结-复习" class="headerlink" title="tmux命令总结&#x2F;复习"></a>tmux命令总结&#x2F;复习</h2><ul>
+<li>session - 每个会话都是一个独立的工作区，其中包含一个或多个窗口<ul>
+<li><code>tmux</code> 开始一个新的会话</li>
+<li><code>tmux new -s NAME</code> 以指定名称开始一个新的会话</li>
+<li><code>tmux ls</code> 列出当前所有会话</li>
+<li>在 <code>tmux</code> 中输入 <code>&lt;C-b&gt; d</code> ，将当前会话分离</li>
+<li><code>tmux a</code> 重新连接最后一个会话。您也可以通过 <code>-t</code> 来指定具体的会话</li>
+</ul>
+</li>
+<li>window  - 相当于编辑器或是浏览器中的标签页，从视觉上将一个会话分割为多个部分<ul>
+<li><code>&lt;C-b&gt; c</code> 创建一个新的窗口，使用 <code>&lt;C-d&gt;</code>关闭</li>
+<li><code>&lt;C-b&gt; N</code> 跳转到第 <em>N</em> 个窗口，注意每个窗口都是有编号的</li>
+<li><code>&lt;C-b&gt; p</code> 切换到前一个窗口</li>
+<li><code>&lt;C-b&gt; n</code> 切换到下一个窗口</li>
+<li><code>&lt;C-b&gt; ,</code> 重命名当前窗口</li>
+<li><code>&lt;C-b&gt; w</code> 列出当前所有窗口</li>
+</ul>
+</li>
+<li>pane  - 像 vim 中的分屏一样，面板使我们可以在一个屏幕里显示多个 shell<ul>
+<li><code>&lt;C-b&gt; &quot;</code> 水平分割</li>
+<li><code>&lt;C-b&gt; %</code> 垂直分割</li>
+<li><code>&lt;C-b&gt; &lt;方向&gt;</code> 切换到指定方向的面板，&lt;方向&gt; 指的是键盘上的方向键</li>
+<li><code>&lt;C-b&gt; z</code> 切换当前面板的缩放</li>
+<li><code>&lt;C-b&gt; [</code> 开始往回卷动屏幕。您可以按下空格键来开始选择，回车键复制选中的部分</li>
+<li><code>&lt;C-b&gt; &lt;空格&gt;</code> 在不同的面板排布间切换</li>
+</ul>
+</li>
+</ul>
+<h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><p>——<a target="_blank" rel="noopener" href="https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/">A Quick and Easy Guide to tmux </a>                 一份tmux的快速入门（看完本文后，可以不看）</p>
+<p>——<a target="_blank" rel="noopener" href="http://linuxcommand.org/lc3_adv_termmux.php">Linux Command Line Adventure: Terminal Multiplexers</a> 		一篇更加详细的文章，它也包含了<code>screen</code>的内容</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/tmux-tool/" rel="tag"># tmux tool</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/11/test/" rel="prev" title="test">
+      <i class="fa fa-chevron-left"></i> test
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/11/28/git%E5%9F%BA%E7%A1%80/" rel="next" title="git基础">
+      git基础 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">tmux食用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFtmux"><span class="nav-number">1.1.</span> <span class="nav-text">什么是tmux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tmux%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.2.</span> <span class="nav-text">tmux的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tmux%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.3.</span> <span class="nav-text">tmux的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAsession"><span class="nav-number">1.3.1.</span> <span class="nav-text">新建session</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAwindow"><span class="nav-number">1.3.2.</span> <span class="nav-text">新建window</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%A6%BBpane"><span class="nav-number">1.3.3.</span> <span class="nav-text">分离pane</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">1.4.</span> <span class="nav-text">结语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tmux%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93-%E5%A4%8D%E4%B9%A0"><span class="nav-number">1.5.</span> <span class="nav-text">tmux命令总结&#x2F;复习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="nav-number">1.6.</span> <span class="nav-text">扩展阅读</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Memetor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Memetor</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
