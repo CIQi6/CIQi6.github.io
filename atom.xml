@@ -6,7 +6,7 @@
   <link href="https://lightc.top/atom.xml" rel="self"/>
   
   <link href="https://lightc.top/"/>
-  <updated>2023-12-17T08:19:28.855Z</updated>
+  <updated>2023-12-19T10:03:50.321Z</updated>
   <id>https://lightc.top/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PIMPL</title>
+    <link href="https://lightc.top/2023/12/19/PIMPL/"/>
+    <id>https://lightc.top/2023/12/19/PIMPL/</id>
+    <published>2023-12-19T09:00:08.000Z</published>
+    <updated>2023-12-19T10:03:50.321Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;Pimpl (Pointer to implementation) 是一种减少代码依赖和编译时间的 cpp 代码技巧。&lt;/p&gt;
+&lt;p&gt;Pimpl 的思想是将可见类的实现放在一个单独的实现类中，在可见类中使用一个私有指针来访问实现类。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="cpp" scheme="https://lightc.top/tags/cpp/"/>
+    
+    <category term="cppIdioms" scheme="https://lightc.top/tags/cppIdioms/"/>
+    
+  </entry>
   
   <entry>
     <title>graph</title>

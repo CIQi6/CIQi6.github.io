@@ -388,4 +388,33 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
         <tag>Heap</tag>
       </tags>
   </entry>
+  <entry>
+    <title>PIMPL</title>
+    <url>/2023/12/19/PIMPL/</url>
+    <content><![CDATA[<p>Pimpl (Pointer to implementation) 是一种减少代码依赖和编译时间的 cpp 代码技巧。</p>
+<p>Pimpl 的思想是将可见类的实现放在一个单独的实现类中，在可见类中使用一个私有指针来访问实现类。</p>
+<span id="more"></span>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Pimpl</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.h 中</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="built_in">person</span>();</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// 把 person 类的一些实现放在实现类中</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Impl</span>;</span><br><span class="line">    std::unique_ptr&lt;Impl&gt; pimpl_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.cpp 中</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;person.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;basic_info.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">person</span>::Impl &#123;</span><br><span class="line">    std::string name;</span><br><span class="line">    std::string id;</span><br><span class="line">    BasicInfo basic_info;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">person::<span class="built_in">person</span>() : <span class="built_in">pimpl</span>(std::<span class="built_in">make_unique_ptr</span>&lt;Impl&gt;() &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="为什么-Piml-可以减少代码依赖和编译时间？"><a href="#为什么-Piml-可以减少代码依赖和编译时间？" class="headerlink" title="为什么 Piml 可以减少代码依赖和编译时间？"></a>为什么 Piml 可以减少代码依赖和编译时间？</h2><p>我们先来对比没有使用 Piml 的代码。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 不使用 Pimpl</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.h 中</span></span><br><span class="line"><span class="meta">#inclue <span class="string">&quot;basic_info.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	std::string name;</span><br><span class="line">    	std::string id;</span><br><span class="line">    	BasicInfo basic_info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到相比使用 Pimpl 的代码，没有使用 Pimpl 的代码需要 <code>include</code> 头文件 <code>string.h</code> 和 <code>basic_info.h</code>，导致编译时间的增加。也就是说 <strong>Pimpl 可以减少这种编译依赖，从而减少编译时间</strong>。</p>
+<p>另外，不使用 Pimpl 的代码中，假设 <code>basic_info.h</code> 需要经常更改时，会导致 person 类的重新编译。</p>
+<p>而 Pimpl 就是一种常见的用来减少这些编译依赖性的方法。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><p><a href="https://zhuanlan.zhihu.com/p/458947637">C++编程技巧: Pimpl - GoodLiu - 知乎 </a></p>
+</li>
+<li><p><a href="https://herbsutter.com/gotw/_100/">Sutter’s Mill 的博客： GotW #100: Compilation Firewalls </a></p>
+</li>
+<li><p>Scott Meyers的 &lt;&lt;Effective Modern C++&gt;&gt;</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>cpp</tag>
+        <tag>cppIdioms</tag>
+      </tags>
+  </entry>
 </search>
