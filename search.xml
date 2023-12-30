@@ -408,7 +408,7 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
 </li>
 <li><p><a href="https://herbsutter.com/gotw/_100/">Sutter’s Mill 的博客： GotW #100: Compilation Firewalls </a></p>
 </li>
-<li><p>Scott Meyers的 &lt;&lt;Effective Modern C++&gt;&gt;</p>
+<li><p>Scott Meyers的 《Effective Modern C++》</p>
 </li>
 </ul>
 ]]></content>
