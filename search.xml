@@ -417,4 +417,32 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
         <tag>cppIdioms</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Testing</title>
+    <url>/2023/12/31/Testing/</url>
+    <content><![CDATA[<h2 id="Equality-Testing"><a href="#Equality-Testing" class="headerlink" title="Equality Testing"></a>Equality Testing</h2><p>java 规定 equals 方法应该要满足以下性质：</p>
+<ul>
+<li>自反性：对于非 NULL 引用 x， <code>x.equals(x)</code>应该返回 true</li>
+<li>对称性：对于任何 x 和 y，<code>x.eqauls(y)</code> 和 <code>y.equals(x)</code> 返回的结果应该相同</li>
+<li>传递性：对于任何 x 、y 和 z，<code>x.equals(y)</code> 、<code>y.equals(z)</code> 则 <code>x.equals(z)</code></li>
+<li>一致性：只要 x 和 y 不变，则无论调用多少次，什么时候调用 x.equals(y) ，返回的值应该不变</li>
+<li>对于 x.equals(null) 应该返回 false</li>
+</ul>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>在设计类时，我们应该仔细琢磨 equals 方法的设计。因为当 equals 方法的参数属于不同<strong>类</strong>时，对称性的规则会产生微妙的变化。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假设我们有两个类：employee 和 mannner ，manner 是 employee 的子类。</p>
+<p>现在 e 是 employee 的一个实例，m 是 manner 是一个实例。</p>
+<p>考虑<code>e.equals(m)</code>。如果我们的 equals 方法采用了 <code>instanceof Testing</code> ，<code>e.equals(m)</code> 的结果显然返回 true ，但是对称性要求我们 <code>m.equals(e)</code> 应当也返回 true ， 但<code>e instanceof Manner</code> 会抛出异常。也就是不满足对称性的要求。</p>
+<p>我们在设计类的 equals 方法要谨慎。java.sql.Timestamp 类的设计是一个鲜明的反例。</p>
+<h2 id="一些策略"><a href="#一些策略" class="headerlink" title="一些策略"></a>一些策略</h2><p>《java 核心技术卷·一》中提出的 equals 方法设计的 Tips</p>
+<blockquote>
+<p> • If subclasses can have their own notion of equality, then the symmetry requirement forces you<br>to use the getClass test.<br>• If the notion of equality is fixed in the superclass, then you can use the instanceof test and<br>allow objects of different subclasses to be equal to one another.</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>《java 核心技术卷·一》——Cay S. Horstmann</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
 </search>

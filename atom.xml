@@ -6,7 +6,7 @@
   <link href="https://lightc.top/atom.xml" rel="self"/>
   
   <link href="https://lightc.top/"/>
-  <updated>2023-12-30T13:00:17.283Z</updated>
+  <updated>2023-12-31T05:25:23.451Z</updated>
   <id>https://lightc.top/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Testing</title>
+    <link href="https://lightc.top/2023/12/31/Testing/"/>
+    <id>https://lightc.top/2023/12/31/Testing/</id>
+    <published>2023-12-31T05:05:09.000Z</published>
+    <updated>2023-12-31T05:25:23.451Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;Equality-Testing&quot;&gt;&lt;a href=&quot;#Equality-Testing&quot; class=&quot;headerlink&quot; title=&quot;Equality Testing&quot;&gt;&lt;/a&gt;Equality Testing&lt;/h2&gt;&lt;p&gt;java 规定 equals</summary>
+      
+    
+    
+    
+    
+    <category term="java" scheme="https://lightc.top/tags/java/"/>
+    
+  </entry>
   
   <entry>
     <title>PIMPL</title>
