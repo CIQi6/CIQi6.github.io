@@ -35,17 +35,17 @@
   <meta name="description" content="Equality Testingjava 规定 equals 方法应该要满足以下性质：  自反性：对于非 NULL 引用 x， x.equals(x)应该返回 true 对称性：对于任何 x 和 y，x.eqauls(y) 和 y.equals(x) 返回的结果应该相同 传递性：对于任何 x 、y 和 z，x.equals(y) 、y.equals(z) 则 x.equals(z) 一致性：只要">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Testing">
-<meta property="og:url" content="https://lightc.top/2023/12/31/Testing/index.html">
+<meta property="og:url" content="https://lightc.top/2023/12/31/Equality_Testing/index.html">
 <meta property="og:site_name" content="Memetor&#39;s Blog">
 <meta property="og:description" content="Equality Testingjava 规定 equals 方法应该要满足以下性质：  自反性：对于非 NULL 引用 x， x.equals(x)应该返回 true 对称性：对于任何 x 和 y，x.eqauls(y) 和 y.equals(x) 返回的结果应该相同 传递性：对于任何 x 、y 和 z，x.equals(y) 、y.equals(z) 则 x.equals(z) 一致性：只要">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-12-31T05:05:09.000Z">
-<meta property="article:modified_time" content="2023-12-31T05:33:47.997Z">
+<meta property="article:modified_time" content="2023-12-31T05:37:36.436Z">
 <meta property="article:author" content="Memetor">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://lightc.top/2023/12/31/Testing/">
+<link rel="canonical" href="https://lightc.top/2023/12/31/Equality_Testing/">
 
 
 <script id="page-configurations">
@@ -197,7 +197,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/12/31/Testing/">
+    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/12/31/Equality_Testing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -221,7 +221,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2023-12-31 13:05:09 / Modified: 13:33:47" itemprop="dateCreated datePublished" datetime="2023-12-31T13:05:09+08:00">2023-12-31</time>
+              <time title="Created: 2023-12-31 13:05:09 / Modified: 13:37:36" itemprop="dateCreated datePublished" datetime="2023-12-31T13:05:09+08:00">2023-12-31</time>
             </span>
 
           <br>
@@ -267,6 +267,8 @@
 <li>一致性：只要 x 和 y 不变，则无论调用多少次，什么时候调用 x.equals(y) ，返回的值应该不变</li>
 <li>对于 x.equals(null) 应该返回 false</li>
 </ul>
+<span id="more"></span>
+
 <h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>在设计类时，我们应该仔细琢磨 equals 方法的设计。因为当 equals 方法的参数属于不同<strong>类</strong>时，对称性的规则会产生微妙的变化。</p>
 <h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假设我们有两个类：employee 和 mannner ，manner 是 employee 的子类。</p>
 <p>现在 e 是 employee 的一个实例，m 是 manner 是一个实例。</p>
@@ -300,7 +302,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="https://lightc.top/2023/12/31/Testing/" title="Testing">https://lightc.top/2023/12/31/Testing/</a>
+    <a href="https://lightc.top/2023/12/31/Equality_Testing/" title="Testing">https://lightc.top/2023/12/31/Equality_Testing/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.

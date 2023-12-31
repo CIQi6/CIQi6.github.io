@@ -6,7 +6,7 @@
   <link href="https://lightc.top/atom.xml" rel="self"/>
   
   <link href="https://lightc.top/"/>
-  <updated>2023-12-31T05:33:47.997Z</updated>
+  <updated>2023-12-31T05:37:36.436Z</updated>
   <id>https://lightc.top/</id>
   
   <author>
@@ -18,16 +18,20 @@
   
   <entry>
     <title>Testing</title>
-    <link href="https://lightc.top/2023/12/31/Testing/"/>
-    <id>https://lightc.top/2023/12/31/Testing/</id>
+    <link href="https://lightc.top/2023/12/31/Equality_Testing/"/>
+    <id>https://lightc.top/2023/12/31/Equality_Testing/</id>
     <published>2023-12-31T05:05:09.000Z</published>
-    <updated>2023-12-31T05:33:47.997Z</updated>
+    <updated>2023-12-31T05:37:36.436Z</updated>
     
     
-      
-      
-    <summary type="html">&lt;h2 id=&quot;Equality-Testing&quot;&gt;&lt;a href=&quot;#Equality-Testing&quot; class=&quot;headerlink&quot; title=&quot;Equality Testing&quot;&gt;&lt;/a&gt;Equality Testing&lt;/h2&gt;&lt;p&gt;java 规定 equals</summary>
-      
+    <summary type="html">&lt;h2 id=&quot;Equality-Testing&quot;&gt;&lt;a href=&quot;#Equality-Testing&quot; class=&quot;headerlink&quot; title=&quot;Equality Testing&quot;&gt;&lt;/a&gt;Equality Testing&lt;/h2&gt;&lt;p&gt;java 规定 equals 方法应该要满足以下性质：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自反性：对于非 NULL 引用 x， &lt;code&gt;x.equals(x)&lt;/code&gt;应该返回 true&lt;/li&gt;
+&lt;li&gt;对称性：对于任何 x 和 y，&lt;code&gt;x.eqauls(y)&lt;/code&gt; 和 &lt;code&gt;y.equals(x)&lt;/code&gt; 返回的结果应该相同&lt;/li&gt;
+&lt;li&gt;传递性：对于任何 x 、y 和 z，&lt;code&gt;x.equals(y)&lt;/code&gt; 、&lt;code&gt;y.equals(z)&lt;/code&gt; 则 &lt;code&gt;x.equals(z)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;一致性：只要 x 和 y 不变，则无论调用多少次，什么时候调用 x.equals(y) ，返回的值应该不变&lt;/li&gt;
+&lt;li&gt;对于 x.equals(null) 应该返回 false&lt;/li&gt;
+&lt;/ul&gt;</summary>
     
     
     

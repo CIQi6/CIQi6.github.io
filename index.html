@@ -191,7 +191,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/12/31/Testing/">
+    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/12/31/Equality_Testing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -205,7 +205,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/12/31/Testing/" class="post-title-link" itemprop="url">Testing</a>
+            <a href="/2023/12/31/Equality_Testing/" class="post-title-link" itemprop="url">Testing</a>
         </h2>
 
         <div class="post-meta">
@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2023-12-31 13:05:09 / Modified: 13:33:47" itemprop="dateCreated datePublished" datetime="2023-12-31T13:05:09+08:00">2023-12-31</time>
+              <time title="Created: 2023-12-31 13:05:09 / Modified: 13:37:36" itemprop="dateCreated datePublished" datetime="2023-12-31T13:05:09+08:00">2023-12-31</time>
             </span>
 
           <br>
@@ -256,25 +256,14 @@
 <li>一致性：只要 x 和 y 不变，则无论调用多少次，什么时候调用 x.equals(y) ，返回的值应该不变</li>
 <li>对于 x.equals(null) 应该返回 false</li>
 </ul>
-<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>在设计类时，我们应该仔细琢磨 equals 方法的设计。因为当 equals 方法的参数属于不同<strong>类</strong>时，对称性的规则会产生微妙的变化。</p>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假设我们有两个类：employee 和 mannner ，manner 是 employee 的子类。</p>
-<p>现在 e 是 employee 的一个实例，m 是 manner 是一个实例。</p>
-<p>考虑<code>e.equals(m)</code>。如果我们的 equals 方法采用了 <code>instanceof Testing</code> ，<code>e.equals(m)</code> 的结果显然返回 true ，但是对称性要求我们 <code>m.equals(e)</code> 应当也返回 true ， 但<code>e instanceof Manner</code> 会抛出异常。也就是不满足对称性的要求。</p>
-<p>我们在设计类的 equals 方法要谨慎。java.sql.Timestamp 类的设计是一个鲜明的反例。</p>
-<h2 id="一些策略"><a href="#一些策略" class="headerlink" title="一些策略"></a>一些策略</h2><p>《java 核心技术卷·一》中提出的 equals 方法设计的 Tips</p>
-<blockquote>
-<ol>
-<li>Name the explicit parameter <code>otherObject</code>—later, you will need to cast it to another variable<br>that you should call <code> other</code>.</li>
-<li>Test whether this happens to be identical to <code>otherObject</code>:<br><code>if (this == otherObject) return true;</code><br>This statement is just an optimization. In practice, this is a common case. It is much cheaper<br>to check for identity than to compare the fields.</li>
-<li>Test whether <code>otherObject</code> is <code>null</code> and return <code>false</code> if it is. This test is required.<br><code>if (otherObject == null) return false;</code></li>
-<li>Compare  the  classes  of  <code>this </code> and  <code>otherObject</code>.  If  the  semantics  of  <code>equals </code> can  change  in subclasses, use the <code>getClass</code> test:<br><code>if (getClass() != otherObject.getClass()) return false;</code><br><code>ClassName other = (ClassName) otherObject;</code><br>If the same semantics holds for all subclasses, you can use an<code>instanceof</code>test:<br><code>if (!(otherObject instanceof ClassName other)) return false;</code><br>Note that the <code>instanceof </code>test sets<code>other</code>to<code> otherObject</code>if it succeeds. No cast is necessary.</li>
-<li>Now compare the fields, as required by your notion of equality. Use &#x3D;&#x3D; for primitive type<br>fields, <code>Objects.equals</code> for object fields. Return true if all fields match, false otherwise.<br><code>return field1 == other.field1    &amp;&amp; Objects.equals(field2, other.field2)    &amp;&amp; . . .;</code><br>If you redefine equals in a subclass, include a call to <code>super.equals(other)</code>.</li>
-</ol>
-</blockquote>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>《java 核心技术卷·一》——Cay S. Horstmann</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/12/31/Equality_Testing/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
