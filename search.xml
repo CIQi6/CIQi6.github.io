@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Testing</title>
+    <url>/2023/12/31/Equality_Testing/</url>
+    <content><![CDATA[<h2 id="Equality-Testing"><a href="#Equality-Testing" class="headerlink" title="Equality Testing"></a>Equality Testing</h2><p>java 规定 equals 方法应该要满足以下性质：</p>
+<ul>
+<li>自反性：对于非 NULL 引用 x， <code>x.equals(x)</code>应该返回 true</li>
+<li>对称性：对于任何 x 和 y，<code>x.eqauls(y)</code> 和 <code>y.equals(x)</code> 返回的结果应该相同</li>
+<li>传递性：对于任何 x 、y 和 z，<code>x.equals(y)</code> 、<code>y.equals(z)</code> 则 <code>x.equals(z)</code></li>
+<li>一致性：只要 x 和 y 不变，则无论调用多少次，什么时候调用 x.equals(y) ，返回的值应该不变</li>
+<li>对于 x.equals(null) 应该返回 false</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>在设计类时，我们应该仔细琢磨 equals 方法的设计。因为当 equals 方法的参数属于不同<strong>类</strong>时，对称性的规则会产生微妙的变化。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假设我们有两个类：employee 和 mannner ，manner 是 employee 的子类。</p>
+<p>现在 e 是 employee 的一个实例，m 是 manner 是一个实例。</p>
+<p>考虑<code>e.equals(m)</code>。如果我们的 equals 方法采用了 <code>instanceof Testing</code> ，<code>e.equals(m)</code> 的结果显然返回 true ，但是对称性要求我们 <code>m.equals(e)</code> 应当也返回 true ， 但<code>e instanceof Manner</code> 会抛出异常。也就是不满足对称性的要求。</p>
+<p>我们在设计类的 equals 方法要谨慎。java.sql.Timestamp 类的设计是一个鲜明的反例。</p>
+<h2 id="一些策略"><a href="#一些策略" class="headerlink" title="一些策略"></a>一些策略</h2><p>《java 核心技术卷·一》中提出的 equals 方法设计的 Tips</p>
+<blockquote>
+<ol>
+<li>Name the explicit parameter <code>otherObject</code>—later, you will need to cast it to another variable<br>that you should call <code> other</code>.</li>
+<li>Test whether this happens to be identical to <code>otherObject</code>:<br><code>if (this == otherObject) return true;</code><br>This statement is just an optimization. In practice, this is a common case. It is much cheaper<br>to check for identity than to compare the fields.</li>
+<li>Test whether <code>otherObject</code> is <code>null</code> and return <code>false</code> if it is. This test is required.<br><code>if (otherObject == null) return false;</code></li>
+<li>Compare  the  classes  of  <code>this </code> and  <code>otherObject</code>.  If  the  semantics  of  <code>equals </code> can  change  in subclasses, use the <code>getClass</code> test:<br><code>if (getClass() != otherObject.getClass()) return false;</code><br><code>ClassName other = (ClassName) otherObject;</code><br>If the same semantics holds for all subclasses, you can use an<code>instanceof</code>test:<br><code>if (!(otherObject instanceof ClassName other)) return false;</code><br>Note that the <code>instanceof </code>test sets<code>other</code>to<code> otherObject</code>if it succeeds. No cast is necessary.</li>
+<li>Now compare the fields, as required by your notion of equality. Use &#x3D;&#x3D; for primitive type<br>fields, <code>Objects.equals</code> for object fields. Return true if all fields match, false otherwise.<br><code>return field1 == other.field1    &amp;&amp; Objects.equals(field2, other.field2)    &amp;&amp; . . .;</code><br>If you redefine equals in a subclass, include a call to <code>super.equals(other)</code>.</li>
+</ol>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>《java 核心技术卷·一》——Cay S. Horstmann</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>copy constructor 杂谈(一)</title>
     <url>/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/</url>
     <content><![CDATA[<h1 id="copy-constructor-的杂谈"><a href="#copy-constructor-的杂谈" class="headerlink" title="copy constructor 的杂谈"></a>copy constructor 的杂谈</h1><pre><code>copy constructor 为什么第一个参数必须为引用类型？
@@ -38,6 +74,35 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
 ]]></content>
       <tags>
         <tag>cpp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PIMPL</title>
+    <url>/2023/12/19/PIMPL/</url>
+    <content><![CDATA[<p>Pimpl (Pointer to implementation) 是一种减少代码依赖和编译时间的 cpp 代码技巧。</p>
+<p>Pimpl 的思想是将可见类的实现放在一个单独的实现类中，在可见类中使用一个私有指针来访问实现类。</p>
+<span id="more"></span>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Pimpl</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.h 中</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="built_in">person</span>();</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// 把 person 类的一些实现放在实现类中</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Impl</span>;</span><br><span class="line">    std::unique_ptr&lt;Impl&gt; pimpl_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.cpp 中</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;person.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;basic_info.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">person</span>::Impl &#123;</span><br><span class="line">    std::string name;</span><br><span class="line">    std::string id;</span><br><span class="line">    BasicInfo basic_info;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">person::<span class="built_in">person</span>() : <span class="built_in">pimpl</span>(std::<span class="built_in">make_unique_ptr</span>&lt;Impl&gt;() &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="为什么-Piml-可以减少代码依赖和编译时间？"><a href="#为什么-Piml-可以减少代码依赖和编译时间？" class="headerlink" title="为什么 Piml 可以减少代码依赖和编译时间？"></a>为什么 Piml 可以减少代码依赖和编译时间？</h2><p>我们先来对比没有使用 Piml 的代码。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 不使用 Pimpl</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.h 中</span></span><br><span class="line"><span class="meta">#inclue <span class="string">&quot;basic_info.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	std::string name;</span><br><span class="line">    	std::string id;</span><br><span class="line">    	BasicInfo basic_info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到相比使用 Pimpl 的代码，没有使用 Pimpl 的代码需要 <code>include</code> 头文件 <code>string.h</code> 和 <code>basic_info.h</code>，导致编译时间的增加。也就是说 <strong>Pimpl 可以减少这种编译依赖，从而减少编译时间</strong>。</p>
+<p>另外，不使用 Pimpl 的代码中，假设 <code>basic_info.h</code> 需要经常更改时，会导致 person 类的重新编译。</p>
+<p>而 Pimpl 就是一种常见的用来减少这些编译依赖性的方法。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><p><a href="https://zhuanlan.zhihu.com/p/458947637">C++编程技巧: Pimpl - GoodLiu - 知乎 </a></p>
+</li>
+<li><p><a href="https://herbsutter.com/gotw/_100/">Sutter’s Mill 的博客： GotW #100: Compilation Firewalls </a></p>
+</li>
+<li><p>Scott Meyers的 《Effective Modern C++》</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>cpp</tag>
+        <tag>cppIdioms</tag>
       </tags>
   </entry>
   <entry>
@@ -386,71 +451,6 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
       <tags>
         <tag>dataStruct</tag>
         <tag>Heap</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PIMPL</title>
-    <url>/2023/12/19/PIMPL/</url>
-    <content><![CDATA[<p>Pimpl (Pointer to implementation) 是一种减少代码依赖和编译时间的 cpp 代码技巧。</p>
-<p>Pimpl 的思想是将可见类的实现放在一个单独的实现类中，在可见类中使用一个私有指针来访问实现类。</p>
-<span id="more"></span>
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Pimpl</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.h 中</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="built_in">person</span>();</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// 把 person 类的一些实现放在实现类中</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Impl</span>;</span><br><span class="line">    std::unique_ptr&lt;Impl&gt; pimpl_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.cpp 中</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;person.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;basic_info.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">person</span>::Impl &#123;</span><br><span class="line">    std::string name;</span><br><span class="line">    std::string id;</span><br><span class="line">    BasicInfo basic_info;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">person::<span class="built_in">person</span>() : <span class="built_in">pimpl</span>(std::<span class="built_in">make_unique_ptr</span>&lt;Impl&gt;() &#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="为什么-Piml-可以减少代码依赖和编译时间？"><a href="#为什么-Piml-可以减少代码依赖和编译时间？" class="headerlink" title="为什么 Piml 可以减少代码依赖和编译时间？"></a>为什么 Piml 可以减少代码依赖和编译时间？</h2><p>我们先来对比没有使用 Piml 的代码。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 不使用 Pimpl</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.h 中</span></span><br><span class="line"><span class="meta">#inclue <span class="string">&quot;basic_info.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	std::string name;</span><br><span class="line">    	std::string id;</span><br><span class="line">    	BasicInfo basic_info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看到相比使用 Pimpl 的代码，没有使用 Pimpl 的代码需要 <code>include</code> 头文件 <code>string.h</code> 和 <code>basic_info.h</code>，导致编译时间的增加。也就是说 <strong>Pimpl 可以减少这种编译依赖，从而减少编译时间</strong>。</p>
-<p>另外，不使用 Pimpl 的代码中，假设 <code>basic_info.h</code> 需要经常更改时，会导致 person 类的重新编译。</p>
-<p>而 Pimpl 就是一种常见的用来减少这些编译依赖性的方法。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><p><a href="https://zhuanlan.zhihu.com/p/458947637">C++编程技巧: Pimpl - GoodLiu - 知乎 </a></p>
-</li>
-<li><p><a href="https://herbsutter.com/gotw/_100/">Sutter’s Mill 的博客： GotW #100: Compilation Firewalls </a></p>
-</li>
-<li><p>Scott Meyers的 《Effective Modern C++》</p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>cpp</tag>
-        <tag>cppIdioms</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Testing</title>
-    <url>/2023/12/31/Equality_Testing/</url>
-    <content><![CDATA[<h2 id="Equality-Testing"><a href="#Equality-Testing" class="headerlink" title="Equality Testing"></a>Equality Testing</h2><p>java 规定 equals 方法应该要满足以下性质：</p>
-<ul>
-<li>自反性：对于非 NULL 引用 x， <code>x.equals(x)</code>应该返回 true</li>
-<li>对称性：对于任何 x 和 y，<code>x.eqauls(y)</code> 和 <code>y.equals(x)</code> 返回的结果应该相同</li>
-<li>传递性：对于任何 x 、y 和 z，<code>x.equals(y)</code> 、<code>y.equals(z)</code> 则 <code>x.equals(z)</code></li>
-<li>一致性：只要 x 和 y 不变，则无论调用多少次，什么时候调用 x.equals(y) ，返回的值应该不变</li>
-<li>对于 x.equals(null) 应该返回 false</li>
-</ul>
-<span id="more"></span>
-
-<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>在设计类时，我们应该仔细琢磨 equals 方法的设计。因为当 equals 方法的参数属于不同<strong>类</strong>时，对称性的规则会产生微妙的变化。</p>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假设我们有两个类：employee 和 mannner ，manner 是 employee 的子类。</p>
-<p>现在 e 是 employee 的一个实例，m 是 manner 是一个实例。</p>
-<p>考虑<code>e.equals(m)</code>。如果我们的 equals 方法采用了 <code>instanceof Testing</code> ，<code>e.equals(m)</code> 的结果显然返回 true ，但是对称性要求我们 <code>m.equals(e)</code> 应当也返回 true ， 但<code>e instanceof Manner</code> 会抛出异常。也就是不满足对称性的要求。</p>
-<p>我们在设计类的 equals 方法要谨慎。java.sql.Timestamp 类的设计是一个鲜明的反例。</p>
-<h2 id="一些策略"><a href="#一些策略" class="headerlink" title="一些策略"></a>一些策略</h2><p>《java 核心技术卷·一》中提出的 equals 方法设计的 Tips</p>
-<blockquote>
-<ol>
-<li>Name the explicit parameter <code>otherObject</code>—later, you will need to cast it to another variable<br>that you should call <code> other</code>.</li>
-<li>Test whether this happens to be identical to <code>otherObject</code>:<br><code>if (this == otherObject) return true;</code><br>This statement is just an optimization. In practice, this is a common case. It is much cheaper<br>to check for identity than to compare the fields.</li>
-<li>Test whether <code>otherObject</code> is <code>null</code> and return <code>false</code> if it is. This test is required.<br><code>if (otherObject == null) return false;</code></li>
-<li>Compare  the  classes  of  <code>this </code> and  <code>otherObject</code>.  If  the  semantics  of  <code>equals </code> can  change  in subclasses, use the <code>getClass</code> test:<br><code>if (getClass() != otherObject.getClass()) return false;</code><br><code>ClassName other = (ClassName) otherObject;</code><br>If the same semantics holds for all subclasses, you can use an<code>instanceof</code>test:<br><code>if (!(otherObject instanceof ClassName other)) return false;</code><br>Note that the <code>instanceof </code>test sets<code>other</code>to<code> otherObject</code>if it succeeds. No cast is necessary.</li>
-<li>Now compare the fields, as required by your notion of equality. Use &#x3D;&#x3D; for primitive type<br>fields, <code>Objects.equals</code> for object fields. Return true if all fields match, false otherwise.<br><code>return field1 == other.field1    &amp;&amp; Objects.equals(field2, other.field2)    &amp;&amp; . . .;</code><br>If you redefine equals in a subclass, include a call to <code>super.equals(other)</code>.</li>
-</ol>
-</blockquote>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>《java 核心技术卷·一》——Cay S. Horstmann</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>java</tag>
       </tags>
   </entry>
 </search>
