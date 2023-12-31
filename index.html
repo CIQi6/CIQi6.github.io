@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2023-12-31 13:05:09 / Modified: 13:25:23" itemprop="dateCreated datePublished" datetime="2023-12-31T13:05:09+08:00">2023-12-31</time>
+              <time title="Created: 2023-12-31 13:05:09 / Modified: 13:33:47" itemprop="dateCreated datePublished" datetime="2023-12-31T13:05:09+08:00">2023-12-31</time>
             </span>
 
           <br>
@@ -225,14 +225,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>992</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
+              <span>4 mins.</span>
             </span>
 
         </div>
@@ -263,7 +263,13 @@
 <p>我们在设计类的 equals 方法要谨慎。java.sql.Timestamp 类的设计是一个鲜明的反例。</p>
 <h2 id="一些策略"><a href="#一些策略" class="headerlink" title="一些策略"></a>一些策略</h2><p>《java 核心技术卷·一》中提出的 equals 方法设计的 Tips</p>
 <blockquote>
-<p> • If subclasses can have their own notion of equality, then the symmetry requirement forces you<br>to use the getClass test.<br>• If the notion of equality is fixed in the superclass, then you can use the instanceof test and<br>allow objects of different subclasses to be equal to one another.</p>
+<ol>
+<li>Name the explicit parameter <code>otherObject</code>—later, you will need to cast it to another variable<br>that you should call <code> other</code>.</li>
+<li>Test whether this happens to be identical to <code>otherObject</code>:<br><code>if (this == otherObject) return true;</code><br>This statement is just an optimization. In practice, this is a common case. It is much cheaper<br>to check for identity than to compare the fields.</li>
+<li>Test whether <code>otherObject</code> is <code>null</code> and return <code>false</code> if it is. This test is required.<br><code>if (otherObject == null) return false;</code></li>
+<li>Compare  the  classes  of  <code>this </code> and  <code>otherObject</code>.  If  the  semantics  of  <code>equals </code> can  change  in subclasses, use the <code>getClass</code> test:<br><code>if (getClass() != otherObject.getClass()) return false;</code><br><code>ClassName other = (ClassName) otherObject;</code><br>If the same semantics holds for all subclasses, you can use an<code>instanceof</code>test:<br><code>if (!(otherObject instanceof ClassName other)) return false;</code><br>Note that the <code>instanceof </code>test sets<code>other</code>to<code> otherObject</code>if it succeeds. No cast is necessary.</li>
+<li>Now compare the fields, as required by your notion of equality. Use &#x3D;&#x3D; for primitive type<br>fields, <code>Objects.equals</code> for object fields. Return true if all fields match, false otherwise.<br><code>return field1 == other.field1    &amp;&amp; Objects.equals(field2, other.field2)    &amp;&amp; . . .;</code><br>If you redefine equals in a subclass, include a call to <code>super.equals(other)</code>.</li>
+</ol>
 </blockquote>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li>《java 核心技术卷·一》——Cay S. Horstmann</li>
@@ -1114,12 +1120,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">13k</span>
+    <span title="Symbols count total">14k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">23 mins.</span>
+    <span title="Reading time total">25 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
