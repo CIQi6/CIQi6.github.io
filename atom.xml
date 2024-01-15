@@ -6,7 +6,7 @@
   <link href="https://lightc.top/atom.xml" rel="self"/>
   
   <link href="https://lightc.top/"/>
-  <updated>2023-12-31T05:37:36.436Z</updated>
+  <updated>2024-01-15T12:57:18.241Z</updated>
   <id>https://lightc.top/</id>
   
   <author>
@@ -15,6 +15,65 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>trie</title>
+    <link href="https://lightc.top/2024/01/15/trie/"/>
+    <id>https://lightc.top/2024/01/15/trie/</id>
+    <published>2024-01-15T11:48:22.000Z</published>
+    <updated>2024-01-15T12:57:18.241Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;对于搜索问题——从一堆数据中检索(retireve)我们感兴趣的数据，我们前面已经了解到了许多抽象数据结构以及其对应的具体实现。&lt;/p&gt;
+&lt;</summary>
+      
+    
+    
+    
+    
+    <category term="trie" scheme="https://lightc.top/tags/trie/"/>
+    
+    <category term="algorithmn" scheme="https://lightc.top/tags/algorithmn/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Relflection-java</title>
+    <link href="https://lightc.top/2024/01/05/Relflection-java/"/>
+    <id>https://lightc.top/2024/01/05/Relflection-java/</id>
+    <published>2024-01-05T05:18:51.000Z</published>
+    <updated>2024-01-12T16:05:37.892Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;什么是反射&quot;&gt;&lt;a href=&quot;#什么是反射&quot; class=&quot;headerlink&quot; title=&quot;什么是反射&quot;&gt;&lt;/a&gt;什么是反射&lt;/h2&gt;&lt;p&gt;反射就是程序在&lt;code&gt;运行时&lt;/code&gt;能够“观察”和修改自己的行为。&lt;/p&gt;
+&lt;p&gt;JAVA反射机制是在运行</summary>
+      
+    
+    
+    
+    
+    <category term="java" scheme="https://lightc.top/tags/java/"/>
+    
+    <category term="Reflection" scheme="https://lightc.top/tags/Reflection/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Shortest_Path</title>
+    <link href="https://lightc.top/2023/12/31/Shortest-Path/"/>
+    <id>https://lightc.top/2023/12/31/Shortest-Path/</id>
+    <published>2023-12-31T05:50:30.000Z</published>
+    <updated>2023-12-31T05:50:30.528Z</updated>
+    
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Testing</title>

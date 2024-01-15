@@ -32,20 +32,21 @@
     var CONFIG = {"hostname":"lightc.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="copy constructor 的杂谈copy constructor 为什么第一个参数必须为引用类型？  为了减少一次内存拷贝吗？">
+  <meta name="description" content="什么是反射反射就是程序在运行时能够“观察”和修改自己的行为。 JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。 反射是一种强大而复制的机制，它主要应用于工具构建，而不是应用程序编程。 使用反射分析类的功能使用反射在运行时分析类对象参考 Ja">
 <meta property="og:type" content="article">
-<meta property="og:title" content="copy constructor 杂谈(一)">
-<meta property="og:url" content="https://lightc.top/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/index.html">
+<meta property="og:title" content="Relflection-java">
+<meta property="og:url" content="https://lightc.top/2024/01/05/Relflection-java/index.html">
 <meta property="og:site_name" content="Memetor&#39;s Blog">
-<meta property="og:description" content="copy constructor 的杂谈copy constructor 为什么第一个参数必须为引用类型？  为了减少一次内存拷贝吗？">
+<meta property="og:description" content="什么是反射反射就是程序在运行时能够“观察”和修改自己的行为。 JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。 反射是一种强大而复制的机制，它主要应用于工具构建，而不是应用程序编程。 使用反射分析类的功能使用反射在运行时分析类对象参考 Ja">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-11-30T15:45:39.000Z">
-<meta property="article:modified_time" content="2023-12-17T10:38:06.136Z">
+<meta property="article:published_time" content="2024-01-05T05:18:51.000Z">
+<meta property="article:modified_time" content="2024-01-12T16:05:37.892Z">
 <meta property="article:author" content="Memetor">
-<meta property="article:tag" content="cpp">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="Reflection">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://lightc.top/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/">
+<link rel="canonical" href="https://lightc.top/2024/01/05/Relflection-java/">
 
 
 <script id="page-configurations">
@@ -58,7 +59,7 @@
   };
 </script>
 
-  <title>copy constructor 杂谈(一) | Memetor's Blog</title>
+  <title>Relflection-java | Memetor's Blog</title>
   
 
 
@@ -197,7 +198,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/">
+    <link itemprop="mainEntityOfPage" href="https://lightc.top/2024/01/05/Relflection-java/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -210,7 +211,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          copy constructor 杂谈(一)
+          Relflection-java
         </h1>
 
         <div class="post-meta">
@@ -220,14 +221,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2023-11-30 23:45:39" itemprop="dateCreated datePublished" datetime="2023-11-30T23:45:39+08:00">2023-11-30</time>
+              <time title="Created: 2024-01-05 13:18:51" itemprop="dateCreated datePublished" datetime="2024-01-05T13:18:51+08:00">2024-01-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-12-17 18:38:06" itemprop="dateModified" datetime="2023-12-17T18:38:06+08:00">2023-12-17</time>
+                <time title="Modified: 2024-01-13 00:05:37" itemprop="dateModified" datetime="2024-01-13T00:05:37+08:00">2024-01-13</time>
               </span>
 
           <br>
@@ -236,14 +237,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>997</span>
+              <span>239</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
+              <span>1 mins.</span>
             </span>
 
         </div>
@@ -265,37 +266,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="copy-constructor-的杂谈"><a href="#copy-constructor-的杂谈" class="headerlink" title="copy constructor 的杂谈"></a>copy constructor 的杂谈</h1><pre><code>copy constructor 为什么第一个参数必须为引用类型？
-</code></pre>
-<p>为了减少一次内存拷贝吗？</p>
-<span id="more"></span> 
-
-<p>仔细想想，并不是这个原因。</p>
-<hr>
-<blockquote>
-<pre><code>The fact that the copy constructor is used to initialize nonreference parameters of
-class type explains why the copy constructor’s own parameter must be a reference. If
-that parameter were not a reference, then the call would never succeed—to call the
-copy constructor, we’d need to use the copy constructor to copy the argument, but to
-copy the argument, we’d need to call the copy constructor, and so on indefinitely.
-</code></pre>
-</blockquote>
-<p>这是 cpp Primer 对此的解释。</p>
-<p>是的，避免 copy constructor 函数无限递归，最终造成栈溢出。</p>
-<hr>
-<p>如果 copy constructor 第一个参数为非引用类型，即通过传值的方式。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string str1 = <span class="string">&quot;999&quot;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>为了调用 copy constructor ，我们需要把我们传给 copy constructor 的参数（例如： string(“999”) ），给 copy constructor 参数类表中， 又因为参数列表中的参数是未构造的，而我们又通过传值的方式传递。因此，我们又需要调用一次 copy constructor 。最终陷入无限递归。</p>
-<p>在下面几种情况下会调用拷贝构造函数：</p>
-<ul>
-<li>显式或隐式地用同类型的一个对象来初始化另外一个对象。</li>
-<li>作为实参传递给一个参数为非引用类型的函数。</li>
-<li>在函数体内返回一个非引用类型对象时。</li>
-<li>初始化序列容器中的元素时。比如 <code>vector&lt;string&gt; svec(5)</code>。</li>
-<li>用列表的方式初始化数组元素时。<code>string a[] = &#123;string(“hello”), string(“world”)&#125;;</code> 。</li>
+        <h2 id="什么是反射"><a href="#什么是反射" class="headerlink" title="什么是反射"></a>什么是反射</h2><p>反射就是程序在<code>运行时</code>能够“观察”和修改自己的行为。</p>
+<p>JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。</p>
+<p>反射是一种强大而复制的机制，它主要应用于工具构建，而不是应用程序编程。</p>
+<h2 id="使用反射分析类的功能"><a href="#使用反射分析类的功能" class="headerlink" title="使用反射分析类的功能"></a>使用反射分析类的功能</h2><h2 id="使用反射在运行时分析类对象"><a href="#使用反射在运行时分析类对象" class="headerlink" title="使用反射在运行时分析类对象"></a>使用反射在运行时分析类对象</h2><h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://pdai.tech/md/java/basic/java-basic-x-reflection.html">Java 基础 - 反射机制详解 </a></li>
+<li>Core Java ——Cay S. Horstmann</li>
 </ul>
 
     </div>
@@ -312,7 +288,7 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="https://lightc.top/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/" title="copy constructor 杂谈(一)">https://lightc.top/2023/11/30/copy-constructor-杂谈-一/</a>
+    <a href="https://lightc.top/2024/01/05/Relflection-java/" title="Relflection-java">https://lightc.top/2024/01/05/Relflection-java/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -323,7 +299,8 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/cpp/" rel="tag"># cpp</a>
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/Reflection/" rel="tag"># Reflection</a>
           </div>
 
         
@@ -332,12 +309,12 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/11/28/git%E5%9F%BA%E7%A1%80/" rel="prev" title="git基础">
-      <i class="fa fa-chevron-left"></i> git基础
+    <a href="/2023/12/31/Shortest-Path/" rel="prev" title="Shortest_Path">
+      <i class="fa fa-chevron-left"></i> Shortest_Path
     </a></div>
       <div class="post-nav-item">
-    <a href="/2023/12/09/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/" rel="next" title="优先队列">
-      优先队列 <i class="fa fa-chevron-right"></i>
+    <a href="/2024/01/15/trie/" rel="next" title="trie">
+      trie <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -397,7 +374,7 @@ copy the argument, we’d need to call the copy constructor, and so on indefinit
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#copy-constructor-%E7%9A%84%E6%9D%82%E8%B0%88"><span class="nav-number">1.</span> <span class="nav-text">copy constructor 的杂谈</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8D%E5%B0%84"><span class="nav-number">1.</span> <span class="nav-text">什么是反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%8D%E5%B0%84%E5%88%86%E6%9E%90%E7%B1%BB%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">使用反射分析类的功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%8D%E5%B0%84%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E5%88%86%E6%9E%90%E7%B1%BB%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.</span> <span class="nav-text">使用反射在运行时分析类对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

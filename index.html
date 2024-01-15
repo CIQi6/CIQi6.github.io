@@ -191,6 +191,346 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://lightc.top/2024/01/15/trie/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Memetor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Memetor's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/15/trie/" class="post-title-link" itemprop="url">trie</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-01-15 19:48:22 / Modified: 20:57:18" itemprop="dateCreated datePublished" datetime="2024-01-15T19:48:22+08:00">2024-01-15</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.7k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>5 mins.</span>
+            </span>
+
+        </div>
+
+        <div>
+          
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于搜索问题——从一堆数据中检索(retireve)我们感兴趣的数据，我们前面已经了解到了许多抽象数据结构以及其对应的具体实现。</p>
+<table>
+<thead>
+<tr>
+<th align="center">数据结构</th>
+<th align="center">存储操作</th>
+<th align="center">主要检索操作</th>
+<th align="center">检索方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">List</td>
+<td align="center">add(key), insert(key, index)</td>
+<td align="center">get(index)</td>
+<td align="center">index</td>
+</tr>
+<tr>
+<td align="center">Map</td>
+<td align="center">put(key, value)</td>
+<td align="center">get(key)</td>
+<td align="center">key identity</td>
+</tr>
+<tr>
+<td align="center">Set</td>
+<td align="center">add(key)</td>
+<td align="center">containsKey(key)</td>
+<td align="center">key identity</td>
+</tr>
+<tr>
+<td align="center">Priority Queue</td>
+<td align="center">add(key)</td>
+<td align="center">getSmallest()</td>
+<td align="center">key order</td>
+</tr>
+<tr>
+<td align="center">Disjoint Sets</td>
+<td align="center">connect(int_a, int_b)</td>
+<td align="center">isConnected(int_a, int_b)</td>
+<td align="center">two integer values</td>
+</tr>
+</tbody></table>
+<h2 id="什么是字典树（tires）"><a href="#什么是字典树（tires）" class="headerlink" title="什么是字典树（tires）"></a>什么是字典树（tires）</h2><h3 id="字符映射"><a href="#字符映射" class="headerlink" title="字符映射"></a>字符映射</h3><p>在讲字典树之前，我们先引入一种特殊的 Map 的简单实现。当我们要处理的数据是字符类型时，我们可以让数组的每一个索引对应一个 <code>ASCII</code> 字符的方式来代替 <code>Hash</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DataIndexedCharMap</span>&lt;V&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span> V[] items;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">DataIndexedCharMap</span><span class="params">(<span class="type">int</span> R)</span> &#123;</span><br><span class="line">        items = (V[]) <span class="keyword">new</span> <span class="title class_">Object</span>[R];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">put</span><span class="params">(<span class="type">char</span> c, V val)</span> &#123;</span><br><span class="line">        items[c] = val;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> V <span class="title function_">get</span><span class="params">(<span class="type">char</span> c)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> items[c];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>R</code> 表示可能的字符数（例如：ASCII 为 128）。</p>
+<p>使用这种数据结构，我们的时间复杂度也可以达到常数级。</p>
+<h3 id="字符串映射"><a href="#字符串映射" class="headerlink" title="字符串映射"></a>字符串映射</h3><p>如果我们的数据是字符串。我们可以采用一种叫做 <code>Tires</code> 的数据结构。这种数据结构把字符串的每一个字符作为一个节点。Tires 在检索单词和一些特殊字符串上有着优异的性能。</p>
+<h3 id="Tires"><a href="#Tires" class="headerlink" title="Tires"></a>Tires</h3><ul>
+<li>每一个节点存储只一个字母</li>
+<li>节点可以做为多个 Key 的一部分</li>
+</ul>
+<p>假设我们要存储单词“sam”、“sad”、“sap”、“same”、“a”和“awls”。</p>
+<p><img src="G:\Project\Blog\source_posts\trie\image-20240115201322549.png" alt="image-20240115201322549"></p>
+<p>需要注意的时，在我们添加字符 <code>a</code>  时，我们不是直接让根节点和节点<code>s</code>的子节点<code>a</code>连接，而是另外添加一个节点来存储字母<code>a</code>。</p>
+<p><img src="G:\Project\Blog\source_posts\trie\image-20240115201633551.png" alt="image-20240115201633551"></p>
+<p>另外，如果该节点存储的字母是某个字符串的最后一个字母，那么我们会表记为“Blue”。</p>
+<p>对于上面建立的 <code>Tires</code></p>
+<ul>
+<li><code>contains(&quot;sam&quot;)</code>: true, blue node</li>
+<li><code>contains(&quot;sa&quot;)</code>: false, white node</li>
+<li><code>contains(&quot;a&quot;)</code>: true, blue node</li>
+<li><code>contains(&quot;saq&quot;)</code>: false, fell off tree</li>
+</ul>
+<h2 id="字典树实现"><a href="#字典树实现" class="headerlink" title="字典树实现"></a>字典树实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TrieSet</span> &#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">R</span> <span class="operator">=</span> <span class="number">128</span>; <span class="comment">// ASCII</span></span><br><span class="line">   <span class="keyword">private</span> Node root;    <span class="comment">// root of trie</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">      <span class="keyword">private</span> <span class="type">char</span> ch;  </span><br><span class="line">      <span class="keyword">private</span> <span class="type">boolean</span> isKey;   </span><br><span class="line">      <span class="keyword">private</span> DataIndexedCharMap next;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">private</span> <span class="title function_">Node</span><span class="params">(<span class="type">char</span> c, <span class="type">boolean</span> blue, <span class="type">int</span> R)</span> &#123;</span><br><span class="line">         ch = c; </span><br><span class="line">         isKey = blue;</span><br><span class="line">         next = <span class="keyword">new</span> <span class="title class_">DataIndexedCharMap</span>&lt;Node&gt;(R);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>DataIndexedCharMap</code>类型是上面的字符映射。上面是 <code>Tires</code> 的一个直观实现。</p>
+<p>事实上，因为每个节点存储的字符<code>ch</code> 是用来查找下一个节点的，我们并不需要额外存储一个字符类型，我们只需要<code>DataIndexedCharMap</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TrieSet</span> &#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">R</span> <span class="operator">=</span> <span class="number">128</span>; <span class="comment">// ASCII</span></span><br><span class="line">   <span class="keyword">private</span> Node root;    <span class="comment">// root of trie</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">      <span class="keyword">private</span> <span class="type">char</span> ch;  </span><br><span class="line">      <span class="keyword">private</span> <span class="type">boolean</span> isKey;   </span><br><span class="line">      <span class="keyword">private</span> DataIndexedCharMap next;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">private</span> <span class="title function_">Node</span><span class="params">(<span class="type">char</span> c, <span class="type">boolean</span> blue, <span class="type">int</span> R)</span> &#123;</span><br><span class="line">         <span class="comment">// no more &#x27;ch&#x27; instance variable</span></span><br><span class="line">         isKey = blue;</span><br><span class="line">         next = <span class="keyword">new</span> <span class="title class_">DataIndexedCharMap</span>&lt;Node&gt;(R);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="字典树时间复杂度"><a href="#字典树时间复杂度" class="headerlink" title="字典树时间复杂度"></a>字典树时间复杂度</h2><p>对于给定带有 N 个字符串（Key）的<code>Tries</code>来说，</p>
+<ul>
+<li>add：Θ(1) </li>
+<li>contains：Θ(1)</li>
+</ul>
+<p>为什么？因为无论有多少个字符串，我们只会遍历一个字符串。时间复杂度与字符串数量无关。我们让<code>L</code>表示字符串长度。</p>
+<ul>
+<li>add：Θ(<em>L</em>)</li>
+<li>contains：Θ(<em>L</em>)</li>
+</ul>
+<p>可以看到，我们不需要调整大小的时间，也不用担心是否分布均匀，就可以实现恒定时间的时间复杂度。唯一的缺点是在内存上非常浪费。每个节点都有一个<code>DataIndexedCharMap</code>，也就是每个节点都指向128个节点或<code>Null</code>。</p>
+<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><p>想要改进空间浪费问题，你可以使用<code>Hash Table</code>或<code>BST</code>来替换<code>DataIndexedCharMap</code>。</p>
+<ul>
+<li>DataIndexedCharMap<ul>
+<li>空间：每个节点128个链接</li>
+<li>Θ(1)</li>
+</ul>
+</li>
+<li>BST<ul>
+<li>空间：每个节点 C 个链接。（C 为子节点个数）</li>
+<li>O(logR)，R 是字母表大小。</li>
+</ul>
+</li>
+<li>Hash Table<ul>
+<li>空间：每个节点 C 个链接。（C 为子节点个数）</li>
+<li>O(R)，R是字母表大小。</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://lightc.top/2024/01/05/Relflection-java/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Memetor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Memetor's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/05/Relflection-java/" class="post-title-link" itemprop="url">Relflection-java</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-01-05 13:18:51" itemprop="dateCreated datePublished" datetime="2024-01-05T13:18:51+08:00">2024-01-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-01-13 00:05:37" itemprop="dateModified" datetime="2024-01-13T00:05:37+08:00">2024-01-13</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>239</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+
+        <div>
+          
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="什么是反射"><a href="#什么是反射" class="headerlink" title="什么是反射"></a>什么是反射</h2><p>反射就是程序在<code>运行时</code>能够“观察”和修改自己的行为。</p>
+<p>JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。</p>
+<p>反射是一种强大而复制的机制，它主要应用于工具构建，而不是应用程序编程。</p>
+<h2 id="使用反射分析类的功能"><a href="#使用反射分析类的功能" class="headerlink" title="使用反射分析类的功能"></a>使用反射分析类的功能</h2><h2 id="使用反射在运行时分析类对象"><a href="#使用反射在运行时分析类对象" class="headerlink" title="使用反射在运行时分析类对象"></a>使用反射在运行时分析类对象</h2><h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://pdai.tech/md/java/basic/java-basic-x-reflection.html">Java 基础 - 反射机制详解 </a></li>
+<li>Core Java ——Cay S. Horstmann</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/12/31/Shortest-Path/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Memetor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Memetor's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/12/31/Shortest-Path/" class="post-title-link" itemprop="url">Shortest_Path</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-12-31 13:50:30" itemprop="dateCreated datePublished" datetime="2023-12-31T13:50:30+08:00">2023-12-31</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+
+        <div>
+          
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/12/31/Equality_Testing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -812,188 +1152,11 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/11/28/git%E5%9F%BA%E7%A1%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Memetor">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Memetor's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/11/28/git%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">git基础</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-11-28 22:15:46" itemprop="dateCreated datePublished" datetime="2023-11-28T22:15:46+08:00">2023-11-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-12-17 18:37:56" itemprop="dateModified" datetime="2023-12-17T18:37:56+08:00">2023-12-17</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>4.5k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>8 mins.</span>
-            </span>
-
-        </div>
-
-        <div>
-          
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Git基础"><a href="#Git基础" class="headerlink" title="Git基础"></a>Git基础</h1><h2 id="文档内容"><a href="#文档内容" class="headerlink" title="文档内容"></a>文档内容</h2><p>本文档是关于学习 MIT——The missing semester 。 大致内容为从 git 的底层数据模型开始，学习 git 的内部实现，继而理解 git 各种命令。包括：git 如何对文件&#x2F;文件夹建模，历史快照（snapshots of history）是什么？</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/11/28/git%E5%9F%BA%E7%A1%80/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Memetor">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Memetor's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/" class="post-title-link" itemprop="url">tmux食用指南</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-11-19 21:20:30" itemprop="dateCreated datePublished" datetime="2023-11-19T21:20:30+08:00">2023-11-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-12-17 18:37:30" itemprop="dateModified" datetime="2023-12-17T18:37:30+08:00">2023-12-17</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.4k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>4 mins.</span>
-            </span>
-
-        </div>
-
-        <div>
-          
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="tmux食用指南"><a href="#tmux食用指南" class="headerlink" title="tmux食用指南"></a>tmux食用指南</h1><h2 id="什么是tmux"><a href="#什么是tmux" class="headerlink" title="什么是tmux"></a>什么是tmux</h2><p>tmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入<code>sleep 2000</code>命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
 
 
 
@@ -1060,12 +1223,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -1100,7 +1263,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1109,12 +1272,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">14k</span>
+    <span title="Symbols count total">17k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">25 mins.</span>
+    <span title="Reading time total">30 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
