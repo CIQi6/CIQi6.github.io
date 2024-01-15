@@ -6,7 +6,7 @@
   <link href="https://lightc.top/atom.xml" rel="self"/>
   
   <link href="https://lightc.top/"/>
-  <updated>2024-01-15T12:57:18.241Z</updated>
+  <updated>2024-01-15T13:01:54.210Z</updated>
   <id>https://lightc.top/</id>
   
   <author>
@@ -21,14 +21,50 @@
     <link href="https://lightc.top/2024/01/15/trie/"/>
     <id>https://lightc.top/2024/01/15/trie/</id>
     <published>2024-01-15T11:48:22.000Z</published>
-    <updated>2024-01-15T12:57:18.241Z</updated>
+    <updated>2024-01-15T13:01:54.210Z</updated>
     
     
-      
-      
     <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;对于搜索问题——从一堆数据中检索(retireve)我们感兴趣的数据，我们前面已经了解到了许多抽象数据结构以及其对应的具体实现。&lt;/p&gt;
-&lt;</summary>
-      
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;数据结构&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;存储操作&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;主要检索操作&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;检索方式&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;List&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;add(key), insert(key, index)&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;get(index)&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;index&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;Map&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;put(key, value)&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;get(key)&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;key identity&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;Set&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;add(key)&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;containsKey(key)&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;key identity&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;Priority Queue&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;add(key)&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;getSmallest()&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;key order&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;Disjoint Sets&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;connect(int_a, int_b)&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;isConnected(int_a, int_b)&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;two integer values&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;</summary>
     
     
     
