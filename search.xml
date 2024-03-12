@@ -1,588 +1,310 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>Testing</title>
-    <url>/2023/12/31/Equality_Testing/</url>
-    <content><![CDATA[<h2 id="Equality-Testing"><a href="#Equality-Testing" class="headerlink" title="Equality Testing"></a>Equality Testing</h2><p>java 规定 equals 方法应该要满足以下性质：</p>
-<ul>
-<li>自反性：对于非 NULL 引用 x， <code>x.equals(x)</code>应该返回 true</li>
-<li>对称性：对于任何 x 和 y，<code>x.eqauls(y)</code> 和 <code>y.equals(x)</code> 返回的结果应该相同</li>
-<li>传递性：对于任何 x 、y 和 z，<code>x.equals(y)</code> 、<code>y.equals(z)</code> 则 <code>x.equals(z)</code></li>
-<li>一致性：只要 x 和 y 不变，则无论调用多少次，什么时候调用 x.equals(y) ，返回的值应该不变</li>
-<li>对于 x.equals(null) 应该返回 false</li>
-</ul>
-<span id="more"></span>
-
-<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>在设计类时，我们应该仔细琢磨 equals 方法的设计。因为当 equals 方法的参数属于不同<strong>类</strong>时，对称性的规则会产生微妙的变化。</p>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假设我们有两个类：employee 和 mannner ，manner 是 employee 的子类。</p>
-<p>现在 e 是 employee 的一个实例，m 是 manner 是一个实例。</p>
-<p>考虑<code>e.equals(m)</code>。如果我们的 equals 方法采用了 <code>instanceof Testing</code> ，<code>e.equals(m)</code> 的结果显然返回 true ，但是对称性要求我们 <code>m.equals(e)</code> 应当也返回 true ， 但<code>e instanceof Manner</code> 会抛出异常。也就是不满足对称性的要求。</p>
-<p>我们在设计类的 equals 方法要谨慎。java.sql.Timestamp 类的设计是一个鲜明的反例。</p>
-<h2 id="一些策略"><a href="#一些策略" class="headerlink" title="一些策略"></a>一些策略</h2><p>《java 核心技术卷·一》中提出的 equals 方法设计的 Tips</p>
-<blockquote>
-<ol>
-<li>Name the explicit parameter <code>otherObject</code>—later, you will need to cast it to another variable<br>that you should call <code> other</code>.</li>
-<li>Test whether this happens to be identical to <code>otherObject</code>:<br><code>if (this == otherObject) return true;</code><br>This statement is just an optimization. In practice, this is a common case. It is much cheaper<br>to check for identity than to compare the fields.</li>
-<li>Test whether <code>otherObject</code> is <code>null</code> and return <code>false</code> if it is. This test is required.<br><code>if (otherObject == null) return false;</code></li>
-<li>Compare  the  classes  of  <code>this </code> and  <code>otherObject</code>.  If  the  semantics  of  <code>equals </code> can  change  in subclasses, use the <code>getClass</code> test:<br><code>if (getClass() != otherObject.getClass()) return false;</code><br><code>ClassName other = (ClassName) otherObject;</code><br>If the same semantics holds for all subclasses, you can use an<code>instanceof</code>test:<br><code>if (!(otherObject instanceof ClassName other)) return false;</code><br>Note that the <code>instanceof </code>test sets<code>other</code>to<code> otherObject</code>if it succeeds. No cast is necessary.</li>
-<li>Now compare the fields, as required by your notion of equality. Use &#x3D;&#x3D; for primitive type<br>fields, <code>Objects.equals</code> for object fields. Return true if all fields match, false otherwise.<br><code>return field1 == other.field1    &amp;&amp; Objects.equals(field2, other.field2)    &amp;&amp; . . .;</code><br>If you redefine equals in a subclass, include a call to <code>super.equals(other)</code>.</li>
-</ol>
-</blockquote>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>《java 核心技术卷·一》——Cay S. Horstmann</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>copy constructor 杂谈(一)</title>
-    <url>/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/</url>
-    <content><![CDATA[<h1 id="copy-constructor-的杂谈"><a href="#copy-constructor-的杂谈" class="headerlink" title="copy constructor 的杂谈"></a>copy constructor 的杂谈</h1><pre><code>copy constructor 为什么第一个参数必须为引用类型？
-</code></pre>
-<p>为了减少一次内存拷贝吗？</p>
-<span id="more"></span> 
-
-<p>仔细想想，并不是这个原因。</p>
-<hr>
-<blockquote>
-<pre><code>The fact that the copy constructor is used to initialize nonreference parameters of
-class type explains why the copy constructor’s own parameter must be a reference. If
-that parameter were not a reference, then the call would never succeed—to call the
-copy constructor, we’d need to use the copy constructor to copy the argument, but to
-copy the argument, we’d need to call the copy constructor, and so on indefinitely.
-</code></pre>
-</blockquote>
-<p>这是 cpp Primer 对此的解释。</p>
-<p>是的，避免 copy constructor 函数无限递归，最终造成栈溢出。</p>
-<hr>
-<p>如果 copy constructor 第一个参数为非引用类型，即通过传值的方式。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">string str1 = <span class="string">&quot;999&quot;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>为了调用 copy constructor ，我们需要把我们传给 copy constructor 的参数（例如： string(“999”) ），给 copy constructor 参数类表中， 又因为参数列表中的参数是未构造的，而我们又通过传值的方式传递。因此，我们又需要调用一次 copy constructor 。最终陷入无限递归。</p>
-<p>在下面几种情况下会调用拷贝构造函数：</p>
-<ul>
-<li>显式或隐式地用同类型的一个对象来初始化另外一个对象。</li>
-<li>作为实参传递给一个参数为非引用类型的函数。</li>
-<li>在函数体内返回一个非引用类型对象时。</li>
-<li>初始化序列容器中的元素时。比如 <code>vector&lt;string&gt; svec(5)</code>。</li>
-<li>用列表的方式初始化数组元素时。<code>string a[] = &#123;string(“hello”), string(“world”)&#125;;</code> 。</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>cpp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PIMPL</title>
-    <url>/2023/12/19/PIMPL/</url>
-    <content><![CDATA[<p>Pimpl (Pointer to implementation) 是一种减少代码依赖和编译时间的 cpp 代码技巧。</p>
-<p>Pimpl 的思想是将可见类的实现放在一个单独的实现类中，在可见类中使用一个私有指针来访问实现类。</p>
-<span id="more"></span>
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Pimpl</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.h 中</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="built_in">person</span>();</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// 把 person 类的一些实现放在实现类中</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Impl</span>;</span><br><span class="line">    std::unique_ptr&lt;Impl&gt; pimpl_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.cpp 中</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;person.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;basic_info.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">person</span>::Impl &#123;</span><br><span class="line">    std::string name;</span><br><span class="line">    std::string id;</span><br><span class="line">    BasicInfo basic_info;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">person::<span class="built_in">person</span>() : <span class="built_in">pimpl</span>(std::<span class="built_in">make_unique_ptr</span>&lt;Impl&gt;() &#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="为什么-Piml-可以减少代码依赖和编译时间？"><a href="#为什么-Piml-可以减少代码依赖和编译时间？" class="headerlink" title="为什么 Piml 可以减少代码依赖和编译时间？"></a>为什么 Piml 可以减少代码依赖和编译时间？</h2><p>我们先来对比没有使用 Piml 的代码。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 不使用 Pimpl</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.h 中</span></span><br><span class="line"><span class="meta">#inclue <span class="string">&quot;basic_info.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	std::string name;</span><br><span class="line">    	std::string id;</span><br><span class="line">    	BasicInfo basic_info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看到相比使用 Pimpl 的代码，没有使用 Pimpl 的代码需要 <code>include</code> 头文件 <code>string.h</code> 和 <code>basic_info.h</code>，导致编译时间的增加。也就是说 <strong>Pimpl 可以减少这种编译依赖，从而减少编译时间</strong>。</p>
-<p>另外，不使用 Pimpl 的代码中，假设 <code>basic_info.h</code> 需要经常更改时，会导致 person 类的重新编译。</p>
-<p>而 Pimpl 就是一种常见的用来减少这些编译依赖性的方法。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><p><a href="https://zhuanlan.zhihu.com/p/458947637">C++编程技巧: Pimpl - GoodLiu - 知乎 </a></p>
-</li>
-<li><p><a href="https://herbsutter.com/gotw/_100/">Sutter’s Mill 的博客： GotW #100: Compilation Firewalls </a></p>
-</li>
-<li><p>Scott Meyers的 《Effective Modern C++》</p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>cpp</tag>
-        <tag>cppIdioms</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git基础</title>
-    <url>/2023/11/28/git%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h1 id="Git基础"><a href="#Git基础" class="headerlink" title="Git基础"></a>Git基础</h1><h2 id="文档内容"><a href="#文档内容" class="headerlink" title="文档内容"></a>文档内容</h2><p>本文档是关于学习 MIT——The missing semester 。 大致内容为从 git 的底层数据模型开始，学习 git 的内部实现，继而理解 git 各种命令。包括：git 如何对文件&#x2F;文件夹建模，历史快照（snapshots of history）是什么？</p>
-<span id="more"></span> 
-
-<h2 id="Git-的简单介绍"><a href="#Git-的简单介绍" class="headerlink" title="Git 的简单介绍"></a>Git 的简单介绍</h2><p>Git 是一个版本控制系统 (VCS)，在构建大型项目或者团队协作上十分方便。</p>
-<h2 id="Git-的-Data-Model"><a href="#Git-的-Data-Model" class="headerlink" title="Git 的 Data Model"></a>Git 的 Data Model</h2><h3 id="Git-对文件-文件夹的建模"><a href="#Git-对文件-文件夹的建模" class="headerlink" title="Git 对文件&#x2F;文件夹的建模"></a>Git 对文件&#x2F;文件夹的建模</h3><p>Git 把历史记录建模为某个顶层目录中的文件和文件夹的集合。</p>
-<p>git 把文件夹 建模为 `tree` ，文件为 `blob`。这是一个递归的结构。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;root&gt; (tree)</span><br><span class="line">|</span><br><span class="line">+- foo (tree)</span><br><span class="line">|  |</span><br><span class="line">|  + bar.txt (blob, contents = &quot;hello world&quot;)</span><br><span class="line">|</span><br><span class="line">+- baz.txt (blob, contents = &quot;git is wonderful&quot;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="历史快照的建模"><a href="#历史快照的建模" class="headerlink" title="历史快照的建模"></a>历史快照的建模</h3><p>历史快照（ snapshots of history ）。类似于带时间戳的文件夹副本。Git 使用有向无环图来模拟历史。</p>
-<p>类似下面，一个圆圈代表一个快照。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">o &lt;-- o &lt;-- o &lt;-- o</span><br><span class="line">            ^</span><br><span class="line">             \</span><br><span class="line">              --- o &lt;-- o</span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">o &lt;-- o &lt;-- o &lt;-- o &lt;---- o</span><br><span class="line">            ^            /</span><br><span class="line">             \          v</span><br><span class="line">              --- o &lt;-- o</span><br></pre></td></tr></table></figure>
-
-<p>进一步探究细节，每个快照（圆圈）包含一些元数据，例如：提交的作者，以及其他和提交相关的消息等等元数据。</p>
-<h3 id="模型数据"><a href="#模型数据" class="headerlink" title="模型数据"></a>模型数据</h3><p>下面以伪代码的形式介绍以上模型数据的实现。</p>
-<p>blob （文件模型）是一个字节数组，tree （文件夹模型）是一个映射，其文件夹名 | 文件名 string 映射到具体文件夹 | 文件。历史快照模型是一个叫 commit 的结构，其包含父快照，一些元数据和快照。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type blob = array &lt;byte&gt;</span><br><span class="line">type tree = map&lt;string, tree|blod&gt; </span><br><span class="line">type commit = Struct &#123;</span><br><span class="line">		parents : array&lt;byte&gt;</span><br><span class="line">		author : String</span><br><span class="line">		message : String</span><br><span class="line">		snapshots : tress</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="git-对实际数据的存储和寻址"><a href="#git-对实际数据的存储和寻址" class="headerlink" title="git 对实际数据的存储和寻址"></a>git 对实际数据的存储和寻址</h3><p>让我们更进一步，深入探究 git 如何对实际数据的存储和寻址。</p>
-<p>git 定义一个 object 对象，它可以是 blob 、tree、commit。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type object = blod | tree | commit</span><br></pre></td></tr></table></figure>
-
-<p>在 git 中，所有 object 都是内容寻址的。</p>
-<p>git 在磁盘中存储的是一组 object 。这些 object 被保存在一个 &lt; 地址, 内容 &gt; 的哈希表中。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">objects = map&lt;String, object&gt;</span><br></pre></td></tr></table></figure>
-
-<p>所有存储一个对象的方式是把一个它的键（对象的哈希值）放入哈希表中。</p>
-<p>伪代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">def store(o):</span><br><span class="line">	id = sha1(o) //通过SHA-1哈希计算id</span><br><span class="line">	objects[id] = o</span><br><span class="line"></span><br><span class="line">def load(id):</span><br><span class="line">	return objects[id]</span><br></pre></td></tr></table></figure>
-
-
-
-<p>BTW，看起来一个 commit 包含了很多内容，事实上 commit 里面都是指针。 git 的所有对象都存储在 objects 表中。 git 中不同对象的引用都是通过它们的 id —— SHA-1 哈希。</p>
-<p>通过上面，我们已经知道了 git 的数据可以看成是一个 object ，我们可以通过它的 id —— SHA1 哈希，来获取 object 。哈希函数生成的 id 对我们来说就是一串无意义的随机字符串，git 为了便于阅读，git 维护一组对象，然后维护一组引用。</p>
-<p>引用是一个 string 到 string （哈希 id）的哈希表。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">reference = map&lt;string, string&gt;</span><br></pre></td></tr></table></figure>
-
-<p> 简单理解就是引用把哈希 id 映射到我们能够看懂的字符。例如： 我们有一个 commit id 为 45d13a8….bcee5f ，我们把它映射成 “fix encode bug”。</p>
-<h2 id="git-命令"><a href="#git-命令" class="headerlink" title="git 命令"></a>git 命令</h2><h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><h4 id="撤销操作-1"><a href="#撤销操作-1" class="headerlink" title="撤销操作"></a>撤销操作</h4><p>当你提交后发现漏了几个文件，或者需要修改提交信息。</p>
-<p>使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git commit --amend</span><br></pre></td></tr></table></figure>
-
-<p>这个命令会将暂存区中的文件提交。 如果自上次提交以来你还未做任何修改（例如，在上次提交后马上执行了此命令）， 那么快照会保持不变，而你所修改的只是提交信息。</p>
-<blockquote>
-<p>Note：当你在修补最后的提交时，与其说是修复旧提交，倒不如说是完全用一个 <strong>新的提交</strong> 替换旧的提交， 理解这一点非常重要。从效果上来说，就像是旧有的提交从未存在过一样，它并不会出现在仓库的历史中。</p>
-<p>修补提交最明显的价值是可以稍微改进你最后的提交，而不会让“啊，忘了添加一个文件”或者 “小修补，修正笔误”这种提交信息弄乱你的仓库历史。</p>
-</blockquote>
-<h4 id="取消暂缓文件"><a href="#取消暂缓文件" class="headerlink" title="取消暂缓文件"></a>取消暂缓文件</h4><p>如果你需要撤销暂缓文件</p>
-<p>使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git reset HEAD &lt;file&gt;...</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Note：<code>git reset</code> 确实是个危险的命令，如果加上了 <code>--hard</code> 选项则更是如此。 如果工作目录中的文件尚未修改，相对安全一些。</p>
-</blockquote>
-<h4 id="撤销对文件的修改"><a href="#撤销对文件的修改" class="headerlink" title="撤销对文件的修改"></a>撤销对文件的修改</h4><p>如果你并不想保留对 <code>CONTRIBUTING.md</code> 文件的修改怎么办？ 你该如何方便地撤消修改——将它还原成上次提交时的样子（或者刚克隆完的样子，或者刚把它放入工作目录时的样子）？</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout -- &lt;file&gt;...</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Note：请务必记得 <code>git checkout — &lt;file&gt;</code> 是一个危险的命令。 你对那个文件在本地的任何修改都会消失——Git 会用最近提交的版本覆盖掉它。 除非你确实清楚不想要对那个文件的本地修改了，否则请不要使用这个命令。</p>
-</blockquote>
-<p>git 已经提交了的任何东西都可以恢复，但没有提交的不行。</p>
-<h3 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h3><p>远程仓库——托管在互联网或其他网络上的你的项目的版本库。</p>
-<p>通常，这些远程仓库对你只读，一些可以读写。与他人协同工作时涉及管理远程仓库和根据需求推送或者拉取数据。</p>
-<h4 id="查看远程仓库"><a href="#查看远程仓库" class="headerlink" title="查看远程仓库"></a>查看远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote</span><br></pre></td></tr></table></figure>
-
-<p>它会列出你指定的每一个远程服务器的简写。</p>
-<p>如果你克隆了自己的仓库，那么你会看到 origin——Git 给你克隆仓库的默认名字。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git clone https://github.com/schacon/ticgit</span><br><span class="line">Cloning into &#x27;ticgit&#x27;...</span><br><span class="line">remote: Reusing existing pack: 1857, done.</span><br><span class="line">remote: Total 1857 (delta 0), reused 0 (delta 0)</span><br><span class="line">Receiving objects: 100% (1857/1857), 374.35 KiB | 268.00 KiB/s, done.</span><br><span class="line">Resolving deltas: 100% (772/772), done.</span><br><span class="line">Checking connectivity... done.</span><br><span class="line">$ cd ticgit</span><br><span class="line">$ git remote</span><br><span class="line">origin</span><br></pre></td></tr></table></figure>
-
-<p>指定选行 -v，会显示需要读写远程仓库使用的 Git 保存的简写与其对应的 URL。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">origin	https://github.com/schacon/ticgit (fetch)</span><br><span class="line">origin	https://github.com/schacon/ticgit (push)</span><br></pre></td></tr></table></figure>
-
-<h4 id="提交远程仓库"><a href="#提交远程仓库" class="headerlink" title="提交远程仓库"></a>提交远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote add &lt;shortname&gt; &lt;url&gt;</span><br></pre></td></tr></table></figure>
-
-<p>shortname 是你给远程仓库设置的名字。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git remote</span><br><span class="line">origin</span><br><span class="line">$ git remote add pb https://github.com/paulboone/ticgit</span><br><span class="line">$ git remote -v</span><br><span class="line">origin	https://github.com/schacon/ticgit (fetch)</span><br><span class="line">origin	https://github.com/schacon/ticgit (push)</span><br><span class="line">pb	https://github.com/paulboone/ticgit (fetch)</span><br><span class="line">pb	https://github.com/paulboone/ticgit (push)</span><br></pre></td></tr></table></figure>
-
-<p>提交完后，你可以使用你给远程仓库设置的名字来代替远程仓库的 url。</p>
-<p>例如</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git fetch pb</span><br><span class="line">remote: Counting objects: 43, done.</span><br><span class="line">remote: Compressing objects: 100% (36/36), done.</span><br><span class="line">remote: Total 43 (delta 10), reused 31 (delta 5)</span><br><span class="line">Unpacking objects: 100% (43/43), done.</span><br><span class="line">From https://github.com/paulboone/ticgit</span><br><span class="line"> * [new branch]      master     -&gt; pb/master</span><br><span class="line"> * [new branch]      ticgit     -&gt; pb/ticgit</span><br></pre></td></tr></table></figure>
-
-<h4 id="从远程仓库中抓取和拉取"><a href="#从远程仓库中抓取和拉取" class="headerlink" title="从远程仓库中抓取和拉取"></a>从远程仓库中抓取和拉取</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git fetch &lt;remote&gt;</span><br></pre></td></tr></table></figure>
-
-<p>这个命令会访问远程仓库，从中拉取所有你还没有的数据。 执行完成后，你将会拥有那个远程仓库中所有分支的引用，可以随时合并或查看。</p>
-<p>如果你使用 <code>clone</code> 命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以 “origin” 为简写。 所以，<code>git fetch origin</code> 会抓取克隆（或上一次抓取）后新推送的所有工作。 必须注意 <code>git fetch</code> 命令只会将数据下载到你的本地仓库——它并不会自动合并或修改你当前的工作。</p>
-<h4 id="推送到远程仓库"><a href="#推送到远程仓库" class="headerlink" title="推送到远程仓库"></a>推送到远程仓库</h4><p>如果你想分享你的项目，你可以推送到上游。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git push &lt;remote&gt; &lt;branch&gt;</span><br></pre></td></tr></table></figure>
-
-<h4 id="查看某个远程仓库"><a href="#查看某个远程仓库" class="headerlink" title="查看某个远程仓库"></a>查看某个远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote show &lt;remote&gt;</span><br></pre></td></tr></table></figure>
-
-<p>可以查看某个远程仓库。它会列出 url 和跟踪分支的信息。</p>
-<h4 id="远程仓库重名和移除"><a href="#远程仓库重名和移除" class="headerlink" title="远程仓库重名和移除"></a>远程仓库重名和移除</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote rename &lt;name&gt; &lt;rename&gt;</span><br></pre></td></tr></table></figure>
-
-<p>可以更改仓库名字。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote remove &lt;remote&gt;</span><br></pre></td></tr></table></figure>
-
-<p>可以移除某个远程仓库。</p>
-]]></content>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>graph</title>
-    <url>/2023/12/17/graph/</url>
-    <content><![CDATA[]]></content>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>Graph</tag>
-        <tag>Graph Traversals</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>tmux食用指南</title>
-    <url>/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/</url>
-    <content><![CDATA[<h1 id="tmux食用指南"><a href="#tmux食用指南" class="headerlink" title="tmux食用指南"></a>tmux食用指南</h1><h2 id="什么是tmux"><a href="#什么是tmux" class="headerlink" title="什么是tmux"></a>什么是tmux</h2><p>tmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入<code>sleep 2000</code>命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。</p>
-<span id="more"></span> 
-
-<h2 id="tmux的基本概念"><a href="#tmux的基本概念" class="headerlink" title="tmux的基本概念"></a>tmux的基本概念</h2><p>tmux中有三个重要的概念：session、window、pane.</p>
-<p>它们的结构如下：</p>
-<hr>
-<p>——session00</p>
-<p>​		——window00</p>
-<p>​				——pane00</p>
-<p>​		——window01</p>
-<p>——session01</p>
-<p>​		——window00</p>
-<hr>
-<p>session包含window，window包含pane。</p>
-<p>session类似我们的浏览器，window类似于浏览器的标签页，pane类似于网页里面的各个部件。</p>
-<h2 id="tmux的操作"><a href="#tmux的操作" class="headerlink" title="tmux的操作"></a>tmux的操作</h2><p>开启的我们tmux之旅。</p>
-<p>在安装往tmux后。</p>
-<h3 id="新建session"><a href="#新建session" class="headerlink" title="新建session"></a>新建session</h3><p>我们输入<code>tmux </code>，就可以新建一个session。输入后会发现，好像什么也没变，你依旧在shell环境里。</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606162947547.png" alt="image-20230606162947547"></p>
-<p>其实你已经在tmux的shell里。</p>
-<p>shell—&gt;tmux—&gt;shell</p>
-<p>底下是tmux 的state bar。左边是一些window的信息，你使用&lt;C-b ,&gt;来更改window的名字。按&lt;C-b ，&gt; (注：C指ctrl, -表示同时)。&lt;C-b ,&gt;表示同时按下ctrl键和,键，松开，再按下,键。&lt;C-b&gt;是tmux的一个命令前缀，所有命令要加&lt;C-b&gt;。如果你了解Emacs，这对你来说再熟悉不过了。</p>
-<p>如果你想要退出tmux</p>
-<p>按&lt;C-b d&gt; ，然后你会从tmux里脱离(detach)出来。</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606163449662.png" alt="image-20230606163449662"></p>
-<p>在shell中输入<code>tmux ls</code>可以看到你之前创建的session。</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606163630568.png" alt="image-20230606163630568"></p>
-<p>我们可以看到0: 1 windows (created Tue Jun  6 16:29:32 2023)</p>
-<p>0指我们之前创建的session的名字，因为我们创建时没有指定name，所以默认0，1，2。冒号：后面是session 0 里面的内容，可以看到有一个window。如果我们在创建session是可以使用命令<code>tmux new -s name</code>。</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606164012156.png" alt="image-20230606164012156"></p>
-<p>如果要回到detach后的session.输入<code>tmux attach -t name</code>，就可以回到相应的session里面，或者输入<code>tmux a -t name</code>，a是attach的缩写。</p>
-<h3 id="新建window"><a href="#新建window" class="headerlink" title="新建window"></a>新建window</h3><p>session里面后，如果我们想要新建一个window，&lt;C-b c&gt;。</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606164936613.png" alt="image-20230606164936613"></p>
-<p>可以从state bar左边看到，我们新建了两个window1，2。下面我们学习如何在window之间移动。</p>
-<p>窗口名字后面的*代表你在哪个window里。</p>
-<p>&lt;C-b n&gt;移动到下 一个window。</p>
-<p>&lt;C-b p&gt;移动到上一个window。</p>
-<p>&lt;C-b 0&gt;移动到第一个window，&lt;C-b 1&gt;….同理。</p>
-<p>&lt;C-b &amp;&gt;可以关闭当前window。我更喜欢使用shell命令&lt;C-d&gt;</p>
-<h3 id="分离pane"><a href="#分离pane" class="headerlink" title="分离pane"></a>分离pane</h3><p>&lt;C-b %&gt;垂直分隔pane</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165657621.png" alt="image-20230606165657621"></p>
-<p>&lt;C-b “&gt;水平分隔pane</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165721587.png" alt="image-20230606165721587"></p>
-<p>&lt;C-b arrow&gt;（arrow指箭头键）在pane在移动。</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165954495.png" alt="image-20230606165954495"></p>
-<p>&lt;C-b space&gt;改变pane排列的样式</p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606170044638.png" alt="image-20230606170044638"></p>
-<p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606170056275.png" alt="image-20230606170056275"></p>
-<p>&lt;C-b z&gt;放大当前pane</p>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>恭喜你，你已经学会了tmux的基本操作了，你可以灵活的使用tmux来进行更好的开发。如果你想要了解更多tmux的操作，不妨去tmux官方文档或者社区一起交流。噢，对了。&lt;C-b ?&gt;可以了解到更多的tmux命令。</p>
-<h2 id="tmux命令总结-复习"><a href="#tmux命令总结-复习" class="headerlink" title="tmux命令总结&#x2F;复习"></a>tmux命令总结&#x2F;复习</h2><ul>
-<li>session - 每个会话都是一个独立的工作区，其中包含一个或多个窗口<ul>
-<li><code>tmux</code> 开始一个新的会话</li>
-<li><code>tmux new -s NAME</code> 以指定名称开始一个新的会话</li>
-<li><code>tmux ls</code> 列出当前所有会话</li>
-<li>在 <code>tmux</code> 中输入 <code>&lt;C-b&gt; d</code> ，将当前会话分离</li>
-<li><code>tmux a</code> 重新连接最后一个会话。您也可以通过 <code>-t</code> 来指定具体的会话</li>
-</ul>
-</li>
-<li>window  - 相当于编辑器或是浏览器中的标签页，从视觉上将一个会话分割为多个部分<ul>
-<li><code>&lt;C-b&gt; c</code> 创建一个新的窗口，使用 <code>&lt;C-d&gt;</code>关闭</li>
-<li><code>&lt;C-b&gt; N</code> 跳转到第 <em>N</em> 个窗口，注意每个窗口都是有编号的</li>
-<li><code>&lt;C-b&gt; p</code> 切换到前一个窗口</li>
-<li><code>&lt;C-b&gt; n</code> 切换到下一个窗口</li>
-<li><code>&lt;C-b&gt; ,</code> 重命名当前窗口</li>
-<li><code>&lt;C-b&gt; w</code> 列出当前所有窗口</li>
-</ul>
-</li>
-<li>pane  - 像 vim 中的分屏一样，面板使我们可以在一个屏幕里显示多个 shell<ul>
-<li><code>&lt;C-b&gt; &quot;</code> 水平分割</li>
-<li><code>&lt;C-b&gt; %</code> 垂直分割</li>
-<li><code>&lt;C-b&gt; &lt;方向&gt;</code> 切换到指定方向的面板，&lt;方向&gt; 指的是键盘上的方向键</li>
-<li><code>&lt;C-b&gt; z</code> 切换当前面板的缩放</li>
-<li><code>&lt;C-b&gt; [</code> 开始往回卷动屏幕。您可以按下空格键来开始选择，回车键复制选中的部分</li>
-<li><code>&lt;C-b&gt; &lt;空格&gt;</code> 在不同的面板排布间切换</li>
-</ul>
-</li>
-</ul>
-<h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><p>——<a href="https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/">A Quick and Easy Guide to tmux </a>                 一份tmux的快速入门（看完本文后，可以不看）</p>
-<p>——<a href="http://linuxcommand.org/lc3_adv_termmux.php">Linux Command Line Adventure: Terminal Multiplexers</a> 		一篇更加详细的文章，它也包含了<code>screen</code>的内容</p>
-]]></content>
-      <tags>
-        <tag>tmux tool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>tree</title>
-    <url>/2023/12/17/tree/</url>
-    <content><![CDATA[<h2 id="什么是树？"><a href="#什么是树？" class="headerlink" title="什么是树？"></a>什么是树？</h2><p>树的组成:</p>
-<ul>
-<li>一组节点 (nodes)</li>
-<li>一组连接着节点的边 (edges)<ul>
-<li>限制：任意两个节点只能有一条边</li>
-</ul>
-</li>
-</ul>
-<span id="more"></span> 
-
-<p><img src="https://ooo.0x0.ooo/2023/12/17/OKB83I.png" alt="image-20231217151738479"></p>
-<p>如上图，绿色标记的是树，红色的不是树。</p>
-<h2 id="树有什么用？"><a href="#树有什么用？" class="headerlink" title="树有什么用？"></a>树有什么用？</h2><p>事实上，树结构是一个十分有用、高效的结构。在我们创建高效算法时非常有用：加快搜索速度、前缀、检查连接性等，例如 Search Trees，Tries，Heaps， Disjoint Sets。</p>
-<p>另外，我们日常生活中的，大部分都是树结构。例如，一个族谱，文件目录。</p>
-<h2 id="树的遍历"><a href="#树的遍历" class="headerlink" title="树的遍历"></a>树的遍历</h2><ul>
-<li>层次遍历 （Level order traversal）</li>
-<li>深度优先遍历 （Depth-First traversal）<ul>
-<li>先序遍历 （Pre-Order traversal）</li>
-<li>中序遍历 （In-Order traversal）</li>
-<li>后序遍历 （Post-Order traversal）</li>
-</ul>
-</li>
-</ul>
-<h2 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h2><p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
-<p>层次遍历就是从上到下，从左往右一次遍历。</p>
-<p>例如，上图的层次遍历序列为：D、B、F、A、C、E、G</p>
-<h2 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h2><p>先序遍历是先访问根节点，再访问左子树，访问右子树。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">preOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    <span class="built_in">print</span>(x.key)</span><br><span class="line">    preOrder(x.left)</span><br><span class="line">    preOrder(x.right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
-<p>先序遍历序列为: D、B、A、C、F、E、G</p>
-<h2 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h2><p>中序遍历是先访问左子树，再访问根节点，最后访问右子树。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">inOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    inOrder(x.left)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">    inOrder(x.right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
-<p>中序遍历序列为: A、B、C、D、E、F、G</p>
-<h2 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h2><p>后序遍历是先访问左子树，再访问右子树，最后访问根节点。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">postOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    postOrder(x.left)</span><br><span class="line">    postOrder(x.right)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p>
-<p>后序遍历序列为: A、C、B、E、G、F、D</p>
-]]></content>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>Tree</tag>
-        <tag>Tree Traversals</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>优先队列</title>
-    <url>/2023/12/09/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/</url>
-    <content><![CDATA[<h2 id="什么是优先队列"><a href="#什么是优先队列" class="headerlink" title="什么是优先队列"></a>什么是优先队列</h2><p>优先队列是一种用来优化处理最大值或最小值的 ADT 。使用这种结构可以给我们处理涉及最大值或最小值带来时间&#x2F;空间优势。</p>
-<span id="more"></span> 
-
-<h2 id="优先队列接口"><a href="#优先队列接口" class="headerlink" title="优先队列接口"></a>优先队列接口</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">interface MinPQ&lt;Item&gt; &#123;</span><br><span class="line">	// 将 Item x 添加到 PQ</span><br><span class="line">	add (Item x);</span><br><span class="line">	</span><br><span class="line">	// 返回队列中最小值的引用</span><br><span class="line">	getSmallest();</span><br><span class="line">	</span><br><span class="line">	// 移除队列中最小值并返回</span><br><span class="line">	removeSmallest();</span><br><span class="line">	</span><br><span class="line">	// 返回队列的大小</span><br><span class="line">	size();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="优先队列的实现"><a href="#优先队列的实现" class="headerlink" title="优先队列的实现"></a>优先队列的实现</h2><p>可以使用有序数组（Ordered Array）、二叉查找树（Bushy BST）、哈希表（HashTable）、堆（Heap）结构实现。</p>
-<ul>
-<li>Ordered Array<ul>
-<li><code>add</code>: Θ(<em>N</em>)</li>
-<li><code>getSmallest</code>: Θ(1)</li>
-<li><code>removeSmallest</code>: Θ(<em>N</em>)</li>
-</ul>
-</li>
-<li>Bushy BST<ul>
-<li><code>add</code>: Θ(log<em>N</em>)</li>
-<li><code>getSmallest</code>: Θ(log<em>N</em>)</li>
-<li><code>removeSmallest</code>: Θ(log<em>N</em>)</li>
-</ul>
-</li>
-<li>HashTable<ul>
-<li><code>add</code>: Θ(1)</li>
-<li><code>getSmallest</code>: Θ(<em>N</em>)</li>
-<li><code>removeSmallest</code>: Θ(<em>N</em>)</li>
-</ul>
-</li>
-<li>Heap<ul>
-<li>add : Θ(log<em>N</em>)</li>
-<li>getSmallest : Θ(1)</li>
-<li>removeSmallest : Θ(log<em>N</em>)</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>dataStruct</tag>
-        <tag>Priority Queue</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>堆</title>
-    <url>/2023/12/09/%E6%9C%80%E5%B0%8F%E4%BA%8C%E5%88%86%E5%A0%86/</url>
-    <content><![CDATA[<h2 id="什么是最小二分堆-binary-min-heap"><a href="#什么是最小二分堆-binary-min-heap" class="headerlink" title="什么是最小二分堆 (binary min-heap)"></a>什么是最小二分堆 (binary min-heap)</h2><p>堆是一颗完整的树，而且满足最小堆性质。</p>
-<ul>
-<li>最小堆：每个节点都小于等于子节点。</li>
-<li>完整：仅在最底层有缺失值，且所有节点尽可能靠左。</li>
-</ul>
-<span id="more"></span> 
-
-<h2 id="最小二分堆的操作"><a href="#最小二分堆的操作" class="headerlink" title="最小二分堆的操作"></a>最小二分堆的操作</h2><ul>
-<li>add ： 将值暂时添加到末尾，“ Swim up” 到合适的位置。<ul>
-<li>swim up ：如果子节点小于父节点，则交换两个节点。</li>
-</ul>
-</li>
-<li>getSmallest ：返回根节点的引用</li>
-<li>removeSmallest ：交换根节点和堆的最后一个节点，” Sink down “ 到合适的位置。<ul>
-<li>sink down ：如果父节点大于子节点，则交换两个节点。</li>
-</ul>
-</li>
-</ul>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>我们已经知道堆是一种满足特殊性质的树。</p>
-<h3 id="树结构实现"><a href="#树结构实现" class="headerlink" title="树结构实现"></a>树结构实现</h3><h4 id="用三叉树实现"><a href="#用三叉树实现" class="headerlink" title="用三叉树实现"></a>用三叉树实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tree1A</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key k;</span><br><span class="line">  Tree1A left;</span><br><span class="line">  Tree1A middle;</span><br><span class="line">  Tree1A right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/09/OA0gkr.png" alt="image-20231209210055087"></p>
-<h4 id="用异构树实现"><a href="#用异构树实现" class="headerlink" title="用异构树实现"></a>用异构树实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tree1B</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key k;</span><br><span class="line">  Tree1B[] children;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/09/OA0Knv.png" alt="image-20231209210322901"></p>
-<h4 id="用兄弟树实现"><a href="#用兄弟树实现" class="headerlink" title="用兄弟树实现"></a>用兄弟树实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tree1C</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key k;</span><br><span class="line">  Tree1C favoredChild;</span><br><span class="line">  Tree1C sibling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://ooo.0x0.ooo/2023/12/09/OA0v6c.png" alt="image-20231209210255548"></p>
-<h3 id="用数组来实现"><a href="#用数组来实现" class="headerlink" title="用数组来实现"></a>用数组来实现</h3><p>我们也可以用数组来表示树结构，从而实现堆。</p>
-<p>为了表示一棵树，我们可以存储 keys 数组以及 parent 数组。keys 数组表示哪个索引映射到哪个节点，parent 数组表示哪个节点是另一个节点的子节点。</p>
-<p>[<img src="https://ooo.0x0.ooo/2023/12/09/OA0v6c.png" alt="OA0v6c.png"></p>
-<p><img src="https://ooo.0x0.ooo/2023/12/09/OA0mpM.png" alt="OA0mpM.png"></p>
-<h3 id="对数组表示的进一步优化"><a href="#对数组表示的进一步优化" class="headerlink" title="对数组表示的进一步优化"></a>对数组表示的进一步优化</h3><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0P51.png" alt="OA0P51.png"></p>
-<p>观察上图，我们知道 parents 数组是冗余的，我们不需要它就可以表示顺序。设 k 为节点序号，(k-1) &#x2F; 2，得到该节点对应的父节点的序号。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TreeC</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key[] keys;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">swim</span><span class="params">(<span class="type">int</span> k)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (keys[parent(k)] ≻ keys[k]) &#123;</span><br><span class="line">       swap(k, parent(k));</span><br><span class="line">       swim(parent(k));              </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>为了让我们是序号更加合理<code>（0 - 1）/ 2 </code>，以及实现从节点得到子节点。我们让节点序号从 1 开始。这样 左孩子节点的序号为 <code>k*2</code>，右孩子节点序号为 <code>k*2+1</code>，父节点序号为 <code>k/2</code>。</p>
-<p><img src="https://ooo.0x0.ooo/2023/12/09/OA0pYG.png" alt="OA0pYG.png"></p>
-]]></content>
-      <tags>
-        <tag>dataStruct</tag>
-        <tag>Heap</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Relflection-java</title>
-    <url>/2024/01/05/Relflection-java/</url>
-    <content><![CDATA[<h2 id="什么是反射"><a href="#什么是反射" class="headerlink" title="什么是反射"></a>什么是反射</h2><p>反射就是程序在<code>运行时</code>能够“观察”和修改自己的行为。</p>
-<p>JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。</p>
-<p>反射是一种强大而复制的机制，它主要应用于工具构建，而不是应用程序编程。</p>
-<h2 id="使用反射分析类的功能"><a href="#使用反射分析类的功能" class="headerlink" title="使用反射分析类的功能"></a>使用反射分析类的功能</h2><h2 id="使用反射在运行时分析类对象"><a href="#使用反射在运行时分析类对象" class="headerlink" title="使用反射在运行时分析类对象"></a>使用反射在运行时分析类对象</h2><h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://pdai.tech/md/java/basic/java-basic-x-reflection.html">Java 基础 - 反射机制详解 </a></li>
-<li>Core Java ——Cay S. Horstmann</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>java</tag>
-        <tag>Reflection</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Shortest_Path</title>
-    <url>/2023/12/31/Shortest-Path/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>trie</title>
-    <url>/2024/01/15/trie/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于搜索问题——从一堆数据中检索(retireve)我们感兴趣的数据，我们前面已经了解到了许多抽象数据结构以及其对应的具体实现。</p>
-<table>
-<thead>
-<tr>
-<th align="center">数据结构</th>
-<th align="center">存储操作</th>
-<th align="center">主要检索操作</th>
-<th align="center">检索方式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">List</td>
-<td align="center">add(key), insert(key, index)</td>
-<td align="center">get(index)</td>
-<td align="center">index</td>
-</tr>
-<tr>
-<td align="center">Map</td>
-<td align="center">put(key, value)</td>
-<td align="center">get(key)</td>
-<td align="center">key identity</td>
-</tr>
-<tr>
-<td align="center">Set</td>
-<td align="center">add(key)</td>
-<td align="center">containsKey(key)</td>
-<td align="center">key identity</td>
-</tr>
-<tr>
-<td align="center">Priority Queue</td>
-<td align="center">add(key)</td>
-<td align="center">getSmallest()</td>
-<td align="center">key order</td>
-</tr>
-<tr>
-<td align="center">Disjoint Sets</td>
-<td align="center">connect(int_a, int_b)</td>
-<td align="center">isConnected(int_a, int_b)</td>
-<td align="center">two integer values</td>
-</tr>
-</tbody></table>
-<span id="more"></span>
-
-<h2 id="什么是字典树（tires）"><a href="#什么是字典树（tires）" class="headerlink" title="什么是字典树（tires）"></a>什么是字典树（tires）</h2><h3 id="字符映射"><a href="#字符映射" class="headerlink" title="字符映射"></a>字符映射</h3><p>在讲字典树之前，我们先引入一种特殊的 Map 的简单实现。当我们要处理的数据是字符类型时，我们可以让数组的每一个索引对应一个 <code>ASCII</code> 字符的方式来代替 <code>Hash</code>。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DataIndexedCharMap</span>&lt;V&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span> V[] items;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">DataIndexedCharMap</span><span class="params">(<span class="type">int</span> R)</span> &#123;</span><br><span class="line">        items = (V[]) <span class="keyword">new</span> <span class="title class_">Object</span>[R];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">put</span><span class="params">(<span class="type">char</span> c, V val)</span> &#123;</span><br><span class="line">        items[c] = val;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> V <span class="title function_">get</span><span class="params">(<span class="type">char</span> c)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> items[c];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>R</code> 表示可能的字符数（例如：ASCII 为 128）。</p>
-<p>使用这种数据结构，我们的时间复杂度也可以达到常数级。</p>
-<h3 id="字符串映射"><a href="#字符串映射" class="headerlink" title="字符串映射"></a>字符串映射</h3><p>如果我们的数据是字符串。我们可以采用一种叫做 <code>Tires</code> 的数据结构。这种数据结构把字符串的每一个字符作为一个节点。Tires 在检索单词和一些特殊字符串上有着优异的性能。</p>
-<h3 id="Tires"><a href="#Tires" class="headerlink" title="Tires"></a>Tires</h3><ul>
-<li>每一个节点存储只一个字母</li>
-<li>节点可以做为多个 Key 的一部分</li>
-</ul>
-<p>假设我们要存储单词“sam”、“sad”、“sap”、“same”、“a”和“awls”。</p>
-<p><img src="https://ooo.0x0.ooo/2024/01/15/OvqoQs.png" alt="image-20240115201322549"></p>
-<p>需要注意的时，在我们添加字符 <code>a</code>  时，我们不是直接让根节点和节点<code>s</code>的子节点<code>a</code>连接，而是另外添加一个节点来存储字母<code>a</code>。</p>
-<p><img src="https://ooo.0x0.ooo/2024/01/15/OvqaAB.png" alt="image-20240115201633551"></p>
-<p>另外，如果该节点存储的字母是某个字符串的最后一个字母，那么我们会表记为“Blue”。</p>
-<p>对于上面建立的 <code>Tires</code></p>
-<ul>
-<li><code>contains(&quot;sam&quot;)</code>: true, blue node</li>
-<li><code>contains(&quot;sa&quot;)</code>: false, white node</li>
-<li><code>contains(&quot;a&quot;)</code>: true, blue node</li>
-<li><code>contains(&quot;saq&quot;)</code>: false, fell off tree</li>
-</ul>
-<h2 id="字典树实现"><a href="#字典树实现" class="headerlink" title="字典树实现"></a>字典树实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TrieSet</span> &#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">R</span> <span class="operator">=</span> <span class="number">128</span>; <span class="comment">// ASCII</span></span><br><span class="line">   <span class="keyword">private</span> Node root;    <span class="comment">// root of trie</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">      <span class="keyword">private</span> <span class="type">char</span> ch;  </span><br><span class="line">      <span class="keyword">private</span> <span class="type">boolean</span> isKey;   </span><br><span class="line">      <span class="keyword">private</span> DataIndexedCharMap next;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">private</span> <span class="title function_">Node</span><span class="params">(<span class="type">char</span> c, <span class="type">boolean</span> blue, <span class="type">int</span> R)</span> &#123;</span><br><span class="line">         ch = c; </span><br><span class="line">         isKey = blue;</span><br><span class="line">         next = <span class="keyword">new</span> <span class="title class_">DataIndexedCharMap</span>&lt;Node&gt;(R);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>DataIndexedCharMap</code>类型是上面的字符映射。上面是 <code>Tires</code> 的一个直观实现。</p>
-<p>事实上，因为每个节点存储的字符<code>ch</code> 是用来查找下一个节点的，我们并不需要额外存储一个字符类型，我们只需要<code>DataIndexedCharMap</code>。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TrieSet</span> &#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">R</span> <span class="operator">=</span> <span class="number">128</span>; <span class="comment">// ASCII</span></span><br><span class="line">   <span class="keyword">private</span> Node root;    <span class="comment">// root of trie</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">      <span class="keyword">private</span> <span class="type">char</span> ch;  </span><br><span class="line">      <span class="keyword">private</span> <span class="type">boolean</span> isKey;   </span><br><span class="line">      <span class="keyword">private</span> DataIndexedCharMap next;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">private</span> <span class="title function_">Node</span><span class="params">(<span class="type">char</span> c, <span class="type">boolean</span> blue, <span class="type">int</span> R)</span> &#123;</span><br><span class="line">         <span class="comment">// no more &#x27;ch&#x27; instance variable</span></span><br><span class="line">         isKey = blue;</span><br><span class="line">         next = <span class="keyword">new</span> <span class="title class_">DataIndexedCharMap</span>&lt;Node&gt;(R);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="字典树时间复杂度"><a href="#字典树时间复杂度" class="headerlink" title="字典树时间复杂度"></a>字典树时间复杂度</h2><p>对于给定带有 N 个字符串（Key）的<code>Tries</code>来说，</p>
-<ul>
-<li>add：Θ(1) </li>
-<li>contains：Θ(1)</li>
-</ul>
-<p>为什么？因为无论有多少个字符串，我们只会遍历一个字符串。时间复杂度与字符串数量无关。我们让<code>L</code>表示字符串长度。</p>
-<ul>
-<li>add：Θ(<em>L</em>)</li>
-<li>contains：Θ(<em>L</em>)</li>
-</ul>
-<p>可以看到，我们不需要调整大小的时间，也不用担心是否分布均匀，就可以实现恒定时间的时间复杂度。唯一的缺点是在内存上非常浪费。每个节点都有一个<code>DataIndexedCharMap</code>，也就是每个节点都指向128个节点或<code>Null</code>。</p>
-<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><p>想要改进空间浪费问题，你可以使用<code>Hash Table</code>或<code>BST</code>来替换<code>DataIndexedCharMap</code>。</p>
-<ul>
-<li>DataIndexedCharMap<ul>
-<li>空间：每个节点128个链接</li>
-<li>Θ(1)</li>
-</ul>
-</li>
-<li>BST<ul>
-<li>空间：每个节点 C 个链接。（C 为子节点个数）</li>
-<li>O(logR)，R 是字母表大小。</li>
-</ul>
-</li>
-<li>Hash Table<ul>
-<li>空间：每个节点 C 个链接。（C 为子节点个数）</li>
-<li>O(R)，R是字母表大小。</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>trie</tag>
-        <tag>algorithmn</tag>
-      </tags>
-  </entry>
+<search> 
+  
+  
+    
+    <entry>
+      <title>反向调试和rr</title>
+      <link href="/2024/03/12/%E5%8F%8D%E5%90%91%E8%B0%83%E8%AF%95%E5%92%8Crr/"/>
+      <url>/2024/03/12/%E5%8F%8D%E5%90%91%E8%B0%83%E8%AF%95%E5%92%8Crr/</url>
+      
+        <content type="html"><![CDATA[<h1 id="反向调试"><a href="#反向调试" class="headerlink" title="反向调试"></a>反向调试</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>GDB 很好，但让我们尝试更多。</p><h2 id="反向调试-1"><a href="#反向调试-1" class="headerlink" title="反向调试"></a>反向调试</h2><p>现代软件变得越来越复杂化、多线程化、大规模。这也导致了调试的困难。</p><h3 id="传统调试工具和技术"><a href="#传统调试工具和技术" class="headerlink" title="传统调试工具和技术"></a>传统调试工具和技术</h3><h4 id="编程技术"><a href="#编程技术" class="headerlink" title="编程技术"></a>编程技术</h4><p>通过使用编程语言技术来调试，例如：打印语句、断言、测试套件(test suites)</p><h4 id="分析工具"><a href="#分析工具" class="headerlink" title="分析工具"></a>分析工具</h4><p>使用一些自动化工具，例如： Coverity、Purify、Valgrind，来检测像内存访问错误、死锁情况等常见的错误。但这些工具并无法全面覆盖所有错误类别，例如：缓冲区过度读取（Heartbleed） 错误。</p><h4 id="通用调试器"><a href="#通用调试器" class="headerlink" title="通用调试器"></a>通用调试器</h4><p>使用GDB。</p><p>但，调试需要逆向思考。</p><blockquote><p>Reason back from the state of the crashed program to determine what could have caused this. Debugging involves backwards reasoning, like solving murder mysteries. Something impossible occurred, and the only solid information is that it really did occur. So we must think backwards from the result to discover the reasons.<br>                                                                                                                        ————  Brian Kernighan &amp;&amp; Rob Pike<br>从崩溃程序的状态中推理，以确定可能导致这种情况的原因。调试涉及逆向推理，例如解决谋杀之谜。一些不可能的事情发生了，唯一可靠的信息是它确实发生了。因此，我们必须从结果中向后思考，以发现原因。</p></blockquote><h3 id="反向调试器的出现"><a href="#反向调试器的出现" class="headerlink" title="反向调试器的出现"></a>反向调试器的出现</h3><p>​反向调试器 (reverse debugging) 可以记录所有程序的活动 （每次内存访问、每次计算、和系统调用），然后像录像倒带、重播一样检查程序状态。</p><h3 id="反向调试的一些优点"><a href="#反向调试的一些优点" class="headerlink" title="反向调试的一些优点"></a>反向调试的一些优点</h3><ul><li>提升开发效率——更容易调试，而且兼容 GDB，无需花大量时间培训。</li><li>更容易发现和修复间歇性 bug —— 反向调试器直到 bug 出现，开发人员可以一行一行后退，直到找到 bug。</li><li>减少运行时间——运行 debugging 、调试直到出现 bug、设置断点再次运行、设置更早一点的断点并重新运行。这一套下来耗费大量时间，可能是一个 O(n^2)的迭代。而反向调试器可以将运行-重启减少到 O(n)——运行直到出现 bug，往后走看看什么导致了 bug，当你不小心错过了，往前走一点，往后退一点。</li><li>动态代码——某些程序在运行时会生成专用的代码，调试这样的代码是很困难的，因为源代码分析工具显然无能为力;没有正常的调试信息来定位函数，代码可以在不同的运行中在不同的地址生成。反向调试器允许开发人员详细检查单次运行，而无需与重新运行相关的麻烦。</li><li>调试间歇性错误——通常的调试器，一步一步运行，可能这次不发生错误，那就要重新运行。而反向调试器一直运行，只关心出现错误的那一次。</li></ul><h2 id="what-rr-does"><a href="#what-rr-does" class="headerlink" title="what rr does"></a>what rr does</h2><p>rr aspires to be your primary C&#x2F;C++ debugging tool for Linux, replacing — well, enhancing — gdb. You record a failure once, then debug the recording, deterministically, as many times as you want. The same execution is replayed every time.</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://undo.io/resources/reverse-debugging-whitepaper/">What is Reverse Debugging and Why Do We Need It? - Time Travel Debugging for C&#x2F;C++ and Java ¦ Undo</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> reverse debugging </tag>
+            
+            <tag> rr </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>mit6.S081-Notes-ch1</title>
+      <link href="/2024/03/07/mit6-S081-Notes-ch1/"/>
+      <url>/2024/03/07/mit6-S081-Notes-ch1/</url>
+      
+        <content type="html"><![CDATA[<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><p>操作系统是一个软件，它管理计算机资源， 为其他软件提供方便的服务。</p><p>操作系统负责计算机硬件资源的分配，让 MicroSoft World 不用考虑使用哪种类型的磁盘硬件；让多个程序共享计算机硬件资源；让程序之间相互通信。</p><p>操作系统通过接口为用户程序提供服务。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> os </tag>
+            
+            <tag> unix </tag>
+            
+            <tag> mit6.s081 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Statistical learning basic</title>
+      <link href="/2024/02/14/Statistical-learning-basic/"/>
+      <url>/2024/02/14/Statistical-learning-basic/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Statistical learning </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>trie</title>
+      <link href="/2024/01/15/trie/"/>
+      <url>/2024/01/15/trie/</url>
+      
+        <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于搜索问题——从一堆数据中检索(retireve)我们感兴趣的数据，我们前面已经了解到了许多抽象数据结构以及其对应的具体实现。</p><table><thead><tr><th align="center">数据结构</th><th align="center">存储操作</th><th align="center">主要检索操作</th><th align="center">检索方式</th></tr></thead><tbody><tr><td align="center">List</td><td align="center">add(key), insert(key, index)</td><td align="center">get(index)</td><td align="center">index</td></tr><tr><td align="center">Map</td><td align="center">put(key, value)</td><td align="center">get(key)</td><td align="center">key identity</td></tr><tr><td align="center">Set</td><td align="center">add(key)</td><td align="center">containsKey(key)</td><td align="center">key identity</td></tr><tr><td align="center">Priority Queue</td><td align="center">add(key)</td><td align="center">getSmallest()</td><td align="center">key order</td></tr><tr><td align="center">Disjoint Sets</td><td align="center">connect(int_a, int_b)</td><td align="center">isConnected(int_a, int_b)</td><td align="center">two integer values</td></tr></tbody></table><span id="more"></span><h2 id="什么是字典树（tires）"><a href="#什么是字典树（tires）" class="headerlink" title="什么是字典树（tires）"></a>什么是字典树（tires）</h2><h3 id="字符映射"><a href="#字符映射" class="headerlink" title="字符映射"></a>字符映射</h3><p>在讲字典树之前，我们先引入一种特殊的 Map 的简单实现。当我们要处理的数据是字符类型时，我们可以让数组的每一个索引对应一个 <code>ASCII</code> 字符的方式来代替 <code>Hash</code>。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DataIndexedCharMap</span>&lt;V&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span> V[] items;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">DataIndexedCharMap</span><span class="params">(<span class="type">int</span> R)</span> &#123;</span><br><span class="line">        items = (V[]) <span class="keyword">new</span> <span class="title class_">Object</span>[R];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">put</span><span class="params">(<span class="type">char</span> c, V val)</span> &#123;</span><br><span class="line">        items[c] = val;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> V <span class="title function_">get</span><span class="params">(<span class="type">char</span> c)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> items[c];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><code>R</code> 表示可能的字符数（例如：ASCII 为 128）。</p><p>使用这种数据结构，我们的时间复杂度也可以达到常数级。</p><h3 id="字符串映射"><a href="#字符串映射" class="headerlink" title="字符串映射"></a>字符串映射</h3><p>如果我们的数据是字符串。我们可以采用一种叫做 <code>Tires</code> 的数据结构。这种数据结构把字符串的每一个字符作为一个节点。Tires 在检索单词和一些特殊字符串上有着优异的性能。</p><h3 id="Tires"><a href="#Tires" class="headerlink" title="Tires"></a>Tires</h3><ul><li>每一个节点存储只一个字母</li><li>节点可以做为多个 Key 的一部分</li></ul><p>假设我们要存储单词“sam”、“sad”、“sap”、“same”、“a”和“awls”。</p><p><img src="https://ooo.0x0.ooo/2024/01/15/OvqoQs.png" alt="image-20240115201322549"></p><p>需要注意的时，在我们添加字符 <code>a</code>  时，我们不是直接让根节点和节点<code>s</code>的子节点<code>a</code>连接，而是另外添加一个节点来存储字母<code>a</code>。</p><p><img src="https://ooo.0x0.ooo/2024/01/15/OvqaAB.png" alt="image-20240115201633551"></p><p>另外，如果该节点存储的字母是某个字符串的最后一个字母，那么我们会表记为“Blue”。</p><p>对于上面建立的 <code>Tires</code></p><ul><li><code>contains(&quot;sam&quot;)</code>: true, blue node</li><li><code>contains(&quot;sa&quot;)</code>: false, white node</li><li><code>contains(&quot;a&quot;)</code>: true, blue node</li><li><code>contains(&quot;saq&quot;)</code>: false, fell off tree</li></ul><h2 id="字典树实现"><a href="#字典树实现" class="headerlink" title="字典树实现"></a>字典树实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TrieSet</span> &#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">R</span> <span class="operator">=</span> <span class="number">128</span>; <span class="comment">// ASCII</span></span><br><span class="line">   <span class="keyword">private</span> Node root;    <span class="comment">// root of trie</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">      <span class="keyword">private</span> <span class="type">char</span> ch;  </span><br><span class="line">      <span class="keyword">private</span> <span class="type">boolean</span> isKey;   </span><br><span class="line">      <span class="keyword">private</span> DataIndexedCharMap next;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">private</span> <span class="title function_">Node</span><span class="params">(<span class="type">char</span> c, <span class="type">boolean</span> blue, <span class="type">int</span> R)</span> &#123;</span><br><span class="line">         ch = c; </span><br><span class="line">         isKey = blue;</span><br><span class="line">         next = <span class="keyword">new</span> <span class="title class_">DataIndexedCharMap</span>&lt;Node&gt;(R);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><code>DataIndexedCharMap</code>类型是上面的字符映射。上面是 <code>Tires</code> 的一个直观实现。</p><p>事实上，因为每个节点存储的字符<code>ch</code> 是用来查找下一个节点的，我们并不需要额外存储一个字符类型，我们只需要<code>DataIndexedCharMap</code>。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TrieSet</span> &#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">R</span> <span class="operator">=</span> <span class="number">128</span>; <span class="comment">// ASCII</span></span><br><span class="line">   <span class="keyword">private</span> Node root;    <span class="comment">// root of trie</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">      <span class="keyword">private</span> <span class="type">char</span> ch;  </span><br><span class="line">      <span class="keyword">private</span> <span class="type">boolean</span> isKey;   </span><br><span class="line">      <span class="keyword">private</span> DataIndexedCharMap next;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">private</span> <span class="title function_">Node</span><span class="params">(<span class="type">char</span> c, <span class="type">boolean</span> blue, <span class="type">int</span> R)</span> &#123;</span><br><span class="line">         <span class="comment">// no more &#x27;ch&#x27; instance variable</span></span><br><span class="line">         isKey = blue;</span><br><span class="line">         next = <span class="keyword">new</span> <span class="title class_">DataIndexedCharMap</span>&lt;Node&gt;(R);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="字典树时间复杂度"><a href="#字典树时间复杂度" class="headerlink" title="字典树时间复杂度"></a>字典树时间复杂度</h2><p>对于给定带有 N 个字符串（Key）的<code>Tries</code>来说，</p><ul><li>add：Θ(1) </li><li>contains：Θ(1)</li></ul><p>为什么？因为无论有多少个字符串，我们只会遍历一个字符串。时间复杂度与字符串数量无关。我们让<code>L</code>表示字符串长度。</p><ul><li>add：Θ(<em>L</em>)</li><li>contains：Θ(<em>L</em>)</li></ul><p>可以看到，我们不需要调整大小的时间，也不用担心是否分布均匀，就可以实现恒定时间的时间复杂度。唯一的缺点是在内存上非常浪费。每个节点都有一个<code>DataIndexedCharMap</code>，也就是每个节点都指向128个节点或<code>Null</code>。</p><h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><p>想要改进空间浪费问题，你可以使用<code>Hash Table</code>或<code>BST</code>来替换<code>DataIndexedCharMap</code>。</p><ul><li>DataIndexedCharMap<ul><li>空间：每个节点128个链接</li><li>Θ(1)</li></ul></li><li>BST<ul><li>空间：每个节点 C 个链接。（C 为子节点个数）</li><li>O(logR)，R 是字母表大小。</li></ul></li><li>Hash Table<ul><li>空间：每个节点 C 个链接。（C 为子节点个数）</li><li>O(R)，R是字母表大小。</li></ul></li></ul><h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="前缀匹配"><a href="#前缀匹配" class="headerlink" title="前缀匹配"></a>前缀匹配</h3><h3 id="模糊匹配"><a href="#模糊匹配" class="headerlink" title="模糊匹配"></a>模糊匹配</h3>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> trie </tag>
+            
+            <tag> algorithmn </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Relflection-java</title>
+      <link href="/2024/01/05/Relflection-java/"/>
+      <url>/2024/01/05/Relflection-java/</url>
+      
+        <content type="html"><![CDATA[<h2 id="什么是反射"><a href="#什么是反射" class="headerlink" title="什么是反射"></a>什么是反射</h2><p>反射就是程序在<code>运行时</code>能够“观察”和修改自己的行为。</p><p>JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。</p><p>反射是一种强大而复制的机制，它主要应用于工具构建，而不是应用程序编程。</p><h2 id="使用反射分析类的功能"><a href="#使用反射分析类的功能" class="headerlink" title="使用反射分析类的功能"></a>使用反射分析类的功能</h2><h2 id="使用反射在运行时分析类对象"><a href="#使用反射在运行时分析类对象" class="headerlink" title="使用反射在运行时分析类对象"></a>使用反射在运行时分析类对象</h2><h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://pdai.tech/md/java/basic/java-basic-x-reflection.html">Java 基础 - 反射机制详解 </a></li><li>Core Java ——Cay S. Horstmann</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+            <tag> Reflection </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Shortest_Path</title>
+      <link href="/2023/12/31/Shortest-Path/"/>
+      <url>/2023/12/31/Shortest-Path/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Testing</title>
+      <link href="/2023/12/31/Equality_Testing/"/>
+      <url>/2023/12/31/Equality_Testing/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Equality-Testing"><a href="#Equality-Testing" class="headerlink" title="Equality Testing"></a>Equality Testing</h2><p>java 规定 equals 方法应该要满足以下性质：</p><ul><li>自反性：对于非 NULL 引用 x， <code>x.equals(x)</code>应该返回 true</li><li>对称性：对于任何 x 和 y，<code>x.eqauls(y)</code> 和 <code>y.equals(x)</code> 返回的结果应该相同</li><li>传递性：对于任何 x 、y 和 z，<code>x.equals(y)</code> 、<code>y.equals(z)</code> 则 <code>x.equals(z)</code></li><li>一致性：只要 x 和 y 不变，则无论调用多少次，什么时候调用 x.equals(y) ，返回的值应该不变</li><li>对于 x.equals(null) 应该返回 false</li></ul><span id="more"></span><h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>在设计类时，我们应该仔细琢磨 equals 方法的设计。因为当 equals 方法的参数属于不同<strong>类</strong>时，对称性的规则会产生微妙的变化。</p><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假设我们有两个类：employee 和 mannner ，manner 是 employee 的子类。</p><p>现在 e 是 employee 的一个实例，m 是 manner 是一个实例。</p><p>考虑<code>e.equals(m)</code>。如果我们的 equals 方法采用了 <code>instanceof Testing</code> ，<code>e.equals(m)</code> 的结果显然返回 true ，但是对称性要求我们 <code>m.equals(e)</code> 应当也返回 true ， 但<code>e instanceof Manner</code> 会抛出异常。也就是不满足对称性的要求。</p><p>我们在设计类的 equals 方法要谨慎。java.sql.Timestamp 类的设计是一个鲜明的反例。</p><h2 id="一些策略"><a href="#一些策略" class="headerlink" title="一些策略"></a>一些策略</h2><p>《java 核心技术卷·一》中提出的 equals 方法设计的 Tips</p><blockquote><ol><li>Name the explicit parameter <code>otherObject</code>—later, you will need to cast it to another variable<br>that you should call <code> other</code>.</li><li>Test whether this happens to be identical to <code>otherObject</code>:<br><code>if (this == otherObject) return true;</code><br>This statement is just an optimization. In practice, this is a common case. It is much cheaper<br>to check for identity than to compare the fields.</li><li>Test whether <code>otherObject</code> is <code>null</code> and return <code>false</code> if it is. This test is required.<br><code>if (otherObject == null) return false;</code></li><li>Compare  the  classes  of  <code>this </code> and  <code>otherObject</code>.  If  the  semantics  of  <code>equals </code> can  change  in subclasses, use the <code>getClass</code> test:<br><code>if (getClass() != otherObject.getClass()) return false;</code><br><code>ClassName other = (ClassName) otherObject;</code><br>If the same semantics holds for all subclasses, you can use an<code>instanceof</code>test:<br><code>if (!(otherObject instanceof ClassName other)) return false;</code><br>Note that the <code>instanceof </code>test sets<code>other</code>to<code> otherObject</code>if it succeeds. No cast is necessary.</li><li>Now compare the fields, as required by your notion of equality. Use &#x3D;&#x3D; for primitive type<br>fields, <code>Objects.equals</code> for object fields. Return true if all fields match, false otherwise.<br><code>return field1 == other.field1    &amp;&amp; Objects.equals(field2, other.field2)    &amp;&amp; . . .;</code><br>If you redefine equals in a subclass, include a call to <code>super.equals(other)</code>.</li></ol></blockquote><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li>《java 核心技术卷·一》——Cay S. Horstmann</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>PIMPL</title>
+      <link href="/2023/12/19/PIMPL/"/>
+      <url>/2023/12/19/PIMPL/</url>
+      
+        <content type="html"><![CDATA[<p>Pimpl (Pointer to implementation) 是一种减少代码依赖和编译时间的 cpp 代码技巧。</p><p>Pimpl 的思想是将可见类的实现放在一个单独的实现类中，在可见类中使用一个私有指针来访问实现类。</p><span id="more"></span><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Pimpl</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.h 中</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">person</span>();</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// 把 person 类的一些实现放在实现类中</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Impl</span>;</span><br><span class="line">    std::unique_ptr&lt;Impl&gt; pimpl_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.cpp 中</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;person.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;basic_info.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">person</span>::Impl &#123;</span><br><span class="line">    std::string name;</span><br><span class="line">    std::string id;</span><br><span class="line">    BasicInfo basic_info;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">person::<span class="built_in">person</span>() : <span class="built_in">pimpl</span>(std::<span class="built_in">make_unique_ptr</span>&lt;Impl&gt;() &#123;&#125;</span><br></pre></td></tr></table></figure><h2 id="为什么-Piml-可以减少代码依赖和编译时间？"><a href="#为什么-Piml-可以减少代码依赖和编译时间？" class="headerlink" title="为什么 Piml 可以减少代码依赖和编译时间？"></a>为什么 Piml 可以减少代码依赖和编译时间？</h2><p>我们先来对比没有使用 Piml 的代码。</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不使用 Pimpl</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 person.h 中</span></span><br><span class="line"><span class="meta">#inclue <span class="string">&quot;basic_info.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    std::string name;</span><br><span class="line">    std::string id;</span><br><span class="line">    BasicInfo basic_info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>可以看到相比使用 Pimpl 的代码，没有使用 Pimpl 的代码需要 <code>include</code> 头文件 <code>string.h</code> 和 <code>basic_info.h</code>，导致编译时间的增加。也就是说 <strong>Pimpl 可以减少这种编译依赖，从而减少编译时间</strong>。</p><p>另外，不使用 Pimpl 的代码中，假设 <code>basic_info.h</code> 需要经常更改时，会导致 person 类的重新编译。</p><p>而 Pimpl 就是一种常见的用来减少这些编译依赖性的方法。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><p><a href="https://zhuanlan.zhihu.com/p/458947637">C++编程技巧: Pimpl - GoodLiu - 知乎 </a></p></li><li><p><a href="https://herbsutter.com/gotw/_100/">Sutter’s Mill 的博客： GotW #100: Compilation Firewalls </a></p></li><li><p>Scott Meyers的 《Effective Modern C++》</p></li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> cpp </tag>
+            
+            <tag> cppIdioms </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>graph</title>
+      <link href="/2023/12/17/graph/"/>
+      <url>/2023/12/17/graph/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Algorithm </tag>
+            
+            <tag> Graph </tag>
+            
+            <tag> Graph Traversals </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>tree</title>
+      <link href="/2023/12/17/tree/"/>
+      <url>/2023/12/17/tree/</url>
+      
+        <content type="html"><![CDATA[<h2 id="什么是树？"><a href="#什么是树？" class="headerlink" title="什么是树？"></a>什么是树？</h2><p>树的组成:</p><ul><li>一组节点 (nodes)</li><li>一组连接着节点的边 (edges)<ul><li>限制：任意两个节点只能有一条边</li></ul></li></ul><span id="more"></span> <p><img src="https://ooo.0x0.ooo/2023/12/17/OKB83I.png" alt="image-20231217151738479"></p><p>如上图，绿色标记的是树，红色的不是树。</p><h2 id="树有什么用？"><a href="#树有什么用？" class="headerlink" title="树有什么用？"></a>树有什么用？</h2><p>事实上，树结构是一个十分有用、高效的结构。在我们创建高效算法时非常有用：加快搜索速度、前缀、检查连接性等，例如 Search Trees，Tries，Heaps， Disjoint Sets。</p><p>另外，我们日常生活中的，大部分都是树结构。例如，一个族谱，文件目录。</p><h2 id="树的遍历"><a href="#树的遍历" class="headerlink" title="树的遍历"></a>树的遍历</h2><ul><li>层次遍历 （Level order traversal）</li><li>深度优先遍历 （Depth-First traversal）<ul><li>先序遍历 （Pre-Order traversal）</li><li>中序遍历 （In-Order traversal）</li><li>后序遍历 （Post-Order traversal）</li></ul></li></ul><h2 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h2><p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p><p>层次遍历就是从上到下，从左往右一次遍历。</p><p>例如，上图的层次遍历序列为：D、B、F、A、C、E、G</p><h2 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h2><p>先序遍历是先访问根节点，再访问左子树，访问右子树。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">preOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    <span class="built_in">print</span>(x.key)</span><br><span class="line">    preOrder(x.left)</span><br><span class="line">    preOrder(x.right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p><p>先序遍历序列为: D、B、A、C、F、E、G</p><h2 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h2><p>中序遍历是先访问左子树，再访问根节点，最后访问右子树。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">inOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    inOrder(x.left)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">    inOrder(x.right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p><p>中序遍历序列为: A、B、C、D、E、F、G</p><h2 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h2><p>后序遍历是先访问左子树，再访问右子树，最后访问根节点。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">postOrder(BSTNode x) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x == null) <span class="keyword">return</span>;</span><br><span class="line">    postOrder(x.left)</span><br><span class="line">    postOrder(x.right)</span><br><span class="line">    <span class="built_in">print</span>(x.key)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="https://ooo.0x0.ooo/2023/12/17/OKBuiD.png" alt="image-20231217154711013"></p><p>后序遍历序列为: A、C、B、E、G、F、D</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Algorithm </tag>
+            
+            <tag> Tree </tag>
+            
+            <tag> Tree Traversals </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>堆</title>
+      <link href="/2023/12/09/%E6%9C%80%E5%B0%8F%E4%BA%8C%E5%88%86%E5%A0%86/"/>
+      <url>/2023/12/09/%E6%9C%80%E5%B0%8F%E4%BA%8C%E5%88%86%E5%A0%86/</url>
+      
+        <content type="html"><![CDATA[<h2 id="什么是最小二分堆-binary-min-heap"><a href="#什么是最小二分堆-binary-min-heap" class="headerlink" title="什么是最小二分堆 (binary min-heap)"></a>什么是最小二分堆 (binary min-heap)</h2><p>堆是一颗完整的树，而且满足最小堆性质。</p><ul><li>最小堆：每个节点都小于等于子节点。</li><li>完整：仅在最底层有缺失值，且所有节点尽可能靠左。</li></ul><span id="more"></span> <h2 id="最小二分堆的操作"><a href="#最小二分堆的操作" class="headerlink" title="最小二分堆的操作"></a>最小二分堆的操作</h2><ul><li>add ： 将值暂时添加到末尾，“ Swim up” 到合适的位置。<ul><li>swim up ：如果子节点小于父节点，则交换两个节点。</li></ul></li><li>getSmallest ：返回根节点的引用</li><li>removeSmallest ：交换根节点和堆的最后一个节点，” Sink down “ 到合适的位置。<ul><li>sink down ：如果父节点大于子节点，则交换两个节点。</li></ul></li></ul><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>我们已经知道堆是一种满足特殊性质的树。</p><h3 id="树结构实现"><a href="#树结构实现" class="headerlink" title="树结构实现"></a>树结构实现</h3><h4 id="用三叉树实现"><a href="#用三叉树实现" class="headerlink" title="用三叉树实现"></a>用三叉树实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tree1A</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key k;</span><br><span class="line">  Tree1A left;</span><br><span class="line">  Tree1A middle;</span><br><span class="line">  Tree1A right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0gkr.png" alt="image-20231209210055087"></p><h4 id="用异构树实现"><a href="#用异构树实现" class="headerlink" title="用异构树实现"></a>用异构树实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tree1B</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key k;</span><br><span class="line">  Tree1B[] children;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0Knv.png" alt="image-20231209210322901"></p><h4 id="用兄弟树实现"><a href="#用兄弟树实现" class="headerlink" title="用兄弟树实现"></a>用兄弟树实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tree1C</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key k;</span><br><span class="line">  Tree1C favoredChild;</span><br><span class="line">  Tree1C sibling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0v6c.png" alt="image-20231209210255548"></p><h3 id="用数组来实现"><a href="#用数组来实现" class="headerlink" title="用数组来实现"></a>用数组来实现</h3><p>我们也可以用数组来表示树结构，从而实现堆。</p><p>为了表示一棵树，我们可以存储 keys 数组以及 parent 数组。keys 数组表示哪个索引映射到哪个节点，parent 数组表示哪个节点是另一个节点的子节点。</p><p>[<img src="https://ooo.0x0.ooo/2023/12/09/OA0v6c.png" alt="OA0v6c.png"></p><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0mpM.png" alt="OA0mpM.png"></p><h3 id="对数组表示的进一步优化"><a href="#对数组表示的进一步优化" class="headerlink" title="对数组表示的进一步优化"></a>对数组表示的进一步优化</h3><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0P51.png" alt="OA0P51.png"></p><p>观察上图，我们知道 parents 数组是冗余的，我们不需要它就可以表示顺序。设 k 为节点序号，(k-1) &#x2F; 2，得到该节点对应的父节点的序号。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TreeC</span>&lt;Key&gt; &#123;</span><br><span class="line">  Key[] keys;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">swim</span><span class="params">(<span class="type">int</span> k)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (keys[parent(k)] ≻ keys[k]) &#123;</span><br><span class="line">       swap(k, parent(k));</span><br><span class="line">       swim(parent(k));              </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>为了让我们是序号更加合理<code>（0 - 1）/ 2 </code>，以及实现从节点得到子节点。我们让节点序号从 1 开始。这样 左孩子节点的序号为 <code>k*2</code>，右孩子节点序号为 <code>k*2+1</code>，父节点序号为 <code>k/2</code>。</p><p><img src="https://ooo.0x0.ooo/2023/12/09/OA0pYG.png" alt="OA0pYG.png"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> dataStruct </tag>
+            
+            <tag> Heap </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>优先队列</title>
+      <link href="/2023/12/09/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/"/>
+      <url>/2023/12/09/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/</url>
+      
+        <content type="html"><![CDATA[<h2 id="什么是优先队列"><a href="#什么是优先队列" class="headerlink" title="什么是优先队列"></a>什么是优先队列</h2><p>优先队列是一种用来优化处理最大值或最小值的 ADT 。使用这种结构可以给我们处理涉及最大值或最小值带来时间&#x2F;空间优势。</p><span id="more"></span> <h2 id="优先队列接口"><a href="#优先队列接口" class="headerlink" title="优先队列接口"></a>优先队列接口</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">interface MinPQ&lt;Item&gt; &#123;</span><br><span class="line">// 将 Item x 添加到 PQ</span><br><span class="line">add (Item x);</span><br><span class="line"></span><br><span class="line">// 返回队列中最小值的引用</span><br><span class="line">getSmallest();</span><br><span class="line"></span><br><span class="line">// 移除队列中最小值并返回</span><br><span class="line">removeSmallest();</span><br><span class="line"></span><br><span class="line">// 返回队列的大小</span><br><span class="line">size();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="优先队列的实现"><a href="#优先队列的实现" class="headerlink" title="优先队列的实现"></a>优先队列的实现</h2><p>可以使用有序数组（Ordered Array）、二叉查找树（Bushy BST）、哈希表（HashTable）、堆（Heap）结构实现。</p><ul><li>Ordered Array<ul><li><code>add</code>: Θ(<em>N</em>)</li><li><code>getSmallest</code>: Θ(1)</li><li><code>removeSmallest</code>: Θ(<em>N</em>)</li></ul></li><li>Bushy BST<ul><li><code>add</code>: Θ(log<em>N</em>)</li><li><code>getSmallest</code>: Θ(log<em>N</em>)</li><li><code>removeSmallest</code>: Θ(log<em>N</em>)</li></ul></li><li>HashTable<ul><li><code>add</code>: Θ(1)</li><li><code>getSmallest</code>: Θ(<em>N</em>)</li><li><code>removeSmallest</code>: Θ(<em>N</em>)</li></ul></li><li>Heap<ul><li>add : Θ(log<em>N</em>)</li><li>getSmallest : Θ(1)</li><li>removeSmallest : Θ(log<em>N</em>)</li></ul></li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> dataStruct </tag>
+            
+            <tag> Priority Queue </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>copy constructor 杂谈(一)</title>
+      <link href="/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/"/>
+      <url>/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/</url>
+      
+        <content type="html"><![CDATA[<h1 id="copy-constructor-的杂谈"><a href="#copy-constructor-的杂谈" class="headerlink" title="copy constructor 的杂谈"></a>copy constructor 的杂谈</h1><pre><code>copy constructor 为什么第一个参数必须为引用类型？</code></pre><p>为了减少一次内存拷贝吗？</p><span id="more"></span> <p>仔细想想，并不是这个原因。</p><hr><blockquote><pre><code>The fact that the copy constructor is used to initialize nonreference parameters ofclass type explains why the copy constructor’s own parameter must be a reference. Ifthat parameter were not a reference, then the call would never succeed—to call thecopy constructor, we’d need to use the copy constructor to copy the argument, but tocopy the argument, we’d need to call the copy constructor, and so on indefinitely.</code></pre></blockquote><p>这是 cpp Primer 对此的解释。</p><p>是的，避免 copy constructor 函数无限递归，最终造成栈溢出。</p><hr><p>如果 copy constructor 第一个参数为非引用类型，即通过传值的方式。</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string str1 = <span class="string">&quot;999&quot;</span></span><br></pre></td></tr></table></figure><p>为了调用 copy constructor ，我们需要把我们传给 copy constructor 的参数（例如： string(“999”) ），给 copy constructor 参数类表中， 又因为参数列表中的参数是未构造的，而我们又通过传值的方式传递。因此，我们又需要调用一次 copy constructor 。最终陷入无限递归。</p><p>在下面几种情况下会调用拷贝构造函数：</p><ul><li>显式或隐式地用同类型的一个对象来初始化另外一个对象。</li><li>作为实参传递给一个参数为非引用类型的函数。</li><li>在函数体内返回一个非引用类型对象时。</li><li>初始化序列容器中的元素时。比如 <code>vector&lt;string&gt; svec(5)</code>。</li><li>用列表的方式初始化数组元素时。<code>string a[] = &#123;string(“hello”), string(“world”)&#125;;</code> 。</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> cpp </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>git基础</title>
+      <link href="/2023/11/28/git%E5%9F%BA%E7%A1%80/"/>
+      <url>/2023/11/28/git%E5%9F%BA%E7%A1%80/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Git基础"><a href="#Git基础" class="headerlink" title="Git基础"></a>Git基础</h1><h2 id="文档内容"><a href="#文档内容" class="headerlink" title="文档内容"></a>文档内容</h2><p>本文档是关于学习 MIT——The missing semester 。 大致内容为从 git 的底层数据模型开始，学习 git 的内部实现，继而理解 git 各种命令。包括：git 如何对文件&#x2F;文件夹建模，历史快照（snapshots of history）是什么？</p><span id="more"></span> <h2 id="Git-的简单介绍"><a href="#Git-的简单介绍" class="headerlink" title="Git 的简单介绍"></a>Git 的简单介绍</h2><p>Git 是一个版本控制系统 (VCS)，在构建大型项目或者团队协作上十分方便。</p><h2 id="Git-的-Data-Model"><a href="#Git-的-Data-Model" class="headerlink" title="Git 的 Data Model"></a>Git 的 Data Model</h2><h3 id="Git-对文件-文件夹的建模"><a href="#Git-对文件-文件夹的建模" class="headerlink" title="Git 对文件&#x2F;文件夹的建模"></a>Git 对文件&#x2F;文件夹的建模</h3><p>Git 把历史记录建模为某个顶层目录中的文件和文件夹的集合。</p><p>git 把文件夹 建模为 `tree` ，文件为 `blob`。这是一个递归的结构。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;root&gt; (tree)</span><br><span class="line">|</span><br><span class="line">+- foo (tree)</span><br><span class="line">|  |</span><br><span class="line">|  + bar.txt (blob, contents = &quot;hello world&quot;)</span><br><span class="line">|</span><br><span class="line">+- baz.txt (blob, contents = &quot;git is wonderful&quot;)</span><br></pre></td></tr></table></figure><h3 id="历史快照的建模"><a href="#历史快照的建模" class="headerlink" title="历史快照的建模"></a>历史快照的建模</h3><p>历史快照（ snapshots of history ）。类似于带时间戳的文件夹副本。Git 使用有向无环图来模拟历史。</p><p>类似下面，一个圆圈代表一个快照。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">o &lt;-- o &lt;-- o &lt;-- o</span><br><span class="line">            ^</span><br><span class="line">             \</span><br><span class="line">              --- o &lt;-- o</span><br></pre></td></tr></table></figure><p>或者</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">o &lt;-- o &lt;-- o &lt;-- o &lt;---- o</span><br><span class="line">            ^            /</span><br><span class="line">             \          v</span><br><span class="line">              --- o &lt;-- o</span><br></pre></td></tr></table></figure><p>进一步探究细节，每个快照（圆圈）包含一些元数据，例如：提交的作者，以及其他和提交相关的消息等等元数据。</p><h3 id="模型数据"><a href="#模型数据" class="headerlink" title="模型数据"></a>模型数据</h3><p>下面以伪代码的形式介绍以上模型数据的实现。</p><p>blob （文件模型）是一个字节数组，tree （文件夹模型）是一个映射，其文件夹名 | 文件名 string 映射到具体文件夹 | 文件。历史快照模型是一个叫 commit 的结构，其包含父快照，一些元数据和快照。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">type blob = array &lt;byte&gt;</span><br><span class="line">type tree = map&lt;string, tree|blod&gt; </span><br><span class="line">type commit = Struct &#123;</span><br><span class="line">parents : array&lt;byte&gt;</span><br><span class="line">author : String</span><br><span class="line">message : String</span><br><span class="line">snapshots : tress</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="git-对实际数据的存储和寻址"><a href="#git-对实际数据的存储和寻址" class="headerlink" title="git 对实际数据的存储和寻址"></a>git 对实际数据的存储和寻址</h3><p>让我们更进一步，深入探究 git 如何对实际数据的存储和寻址。</p><p>git 定义一个 object 对象，它可以是 blob 、tree、commit。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type object = blod | tree | commit</span><br></pre></td></tr></table></figure><p>在 git 中，所有 object 都是内容寻址的。</p><p>git 在磁盘中存储的是一组 object 。这些 object 被保存在一个 &lt; 地址, 内容 &gt; 的哈希表中。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objects = map&lt;String, object&gt;</span><br></pre></td></tr></table></figure><p>所有存储一个对象的方式是把一个它的键（对象的哈希值）放入哈希表中。</p><p>伪代码：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def store(o):</span><br><span class="line">id = sha1(o) //通过SHA-1哈希计算id</span><br><span class="line">objects[id] = o</span><br><span class="line"></span><br><span class="line">def load(id):</span><br><span class="line">return objects[id]</span><br></pre></td></tr></table></figure><p>BTW，看起来一个 commit 包含了很多内容，事实上 commit 里面都是指针。 git 的所有对象都存储在 objects 表中。 git 中不同对象的引用都是通过它们的 id —— SHA-1 哈希。</p><p>通过上面，我们已经知道了 git 的数据可以看成是一个 object ，我们可以通过它的 id —— SHA1 哈希，来获取 object 。哈希函数生成的 id 对我们来说就是一串无意义的随机字符串，git 为了便于阅读，git 维护一组对象，然后维护一组引用。</p><p>引用是一个 string 到 string （哈希 id）的哈希表。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reference = map&lt;string, string&gt;</span><br></pre></td></tr></table></figure><p> 简单理解就是引用把哈希 id 映射到我们能够看懂的字符。例如： 我们有一个 commit id 为 45d13a8….bcee5f ，我们把它映射成 “fix encode bug”。</p><h2 id="git-命令"><a href="#git-命令" class="headerlink" title="git 命令"></a>git 命令</h2><h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><h4 id="撤销操作-1"><a href="#撤销操作-1" class="headerlink" title="撤销操作"></a>撤销操作</h4><p>当你提交后发现漏了几个文件，或者需要修改提交信息。</p><p>使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit --amend</span><br></pre></td></tr></table></figure><p>这个命令会将暂存区中的文件提交。 如果自上次提交以来你还未做任何修改（例如，在上次提交后马上执行了此命令）， 那么快照会保持不变，而你所修改的只是提交信息。</p><blockquote><p>Note：当你在修补最后的提交时，与其说是修复旧提交，倒不如说是完全用一个 <strong>新的提交</strong> 替换旧的提交， 理解这一点非常重要。从效果上来说，就像是旧有的提交从未存在过一样，它并不会出现在仓库的历史中。</p><p>修补提交最明显的价值是可以稍微改进你最后的提交，而不会让“啊，忘了添加一个文件”或者 “小修补，修正笔误”这种提交信息弄乱你的仓库历史。</p></blockquote><h4 id="取消暂缓文件"><a href="#取消暂缓文件" class="headerlink" title="取消暂缓文件"></a>取消暂缓文件</h4><p>如果你需要撤销暂缓文件</p><p>使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD &lt;file&gt;...</span><br></pre></td></tr></table></figure><blockquote><p>Note：<code>git reset</code> 确实是个危险的命令，如果加上了 <code>--hard</code> 选项则更是如此。 如果工作目录中的文件尚未修改，相对安全一些。</p></blockquote><h4 id="撤销对文件的修改"><a href="#撤销对文件的修改" class="headerlink" title="撤销对文件的修改"></a>撤销对文件的修改</h4><p>如果你并不想保留对 <code>CONTRIBUTING.md</code> 文件的修改怎么办？ 你该如何方便地撤消修改——将它还原成上次提交时的样子（或者刚克隆完的样子，或者刚把它放入工作目录时的样子）？</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- &lt;file&gt;...</span><br></pre></td></tr></table></figure><blockquote><p>Note：请务必记得 <code>git checkout — &lt;file&gt;</code> 是一个危险的命令。 你对那个文件在本地的任何修改都会消失——Git 会用最近提交的版本覆盖掉它。 除非你确实清楚不想要对那个文件的本地修改了，否则请不要使用这个命令。</p></blockquote><p>git 已经提交了的任何东西都可以恢复，但没有提交的不行。</p><h3 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h3><p>远程仓库——托管在互联网或其他网络上的你的项目的版本库。</p><p>通常，这些远程仓库对你只读，一些可以读写。与他人协同工作时涉及管理远程仓库和根据需求推送或者拉取数据。</p><h4 id="查看远程仓库"><a href="#查看远程仓库" class="headerlink" title="查看远程仓库"></a>查看远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote</span><br></pre></td></tr></table></figure><p>它会列出你指定的每一个远程服务器的简写。</p><p>如果你克隆了自己的仓库，那么你会看到 origin——Git 给你克隆仓库的默认名字。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/schacon/ticgit</span><br><span class="line">Cloning into &#x27;ticgit&#x27;...</span><br><span class="line">remote: Reusing existing pack: 1857, done.</span><br><span class="line">remote: Total 1857 (delta 0), reused 0 (delta 0)</span><br><span class="line">Receiving objects: 100% (1857/1857), 374.35 KiB | 268.00 KiB/s, done.</span><br><span class="line">Resolving deltas: 100% (772/772), done.</span><br><span class="line">Checking connectivity... done.</span><br><span class="line">$ cd ticgit</span><br><span class="line">$ git remote</span><br><span class="line">origin</span><br></pre></td></tr></table></figure><p>指定选行 -v，会显示需要读写远程仓库使用的 Git 保存的简写与其对应的 URL。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">originhttps://github.com/schacon/ticgit (fetch)</span><br><span class="line">originhttps://github.com/schacon/ticgit (push)</span><br></pre></td></tr></table></figure><h4 id="提交远程仓库"><a href="#提交远程仓库" class="headerlink" title="提交远程仓库"></a>提交远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add &lt;shortname&gt; &lt;url&gt;</span><br></pre></td></tr></table></figure><p>shortname 是你给远程仓库设置的名字。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git remote</span><br><span class="line">origin</span><br><span class="line">$ git remote add pb https://github.com/paulboone/ticgit</span><br><span class="line">$ git remote -v</span><br><span class="line">originhttps://github.com/schacon/ticgit (fetch)</span><br><span class="line">originhttps://github.com/schacon/ticgit (push)</span><br><span class="line">pbhttps://github.com/paulboone/ticgit (fetch)</span><br><span class="line">pbhttps://github.com/paulboone/ticgit (push)</span><br></pre></td></tr></table></figure><p>提交完后，你可以使用你给远程仓库设置的名字来代替远程仓库的 url。</p><p>例如</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch pb</span><br><span class="line">remote: Counting objects: 43, done.</span><br><span class="line">remote: Compressing objects: 100% (36/36), done.</span><br><span class="line">remote: Total 43 (delta 10), reused 31 (delta 5)</span><br><span class="line">Unpacking objects: 100% (43/43), done.</span><br><span class="line">From https://github.com/paulboone/ticgit</span><br><span class="line"> * [new branch]      master     -&gt; pb/master</span><br><span class="line"> * [new branch]      ticgit     -&gt; pb/ticgit</span><br></pre></td></tr></table></figure><h4 id="从远程仓库中抓取和拉取"><a href="#从远程仓库中抓取和拉取" class="headerlink" title="从远程仓库中抓取和拉取"></a>从远程仓库中抓取和拉取</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch &lt;remote&gt;</span><br></pre></td></tr></table></figure><p>这个命令会访问远程仓库，从中拉取所有你还没有的数据。 执行完成后，你将会拥有那个远程仓库中所有分支的引用，可以随时合并或查看。</p><p>如果你使用 <code>clone</code> 命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以 “origin” 为简写。 所以，<code>git fetch origin</code> 会抓取克隆（或上一次抓取）后新推送的所有工作。 必须注意 <code>git fetch</code> 命令只会将数据下载到你的本地仓库——它并不会自动合并或修改你当前的工作。</p><h4 id="推送到远程仓库"><a href="#推送到远程仓库" class="headerlink" title="推送到远程仓库"></a>推送到远程仓库</h4><p>如果你想分享你的项目，你可以推送到上游。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push &lt;remote&gt; &lt;branch&gt;</span><br></pre></td></tr></table></figure><h4 id="查看某个远程仓库"><a href="#查看某个远程仓库" class="headerlink" title="查看某个远程仓库"></a>查看某个远程仓库</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote show &lt;remote&gt;</span><br></pre></td></tr></table></figure><p>可以查看某个远程仓库。它会列出 url 和跟踪分支的信息。</p><h4 id="远程仓库重名和移除"><a href="#远程仓库重名和移除" class="headerlink" title="远程仓库重名和移除"></a>远程仓库重名和移除</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rename &lt;name&gt; &lt;rename&gt;</span><br></pre></td></tr></table></figure><p>可以更改仓库名字。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote remove &lt;remote&gt;</span><br></pre></td></tr></table></figure><p>可以移除某个远程仓库。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>tmux食用指南</title>
+      <link href="/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+      <url>/2023/11/19/tmux%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/</url>
+      
+        <content type="html"><![CDATA[<h1 id="tmux食用指南"><a href="#tmux食用指南" class="headerlink" title="tmux食用指南"></a>tmux食用指南</h1><h2 id="什么是tmux"><a href="#什么是tmux" class="headerlink" title="什么是tmux"></a>什么是tmux</h2><p>tmux是终端复用(teminal multiplexper)的简称。通常一个终端只能同时执行一个命令，例如，当你输入<code>sleep 2000</code>命令后，你必须要等终端执行完这条命令，你才能执行其他的命令。这显然十分的不便。一个解决方法是同时开多个终端。Bing！tmux就是这个原理。它可以让你实现多终端，并且在这些终端里灵活切换。</p><span id="more"></span> <h2 id="tmux的基本概念"><a href="#tmux的基本概念" class="headerlink" title="tmux的基本概念"></a>tmux的基本概念</h2><p>tmux中有三个重要的概念：session、window、pane.</p><p>它们的结构如下：</p><hr><p>——session00</p><p>​——window00</p><p>​——pane00</p><p>​——window01</p><p>——session01</p><p>​——window00</p><hr><p>session包含window，window包含pane。</p><p>session类似我们的浏览器，window类似于浏览器的标签页，pane类似于网页里面的各个部件。</p><h2 id="tmux的操作"><a href="#tmux的操作" class="headerlink" title="tmux的操作"></a>tmux的操作</h2><p>开启的我们tmux之旅。</p><p>在安装往tmux后。</p><h3 id="新建session"><a href="#新建session" class="headerlink" title="新建session"></a>新建session</h3><p>我们输入<code>tmux </code>，就可以新建一个session。输入后会发现，好像什么也没变，你依旧在shell环境里。</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606162947547.png" alt="image-20230606162947547"></p><p>其实你已经在tmux的shell里。</p><p>shell—&gt;tmux—&gt;shell</p><p>底下是tmux 的state bar。左边是一些window的信息，你使用&lt;C-b ,&gt;来更改window的名字。按&lt;C-b ，&gt; (注：C指ctrl, -表示同时)。&lt;C-b ,&gt;表示同时按下ctrl键和,键，松开，再按下,键。&lt;C-b&gt;是tmux的一个命令前缀，所有命令要加&lt;C-b&gt;。如果你了解Emacs，这对你来说再熟悉不过了。</p><p>如果你想要退出tmux</p><p>按&lt;C-b d&gt; ，然后你会从tmux里脱离(detach)出来。</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606163449662.png" alt="image-20230606163449662"></p><p>在shell中输入<code>tmux ls</code>可以看到你之前创建的session。</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606163630568.png" alt="image-20230606163630568"></p><p>我们可以看到0: 1 windows (created Tue Jun  6 16:29:32 2023)</p><p>0指我们之前创建的session的名字，因为我们创建时没有指定name，所以默认0，1，2。冒号：后面是session 0 里面的内容，可以看到有一个window。如果我们在创建session是可以使用命令<code>tmux new -s name</code>。</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606164012156.png" alt="image-20230606164012156"></p><p>如果要回到detach后的session.输入<code>tmux attach -t name</code>，就可以回到相应的session里面，或者输入<code>tmux a -t name</code>，a是attach的缩写。</p><h3 id="新建window"><a href="#新建window" class="headerlink" title="新建window"></a>新建window</h3><p>session里面后，如果我们想要新建一个window，&lt;C-b c&gt;。</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606164936613.png" alt="image-20230606164936613"></p><p>可以从state bar左边看到，我们新建了两个window1，2。下面我们学习如何在window之间移动。</p><p>窗口名字后面的*代表你在哪个window里。</p><p>&lt;C-b n&gt;移动到下 一个window。</p><p>&lt;C-b p&gt;移动到上一个window。</p><p>&lt;C-b 0&gt;移动到第一个window，&lt;C-b 1&gt;….同理。</p><p>&lt;C-b &amp;&gt;可以关闭当前window。我更喜欢使用shell命令&lt;C-d&gt;</p><h3 id="分离pane"><a href="#分离pane" class="headerlink" title="分离pane"></a>分离pane</h3><p>&lt;C-b %&gt;垂直分隔pane</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165657621.png" alt="image-20230606165657621"></p><p>&lt;C-b “&gt;水平分隔pane</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165721587.png" alt="image-20230606165721587"></p><p>&lt;C-b arrow&gt;（arrow指箭头键）在pane在移动。</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606165954495.png" alt="image-20230606165954495"></p><p>&lt;C-b space&gt;改变pane排列的样式</p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606170044638.png" alt="image-20230606170044638"></p><p><img src="C:\Users\CIQ\Desktop\博客\工具使用分享\tmux使用\image-20230606170056275.png" alt="image-20230606170056275"></p><p>&lt;C-b z&gt;放大当前pane</p><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>恭喜你，你已经学会了tmux的基本操作了，你可以灵活的使用tmux来进行更好的开发。如果你想要了解更多tmux的操作，不妨去tmux官方文档或者社区一起交流。噢，对了。&lt;C-b ?&gt;可以了解到更多的tmux命令。</p><h2 id="tmux命令总结-复习"><a href="#tmux命令总结-复习" class="headerlink" title="tmux命令总结&#x2F;复习"></a>tmux命令总结&#x2F;复习</h2><ul><li>session - 每个会话都是一个独立的工作区，其中包含一个或多个窗口<ul><li><code>tmux</code> 开始一个新的会话</li><li><code>tmux new -s NAME</code> 以指定名称开始一个新的会话</li><li><code>tmux ls</code> 列出当前所有会话</li><li>在 <code>tmux</code> 中输入 <code>&lt;C-b&gt; d</code> ，将当前会话分离</li><li><code>tmux a</code> 重新连接最后一个会话。您也可以通过 <code>-t</code> 来指定具体的会话</li></ul></li><li>window  - 相当于编辑器或是浏览器中的标签页，从视觉上将一个会话分割为多个部分<ul><li><code>&lt;C-b&gt; c</code> 创建一个新的窗口，使用 <code>&lt;C-d&gt;</code>关闭</li><li><code>&lt;C-b&gt; N</code> 跳转到第 <em>N</em> 个窗口，注意每个窗口都是有编号的</li><li><code>&lt;C-b&gt; p</code> 切换到前一个窗口</li><li><code>&lt;C-b&gt; n</code> 切换到下一个窗口</li><li><code>&lt;C-b&gt; ,</code> 重命名当前窗口</li><li><code>&lt;C-b&gt; w</code> 列出当前所有窗口</li></ul></li><li>pane  - 像 vim 中的分屏一样，面板使我们可以在一个屏幕里显示多个 shell<ul><li><code>&lt;C-b&gt; &quot;</code> 水平分割</li><li><code>&lt;C-b&gt; %</code> 垂直分割</li><li><code>&lt;C-b&gt; &lt;方向&gt;</code> 切换到指定方向的面板，&lt;方向&gt; 指的是键盘上的方向键</li><li><code>&lt;C-b&gt; z</code> 切换当前面板的缩放</li><li><code>&lt;C-b&gt; [</code> 开始往回卷动屏幕。您可以按下空格键来开始选择，回车键复制选中的部分</li><li><code>&lt;C-b&gt; &lt;空格&gt;</code> 在不同的面板排布间切换</li></ul></li></ul><h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><p>——<a href="https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/">A Quick and Easy Guide to tmux </a>                 一份tmux的快速入门（看完本文后，可以不看）</p><p>——<a href="http://linuxcommand.org/lc3_adv_termmux.php">Linux Command Line Adventure: Terminal Multiplexers</a> 一篇更加详细的文章，它也包含了<code>screen</code>的内容</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> tmux tool </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
 </search>

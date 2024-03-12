@@ -6,7 +6,7 @@
   <link href="https://lightc.top/atom.xml" rel="self"/>
   
   <link href="https://lightc.top/"/>
-  <updated>2024-01-15T13:01:54.210Z</updated>
+  <updated>2024-03-12T10:38:17.503Z</updated>
   <id>https://lightc.top/</id>
   
   <author>
@@ -17,11 +17,73 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>反向调试和rr</title>
+    <link href="https://lightc.top/2024/03/12/%E5%8F%8D%E5%90%91%E8%B0%83%E8%AF%95%E5%92%8Crr/"/>
+    <id>https://lightc.top/2024/03/12/%E5%8F%8D%E5%90%91%E8%B0%83%E8%AF%95%E5%92%8Crr/</id>
+    <published>2024-03-12T09:58:14.000Z</published>
+    <updated>2024-03-12T10:38:17.503Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;反向调试&quot;&gt;&lt;a href=&quot;#反向调试&quot; class=&quot;headerlink&quot; title=&quot;反向调试&quot;&gt;&lt;/a&gt;反向调试&lt;/h1&gt;&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h</summary>
+      
+    
+    
+    
+    
+    <category term="reverse debugging" scheme="https://lightc.top/tags/reverse-debugging/"/>
+    
+    <category term="rr" scheme="https://lightc.top/tags/rr/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mit6.S081-Notes-ch1</title>
+    <link href="https://lightc.top/2024/03/07/mit6-S081-Notes-ch1/"/>
+    <id>https://lightc.top/2024/03/07/mit6-S081-Notes-ch1/</id>
+    <published>2024-03-07T05:27:37.000Z</published>
+    <updated>2024-03-07T05:40:00.242Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;操作系统&quot;&gt;&lt;a href=&quot;#操作系统&quot; class=&quot;headerlink&quot; title=&quot;操作系统&quot;&gt;&lt;/a&gt;操作系统&lt;/h1&gt;&lt;p&gt;操作系统是一个软件，它管理计算机资源， 为其他软件提供方便的服务。&lt;/p&gt;
+&lt;p&gt;操作系统负责计算机硬件资源的分配，让 Mi</summary>
+      
+    
+    
+    
+    
+    <category term="os" scheme="https://lightc.top/tags/os/"/>
+    
+    <category term="unix" scheme="https://lightc.top/tags/unix/"/>
+    
+    <category term="mit6.s081" scheme="https://lightc.top/tags/mit6-s081/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Statistical learning basic</title>
+    <link href="https://lightc.top/2024/02/14/Statistical-learning-basic/"/>
+    <id>https://lightc.top/2024/02/14/Statistical-learning-basic/</id>
+    <published>2024-02-14T00:19:28.000Z</published>
+    <updated>2024-02-14T00:20:13.935Z</updated>
+    
+    
+    
+    
+    
+    <category term="Statistical learning" scheme="https://lightc.top/tags/Statistical-learning/"/>
+    
+  </entry>
+  
+  <entry>
     <title>trie</title>
     <link href="https://lightc.top/2024/01/15/trie/"/>
     <id>https://lightc.top/2024/01/15/trie/</id>
     <published>2024-01-15T11:48:22.000Z</published>
-    <updated>2024-01-15T13:01:54.210Z</updated>
+    <updated>2024-01-15T13:46:29.491Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;对于搜索问题——从一堆数据中检索(retireve)我们感兴趣的数据，我们前面已经了解到了许多抽象数据结构以及其对应的具体实现。&lt;/p&gt;

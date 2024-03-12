@@ -191,6 +191,256 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://lightc.top/2024/03/12/%E5%8F%8D%E5%90%91%E8%B0%83%E8%AF%95%E5%92%8Crr/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Memetor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Memetor's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/03/12/%E5%8F%8D%E5%90%91%E8%B0%83%E8%AF%95%E5%92%8Crr/" class="post-title-link" itemprop="url">反向调试和rr</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-03-12 17:58:14 / Modified: 18:38:17" itemprop="dateCreated datePublished" datetime="2024-03-12T17:58:14+08:00">2024-03-12</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
+
+        </div>
+
+        <div>
+          
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="反向调试"><a href="#反向调试" class="headerlink" title="反向调试"></a>反向调试</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>GDB 很好，但让我们尝试更多。</p>
+<h2 id="反向调试-1"><a href="#反向调试-1" class="headerlink" title="反向调试"></a>反向调试</h2><p>现代软件变得越来越复杂化、多线程化、大规模。这也导致了调试的困难。</p>
+<h3 id="传统调试工具和技术"><a href="#传统调试工具和技术" class="headerlink" title="传统调试工具和技术"></a>传统调试工具和技术</h3><h4 id="编程技术"><a href="#编程技术" class="headerlink" title="编程技术"></a>编程技术</h4><p>通过使用编程语言技术来调试，例如：打印语句、断言、测试套件(test suites)</p>
+<h4 id="分析工具"><a href="#分析工具" class="headerlink" title="分析工具"></a>分析工具</h4><p>使用一些自动化工具，例如： Coverity、Purify、Valgrind，来检测像内存访问错误、死锁情况等常见的错误。但这些工具并无法全面覆盖所有错误类别，例如：缓冲区过度读取（Heartbleed） 错误。</p>
+<h4 id="通用调试器"><a href="#通用调试器" class="headerlink" title="通用调试器"></a>通用调试器</h4><p>使用GDB。</p>
+<p>但，调试需要逆向思考。</p>
+<blockquote>
+<p>Reason back from the state of the crashed program to determine what could have caused this. Debugging involves backwards reasoning, like solving murder mysteries. Something impossible occurred, and the only solid information is that it really did occur. So we must think backwards from the result to discover the reasons.<br>                                                                                                                        ————  Brian Kernighan &amp;&amp; Rob Pike<br>从崩溃程序的状态中推理，以确定可能导致这种情况的原因。调试涉及逆向推理，例如解决谋杀之谜。一些不可能的事情发生了，唯一可靠的信息是它确实发生了。因此，我们必须从结果中向后思考，以发现原因。</p>
+</blockquote>
+<h3 id="反向调试器的出现"><a href="#反向调试器的出现" class="headerlink" title="反向调试器的出现"></a>反向调试器的出现</h3><p>​	反向调试器 (reverse debugging) 可以记录所有程序的活动 （每次内存访问、每次计算、和系统调用），然后像录像倒带、重播一样检查程序状态。</p>
+<h3 id="反向调试的一些优点"><a href="#反向调试的一些优点" class="headerlink" title="反向调试的一些优点"></a>反向调试的一些优点</h3><ul>
+<li>提升开发效率——更容易调试，而且兼容 GDB，无需花大量时间培训。</li>
+<li>更容易发现和修复间歇性 bug —— 反向调试器直到 bug 出现，开发人员可以一行一行后退，直到找到 bug。</li>
+<li>减少运行时间——运行 debugging 、调试直到出现 bug、设置断点再次运行、设置更早一点的断点并重新运行。这一套下来耗费大量时间，可能是一个 O(n^2)的迭代。而反向调试器可以将运行-重启减少到 O(n)——运行直到出现 bug，往后走看看什么导致了 bug，当你不小心错过了，往前走一点，往后退一点。</li>
+<li>动态代码——某些程序在运行时会生成专用的代码，调试这样的代码是很困难的，因为源代码分析工具显然无能为力;没有正常的调试信息来定位函数，代码可以在不同的运行中在不同的地址生成。反向调试器允许开发人员详细检查单次运行，而无需与重新运行相关的麻烦。</li>
+<li>调试间歇性错误——通常的调试器，一步一步运行，可能这次不发生错误，那就要重新运行。而反向调试器一直运行，只关心出现错误的那一次。</li>
+</ul>
+<h2 id="what-rr-does"><a href="#what-rr-does" class="headerlink" title="what rr does"></a>what rr does</h2><p>rr aspires to be your primary C&#x2F;C++ debugging tool for Linux, replacing — well, enhancing — gdb. You record a failure once, then debug the recording, deterministically, as many times as you want. The same execution is replayed every time.</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://undo.io/resources/reverse-debugging-whitepaper/">What is Reverse Debugging and Why Do We Need It? - Time Travel Debugging for C&#x2F;C++ and Java ¦ Undo</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://lightc.top/2024/03/07/mit6-S081-Notes-ch1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Memetor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Memetor's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/03/07/mit6-S081-Notes-ch1/" class="post-title-link" itemprop="url">mit6.S081-Notes-ch1</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-03-07 13:27:37 / Modified: 13:40:00" itemprop="dateCreated datePublished" datetime="2024-03-07T13:27:37+08:00">2024-03-07</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>131</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+
+        <div>
+          
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><p>操作系统是一个软件，它管理计算机资源， 为其他软件提供方便的服务。</p>
+<p>操作系统负责计算机硬件资源的分配，让 MicroSoft World 不用考虑使用哪种类型的磁盘硬件；让多个程序共享计算机硬件资源；让程序之间相互通信。</p>
+<p>操作系统通过接口为用户程序提供服务。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://lightc.top/2024/02/14/Statistical-learning-basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Memetor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Memetor's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/02/14/Statistical-learning-basic/" class="post-title-link" itemprop="url">Statistical learning basic</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-02-14 08:19:28 / Modified: 08:20:13" itemprop="dateCreated datePublished" datetime="2024-02-14T08:19:28+08:00">2024-02-14</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+
+        <div>
+          
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://lightc.top/2024/01/15/trie/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -216,7 +466,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2024-01-15 19:48:22 / Modified: 21:01:54" itemprop="dateCreated datePublished" datetime="2024-01-15T19:48:22+08:00">2024-01-15</time>
+              <time title="Created: 2024-01-15 19:48:22 / Modified: 21:46:29" itemprop="dateCreated datePublished" datetime="2024-01-15T19:48:22+08:00">2024-01-15</time>
             </span>
 
           <br>
@@ -824,282 +1074,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/12/09/%E6%9C%80%E5%B0%8F%E4%BA%8C%E5%88%86%E5%A0%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Memetor">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Memetor's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/09/%E6%9C%80%E5%B0%8F%E4%BA%8C%E5%88%86%E5%A0%86/" class="post-title-link" itemprop="url">堆</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-12-09 20:40:31" itemprop="dateCreated datePublished" datetime="2023-12-09T20:40:31+08:00">2023-12-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-12-17 18:36:58" itemprop="dateModified" datetime="2023-12-17T18:36:58+08:00">2023-12-17</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.1k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
-            </span>
-
-        </div>
-
-        <div>
-          
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="什么是最小二分堆-binary-min-heap"><a href="#什么是最小二分堆-binary-min-heap" class="headerlink" title="什么是最小二分堆 (binary min-heap)"></a>什么是最小二分堆 (binary min-heap)</h2><p>堆是一颗完整的树，而且满足最小堆性质。</p>
-<ul>
-<li>最小堆：每个节点都小于等于子节点。</li>
-<li>完整：仅在最底层有缺失值，且所有节点尽可能靠左。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/09/%E6%9C%80%E5%B0%8F%E4%BA%8C%E5%88%86%E5%A0%86/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/12/09/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Memetor">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Memetor's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/09/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/" class="post-title-link" itemprop="url">优先队列</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-12-09 20:21:50" itemprop="dateCreated datePublished" datetime="2023-12-09T20:21:50+08:00">2023-12-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-12-17 18:38:48" itemprop="dateModified" datetime="2023-12-17T18:38:48+08:00">2023-12-17</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>565</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-
-        <div>
-          
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="什么是优先队列"><a href="#什么是优先队列" class="headerlink" title="什么是优先队列"></a>什么是优先队列</h2><p>优先队列是一种用来优化处理最大值或最小值的 ADT 。使用这种结构可以给我们处理涉及最大值或最小值带来时间&#x2F;空间优势。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/09/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://lightc.top/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Memetor">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Memetor's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/" class="post-title-link" itemprop="url">copy constructor 杂谈(一)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-11-30 23:45:39" itemprop="dateCreated datePublished" datetime="2023-11-30T23:45:39+08:00">2023-11-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-12-17 18:38:06" itemprop="dateModified" datetime="2023-12-17T18:38:06+08:00">2023-12-17</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>997</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
-            </span>
-
-        </div>
-
-        <div>
-          
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="copy-constructor-的杂谈"><a href="#copy-constructor-的杂谈" class="headerlink" title="copy constructor 的杂谈"></a>copy constructor 的杂谈</h1><pre><code>copy constructor 为什么第一个参数必须为引用类型？
-</code></pre>
-<p>为了减少一次内存拷贝吗？</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/11/30/copy-constructor-%E6%9D%82%E8%B0%88-%E4%B8%80/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1171,12 +1145,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -1220,12 +1194,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">17k</span>
+    <span title="Symbols count total">18k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">30 mins.</span>
+    <span title="Reading time total">34 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
