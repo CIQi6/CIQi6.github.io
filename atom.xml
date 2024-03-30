@@ -6,7 +6,7 @@
   <link href="https://lightc.top/atom.xml" rel="self"/>
   
   <link href="https://lightc.top/"/>
-  <updated>2024-03-12T10:38:17.503Z</updated>
+  <updated>2024-03-13T10:12:13.036Z</updated>
   <id>https://lightc.top/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mit6-S081-Notes-ch2</title>
+    <link href="https://lightc.top/2024/03/13/mit6-S081-Notes-ch2/"/>
+    <id>https://lightc.top/2024/03/13/mit6-S081-Notes-ch2/</id>
+    <published>2024-03-13T07:55:17.000Z</published>
+    <updated>2024-03-13T10:12:13.036Z</updated>
+    
+    
+    
+    
+    
+    <category term="OS" scheme="https://lightc.top/tags/OS/"/>
+    
+    <category term="Mit6.s081" scheme="https://lightc.top/tags/Mit6-s081/"/>
+    
+  </entry>
   
   <entry>
     <title>反向调试和rr</title>
@@ -222,8 +239,15 @@
     <link href="https://lightc.top/2023/12/17/graph/"/>
     <id>https://lightc.top/2023/12/17/graph/</id>
     <published>2023-12-17T07:11:17.000Z</published>
-    <updated>2023-12-17T08:19:28.855Z</updated>
+    <updated>2024-03-30T02:19:15.547Z</updated>
     
+    
+    <summary type="html">&lt;h2 id=&quot;图的概念&quot;&gt;&lt;a href=&quot;#图的概念&quot; class=&quot;headerlink&quot; title=&quot;图的概念&quot;&gt;&lt;/a&gt;图的概念&lt;/h2&gt;&lt;p&gt;图由结点和边组成。&lt;/p&gt;
+&lt;p&gt;树也是图。&lt;/p&gt;
+&lt;h2 id=&quot;术语&quot;&gt;&lt;a href=&quot;#术语&quot; class=&quot;headerlink&quot; title=&quot;术语&quot;&gt;&lt;/a&gt;术语&lt;/h2&gt;&lt;p&gt;有向图和无向图：如果边只能从一段到另一端，则叫有向边，对应的图为有向图(Directed graph)，反之为无向图(Undirected graph)。&lt;/p&gt;
+&lt;p&gt;路径和循环：从一个结点A到另一个结点B的边序列叫做从 A 到 B 的路径(Path)。从出发点和终点相同的路径叫做循环(Cycle)。&lt;/p&gt;
+&lt;p&gt;没有重复结点的路径叫做简单路径；除了起点和终点，没有重复结点的循环叫做简单循环。&lt;/p&gt;
+&lt;p&gt;连接：如果结点 A 和 结点 B 存在路径，则说 A 和 B 连接。&lt;/p&gt;</summary>
     
     
     

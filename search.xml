@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>mit6-S081-Notes-ch2</title>
+      <link href="/2024/03/13/mit6-S081-Notes-ch2/"/>
+      <url>/2024/03/13/mit6-S081-Notes-ch2/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> OS </tag>
+            
+            <tag> Mit6.s081 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>反向调试和rr</title>
       <link href="/2024/03/12/%E5%8F%8D%E5%90%91%E8%B0%83%E8%AF%95%E5%92%8Crr/"/>
       <url>/2024/03/12/%E5%8F%8D%E5%90%91%E8%B0%83%E8%AF%95%E5%92%8Crr/</url>
@@ -166,7 +187,7 @@
       <link href="/2023/12/17/graph/"/>
       <url>/2023/12/17/graph/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<h2 id="图的概念"><a href="#图的概念" class="headerlink" title="图的概念"></a>图的概念</h2><p>图由结点和边组成。</p><p>树也是图。</p><h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><p>有向图和无向图：如果边只能从一段到另一端，则叫有向边，对应的图为有向图(Directed graph)，反之为无向图(Undirected graph)。</p><p>路径和循环：从一个结点A到另一个结点B的边序列叫做从 A 到 B 的路径(Path)。从出发点和终点相同的路径叫做循环(Cycle)。</p><p>没有重复结点的路径叫做简单路径；除了起点和终点，没有重复结点的循环叫做简单循环。</p><p>连接：如果结点 A 和 结点 B 存在路径，则说 A 和 B 连接。</p><span id="more"></span> <h2 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h2><h3 id="深度优先-DSF"><a href="#深度优先-DSF" class="headerlink" title="深度优先 DSF"></a>深度优先 DSF</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFS</span><span class="params">(Node *node, Set&lt;Node *&gt; &amp; visited)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (visited.<span class="built_in">contains</span>(node)) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">visit</span>(node);</span><br><span class="line">    visited.<span class="built_in">add</span>(node);</span><br><span class="line">    <span class="keyword">for</span> (Arc *arc : node-&gt;arcs) &#123;</span><br><span class="line"><span class="built_in">DFS</span>(arc-&gt;finish, visited);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="广度优先-BSF"><a href="#广度优先-BSF" class="headerlink" title="广度优先 BSF"></a>广度优先 BSF</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">BFS</span><span class="params">(Node *node)</span> </span>&#123;</span><br><span class="line">    Set&lt;Node *&gt; visited;</span><br><span class="line">    Queue&lt;Node *&gt; queue;</span><br><span class="line">    queue.<span class="built_in">enqueue</span>(node);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(!queue.<span class="built_in">isEmpty</span>()) &#123;</span><br><span class="line">        node = queue.<span class="built_in">dequeue</span>();</span><br><span class="line">        <span class="keyword">if</span> (!visited.<span class="built_in">contians</span>(node)) &#123;</span><br><span class="line">        <span class="built_in">visit</span>(node);</span><br><span class="line">            visited.<span class="built_in">add</span>(node);</span><br><span class="line">            <span class="keyword">for</span> (Arc *arc : node-&gt;arcs) &#123;</span><br><span class="line">                queue.<span class="built_in">enqueue</span>(arc-&gt;finish);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ul><li>Optimallity: 总是可以找到最短路径，如果在无权图中，最短路径即花费最少路径，在有权图中则不一定。</li><li>retrieval: 很难构建寻找的路径中的实际的顶点或边。</li><li>DSF 比 BSF 使用更少的内存（DSF 没有使用 queue）。但是 DSF 不一定能找到最短路径</li></ul><h2 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h2><p>在无权图中，最短路径可以通过 BSF 来找到。所以这里主要讲有权图（且权重值非负）。</p><h3 id="dijkstra"><a href="#dijkstra" class="headerlink" title="dijkstra"></a>dijkstra</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dijkstra(v1, v2):</span><br><span class="line">除了到 v1 的 cost 为 0，去其他结点的 cost 为 无穷。</span><br><span class="line">    创建一个结点的优先队列，按 cost 排序。</span><br><span class="line">    </span><br><span class="line">    如果队列不为空：</span><br><span class="line">    弹出优先队列队头的结点 V，并标记它。</span><br><span class="line">    遍历这个结点 V 所有没有访问过的相邻结点 n：</span><br><span class="line">    计算 V 到该相邻结点 n 的 cost 加上 V1 到 V 的 cost，如果 计算出的 cost 比原来 V 到 n 所需要的 cost 小，</span><br><span class="line">    则修改优先队列中的 n 所需的 cost。</span><br></pre></td></tr></table></figure><p>dijkstra 可以认为是贪婪算法（greedy algoritm），完成局部最优来达成全局最优解。</p><h3 id="A"><a href="#A" class="headerlink" title="A*"></a>A*</h3><p>A* 是在 dijkstra 的基础上进行改进的一个算法，主要加入了启发性。</p><p>cost 的计算不再只是 起点 v1 到 v 了，而是 v1 到 v 加上 v 到 v2。</p><h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
       
       
       

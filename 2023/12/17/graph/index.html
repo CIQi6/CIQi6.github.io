@@ -32,13 +32,15 @@
     var CONFIG = {"hostname":"lightc.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="图的概念图由结点和边组成。 树也是图。 术语有向图和无向图：如果边只能从一段到另一端，则叫有向边，对应的图为有向图(Directed graph)，反之为无向图(Undirected graph)。 路径和循环：从一个结点A到另一个结点B的边序列叫做从 A 到 B 的路径(Path)。从出发点和终点相同的路径叫做循环(Cycle)。 没有重复结点的路径叫做简单路径；除了起点和终点，没有重复结点的循">
+<meta property="og:type" content="article">
 <meta property="og:title" content="graph">
 <meta property="og:url" content="https://lightc.top/2023/12/17/graph/index.html">
 <meta property="og:site_name" content="Memetor&#39;s Blog">
+<meta property="og:description" content="图的概念图由结点和边组成。 树也是图。 术语有向图和无向图：如果边只能从一段到另一端，则叫有向边，对应的图为有向图(Directed graph)，反之为无向图(Undirected graph)。 路径和循环：从一个结点A到另一个结点B的边序列叫做从 A 到 B 的路径(Path)。从出发点和终点相同的路径叫做循环(Cycle)。 没有重复结点的路径叫做简单路径；除了起点和终点，没有重复结点的循">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-12-17T07:11:17.000Z">
-<meta property="article:modified_time" content="2023-12-17T08:19:28.855Z">
+<meta property="article:modified_time" content="2024-03-30T02:19:15.547Z">
 <meta property="article:author" content="Memetor">
 <meta property="article:tag" content="Algorithm">
 <meta property="article:tag" content="Graph">
@@ -219,10 +221,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2023-12-17 15:11:17 / Modified: 16:19:28" itemprop="dateCreated datePublished" datetime="2023-12-17T15:11:17+08:00">2023-12-17</time>
+              <time title="Created: 2023-12-17 15:11:17" itemprop="dateCreated datePublished" datetime="2023-12-17T15:11:17+08:00">2023-12-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-03-30 10:19:15" itemprop="dateModified" datetime="2024-03-30T10:19:15+08:00">2024-03-30</time>
+              </span>
 
           <br>
             <span class="post-meta-item" title="Symbols count in article">
@@ -230,14 +238,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>0</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
+              <span>3 mins.</span>
             </span>
 
         </div>
@@ -259,7 +267,34 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h2 id="图的概念"><a href="#图的概念" class="headerlink" title="图的概念"></a>图的概念</h2><p>图由结点和边组成。</p>
+<p>树也是图。</p>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><p>有向图和无向图：如果边只能从一段到另一端，则叫有向边，对应的图为有向图(Directed graph)，反之为无向图(Undirected graph)。</p>
+<p>路径和循环：从一个结点A到另一个结点B的边序列叫做从 A 到 B 的路径(Path)。从出发点和终点相同的路径叫做循环(Cycle)。</p>
+<p>没有重复结点的路径叫做简单路径；除了起点和终点，没有重复结点的循环叫做简单循环。</p>
+<p>连接：如果结点 A 和 结点 B 存在路径，则说 A 和 B 连接。</p>
+<span id="more"></span> 
+
+<h2 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h2><h3 id="深度优先-DSF"><a href="#深度优先-DSF" class="headerlink" title="深度优先 DSF"></a>深度优先 DSF</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFS</span><span class="params">(Node *node, Set&lt;Node *&gt; &amp; visited)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (visited.<span class="built_in">contains</span>(node)) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">visit</span>(node);</span><br><span class="line">    visited.<span class="built_in">add</span>(node);</span><br><span class="line">    <span class="keyword">for</span> (Arc *arc : node-&gt;arcs) &#123;</span><br><span class="line">		<span class="built_in">DFS</span>(arc-&gt;finish, visited);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="广度优先-BSF"><a href="#广度优先-BSF" class="headerlink" title="广度优先 BSF"></a>广度优先 BSF</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">BFS</span><span class="params">(Node *node)</span> </span>&#123;</span><br><span class="line">    Set&lt;Node *&gt; visited;</span><br><span class="line">    Queue&lt;Node *&gt; queue;</span><br><span class="line">    queue.<span class="built_in">enqueue</span>(node);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(!queue.<span class="built_in">isEmpty</span>()) &#123;</span><br><span class="line">        node = queue.<span class="built_in">dequeue</span>();</span><br><span class="line">        <span class="keyword">if</span> (!visited.<span class="built_in">contians</span>(node)) &#123;</span><br><span class="line">        	<span class="built_in">visit</span>(node);</span><br><span class="line">            visited.<span class="built_in">add</span>(node);</span><br><span class="line">            <span class="keyword">for</span> (Arc *arc : node-&gt;arcs) &#123;</span><br><span class="line">                queue.<span class="built_in">enqueue</span>(arc-&gt;finish);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>Optimallity: 总是可以找到最短路径，如果在无权图中，最短路径即花费最少路径，在有权图中则不一定。</li>
+<li>retrieval: 很难构建寻找的路径中的实际的顶点或边。</li>
+<li>DSF 比 BSF 使用更少的内存（DSF 没有使用 queue）。但是 DSF 不一定能找到最短路径</li>
+</ul>
+<h2 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h2><p>在无权图中，最短路径可以通过 BSF 来找到。所以这里主要讲有权图（且权重值非负）。</p>
+<h3 id="dijkstra"><a href="#dijkstra" class="headerlink" title="dijkstra"></a>dijkstra</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dijkstra(v1, v2):</span><br><span class="line">	除了到 v1 的 cost 为 0，去其他结点的 cost 为 无穷。</span><br><span class="line">    创建一个结点的优先队列，按 cost 排序。</span><br><span class="line">    </span><br><span class="line">    如果队列不为空：</span><br><span class="line">    	弹出优先队列队头的结点 V，并标记它。</span><br><span class="line">    	遍历这个结点 V 所有没有访问过的相邻结点 n：</span><br><span class="line">    		计算 V 到该相邻结点 n 的 cost 加上 V1 到 V 的 cost，如果 计算出的 cost 比原来 V 到 n 所需要的 cost 小，</span><br><span class="line">    		则修改优先队列中的 n 所需的 cost。</span><br></pre></td></tr></table></figure>
+
+<p>dijkstra 可以认为是贪婪算法（greedy algoritm），完成局部最优来达成全局最优解。</p>
+<h3 id="A"><a href="#A" class="headerlink" title="A*"></a>A*</h3><p>A* 是在 dijkstra 的基础上进行改进的一个算法，主要加入了启发性。</p>
+<p>cost 的计算不再只是 起点 v1 到 v 了，而是 v1 到 v 加上 v 到 v2。</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
     </div>
 
     
@@ -361,6 +396,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">图的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AF%E8%AF%AD"><span class="nav-number">2.</span> <span class="nav-text">术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-number">3.</span> <span class="nav-text">图的遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88-DSF"><span class="nav-number">3.1.</span> <span class="nav-text">深度优先 DSF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88-BSF"><span class="nav-number">3.2.</span> <span class="nav-text">广度优先 BSF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84"><span class="nav-number">4.</span> <span class="nav-text">最短路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dijkstra"><span class="nav-number">4.1.</span> <span class="nav-text">dijkstra</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A"><span class="nav-number">4.2.</span> <span class="nav-text">A*</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">4.3.</span> <span class="nav-text"></span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -376,12 +412,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -425,12 +461,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">18k</span>
+    <span title="Symbols count total">20k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">34 mins.</span>
+    <span title="Reading time total">36 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
